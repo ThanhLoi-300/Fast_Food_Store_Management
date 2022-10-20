@@ -3,6 +3,9 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -11,6 +14,7 @@ public class Home_GUI extends javax.swing.JFrame {
     public Home_GUI() {
         initComponents();
         Active(roundPanel7);
+        set_Time();
         //roundPanel1.setLayout(new BorderLayout());
         //roundPanel1.add(new Icon_GUI());
         System.out.println(jPanel1.getWidth());
@@ -25,6 +29,7 @@ public class Home_GUI extends javax.swing.JFrame {
         header2 = new Custom.Header();
         button4 = new Custom.Button();
         button5 = new Custom.Button();
+        lb_Time = new javax.swing.JLabel();
         roundPanel3 = new Custom.RoundPanel();
         imageAvatar1 = new Custom.ImageAvatar();
         jLabel1 = new javax.swing.JLabel();
@@ -81,12 +86,18 @@ public class Home_GUI extends javax.swing.JFrame {
             }
         });
 
+        lb_Time.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lb_Time.setForeground(new java.awt.Color(255, 255, 255));
+        lb_Time.setText("jLabel2");
+
         javax.swing.GroupLayout header2Layout = new javax.swing.GroupLayout(header2);
         header2.setLayout(header2Layout);
         header2Layout.setHorizontalGroup(
             header2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, header2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(61, 61, 61)
+                .addComponent(lb_Time, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,7 +109,8 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(header2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_Time))
                 .addContainerGap())
         );
 
@@ -618,6 +630,33 @@ public class Home_GUI extends javax.swing.JFrame {
         jPanel1.revalidate();
     }
     
+    private void set_Time() {
+        LocalDate date = LocalDate.now();// Lấy ngày tháng năm hiện tại
+        String dateString = String.valueOf(date);
+        String[] dateArray = dateString.split("-");
+        String day = dateArray[2];
+        String month = dateArray[1];
+        String year = dateArray[0];
+        Thread a = new Thread(){
+            public void run(){
+                try{
+                    while(true){
+                        Date now = new Date();
+                        SimpleDateFormat format = new SimpleDateFormat();
+                        format.applyPattern("hh:mm:ss aa");
+                        String time = format.format(now);
+                        lb_Time.setText(day+"-"+month+"-"+year+" : "+time);
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        a.start();
+    }
+    
+    
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -650,6 +689,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lb_Time;
     private Custom.RoundPanel roundPanel10;
     private Custom.RoundPanel roundPanel11;
     private Custom.RoundPanel roundPanel12;
@@ -662,4 +702,5 @@ public class Home_GUI extends javax.swing.JFrame {
     private Custom.RoundPanel roundPanel8;
     private Custom.RoundPanel roundPanel9;
     // End of variables declaration//GEN-END:variables
+
 }
