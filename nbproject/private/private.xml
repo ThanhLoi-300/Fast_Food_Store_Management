@@ -6,6 +6,11 @@
             <file>file:/C:/Fast_Food_Store_Management/src/GUI/Home_GUI.java</file>
             <file>file:/C:/Fast_Food_Store_Management/src/GUI/Recieved_GUI.java</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Login_GUI.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Home_GUI.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Category_GUI.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Product_GUI.java</file>
+        </group>
     </open-files>
 </project-private>

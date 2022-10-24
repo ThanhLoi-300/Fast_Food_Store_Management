@@ -2,9 +2,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Toolkit;
-import jdk.jfr.SettingControl;
 
 public class Login_GUI extends javax.swing.JFrame {
     public Login_GUI() {
@@ -54,7 +51,6 @@ public class Login_GUI extends javax.swing.JFrame {
         jTextField6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jTextField6.setForeground(new java.awt.Color(153, 153, 153));
         jTextField6.setText("Tên đăng nhập");
-        jTextField6.setActionCommand("<Not Set>");
         jTextField6.setAlignmentX(1.0F);
         jTextField6.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(242, 152, 174), new java.awt.Color(242, 152, 174), new java.awt.Color(242, 152, 174), new java.awt.Color(242, 152, 174)), javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 102, 255))));
         jTextField6.addFocusListener(new java.awt.event.FocusAdapter() {
