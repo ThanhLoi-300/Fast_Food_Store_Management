@@ -29,6 +29,16 @@ public class Login_GUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/HBG.jpg"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -217,6 +227,15 @@ public class Login_GUI extends javax.swing.JFrame {
         new Home_GUI();       
     }//GEN-LAST:event_jButton3MouseClicked
 
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        mouseX = evt.getX();
+        mouseY = evt.getY();
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        super.setLocation(super.getX() + evt.getX() - mouseX, super.getY() + evt.getY() - mouseY);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -235,4 +254,5 @@ public class Login_GUI extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
+    private int mouseX,mouseY;
 }

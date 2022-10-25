@@ -86,6 +86,10 @@
       </Layout>
       <SubComponents>
         <Container class="Custom.Header" name="header2">
+          <Events>
+            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="header2MouseDragged"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="header2MousePressed"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
