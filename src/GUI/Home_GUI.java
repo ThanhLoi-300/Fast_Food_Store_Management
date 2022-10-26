@@ -77,7 +77,9 @@ public class Home_GUI extends javax.swing.JFrame {
             }
         });
 
+        button4.setBorder(null);
         button4.setText("X");
+        button4.setFocusPainted(false);
         button4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         button4.setRadius(15);
         button4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,7 +88,9 @@ public class Home_GUI extends javax.swing.JFrame {
             }
         });
 
+        button5.setBorder(null);
         button5.setText("-");
+        button5.setFocusPainted(false);
         button5.setFont(new java.awt.Font("Times New Roman", 0, 15)); // NOI18N
         button5.setMaximumSize(new java.awt.Dimension(43, 25));
         button5.setMinimumSize(new java.awt.Dimension(43, 25));
@@ -143,7 +147,7 @@ public class Home_GUI extends javax.swing.JFrame {
             .addGroup(roundPanel3Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                     .addGroup(roundPanel3Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -153,9 +157,9 @@ public class Home_GUI extends javax.swing.JFrame {
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                .addComponent(imageAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -433,7 +437,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGroup(roundPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         roundPanel14.setBackground(new java.awt.Color(51, 51, 51));
@@ -536,11 +540,11 @@ public class Home_GUI extends javax.swing.JFrame {
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                     .addComponent(roundPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1059, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,7 +556,7 @@ public class Home_GUI extends javax.swing.JFrame {
                         .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(roundPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -595,10 +599,12 @@ public class Home_GUI extends javax.swing.JFrame {
 
     private void roundPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel11MouseClicked
         Active(roundPanel11);
+        OpenChildForm( new Category_GUI());
     }//GEN-LAST:event_roundPanel11MouseClicked
 
     private void roundPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel9MouseClicked
         Active(roundPanel9);
+        OpenChildForm( new Product_GUI());
     }//GEN-LAST:event_roundPanel9MouseClicked
 
     private void roundPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel7MouseClicked

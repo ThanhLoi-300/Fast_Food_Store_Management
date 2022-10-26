@@ -116,17 +116,21 @@ public class Recieved_GUI extends javax.swing.JPanel {
         jLabel3.setText("Nhà cung cấp:");
 
         button2.setBackground(new java.awt.Color(255, 255, 255));
+        button2.setBorder(null);
         button2.setText("Hủy");
         button2.setColor(new java.awt.Color(255, 255, 255));
         button2.setColorClick(new java.awt.Color(255, 255, 255));
         button2.setColorOver(new java.awt.Color(255, 255, 255));
+        button2.setFocusPainted(false);
         button2.setRadius(10);
 
         button3.setBackground(new java.awt.Color(255, 255, 255));
+        button3.setBorder(null);
         button3.setText("Nhập hàng");
         button3.setColor(new java.awt.Color(255, 255, 255));
         button3.setColorClick(new java.awt.Color(255, 255, 255));
         button3.setColorOver(new java.awt.Color(255, 255, 255));
+        button3.setFocusPainted(false);
         button3.setRadius(10);
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
@@ -176,7 +180,7 @@ public class Recieved_GUI extends javax.swing.JPanel {
                     .addComponent(jLabel3))
                 .addGap(46, 46, 46)
                 .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
             .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
                     .addContainerGap(410, Short.MAX_VALUE)
@@ -195,10 +199,12 @@ public class Recieved_GUI extends javax.swing.JPanel {
         jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         button1.setBackground(new java.awt.Color(255, 255, 255));
+        button1.setBorder(null);
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
         button1.setColor(new java.awt.Color(255, 255, 255));
         button1.setColorClick(new java.awt.Color(255, 255, 255));
         button1.setColorOver(new java.awt.Color(255, 255, 255));
+        button1.setFocusPainted(false);
         button1.setRadius(5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -222,19 +228,17 @@ public class Recieved_GUI extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                            .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
