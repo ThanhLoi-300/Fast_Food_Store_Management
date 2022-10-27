@@ -627,6 +627,7 @@ public class Home_GUI extends javax.swing.JFrame {
 
     private void roundPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel14MouseClicked
          Active(roundPanel14);
+         OpenChildForm(new Customer_GUI());
     }//GEN-LAST:event_roundPanel14MouseClicked
 
     private void header2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_header2MousePressed
