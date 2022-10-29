@@ -62,6 +62,9 @@ public class Decentralization_GUI extends javax.swing.JPanel {
 
         btnSearch.setBackground(new java.awt.Color(255, 255, 255));
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearch.setColor(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorOver(new java.awt.Color(242, 152, 174));
         btnSearch.setPreferredSize(new java.awt.Dimension(16, 16));
         btnSearch.setRadius(5);
 
@@ -298,11 +301,17 @@ public class Decentralization_GUI extends javax.swing.JPanel {
 
         btnSua.setBackground(new java.awt.Color(255, 255, 255));
         btnSua.setText("Sửa");
+        btnSua.setColor(new java.awt.Color(255, 255, 255));
+        btnSua.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSua.setColorOver(new java.awt.Color(242, 152, 174));
         btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setRadius(5);
 
         btnHuy.setBackground(new java.awt.Color(255, 255, 255));
         btnHuy.setText("Hủy");
+        btnHuy.setColor(new java.awt.Color(255, 255, 255));
+        btnHuy.setColorClick(new java.awt.Color(255, 255, 255));
+        btnHuy.setColorOver(new java.awt.Color(242, 152, 174));
         btnHuy.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnHuy.setRadius(5);
 
