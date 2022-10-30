@@ -4,14 +4,21 @@
  */
 package GUI;
 
+import BUS.Customer_BUS;
+import DAO.Customer_DAO;
+import DTO.Customer;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ADMIN
  */
 public class Customer_GUI extends javax.swing.JPanel {
-
+    private ArrayList<Customer> userList = new ArrayList<Customer>();
     /**
      * Creates new form Customer_GUI
      */
@@ -21,6 +28,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(190);
         jTable1.getColumnModel().getColumn(2).setPreferredWidth(126);
         jTable1.getColumnModel().getColumn(3).setPreferredWidth(68);
+        renderTable();
     }
 
     /**
@@ -55,6 +63,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         button3 = new Custom.Button();
         button4 = new Custom.Button();
         button5 = new Custom.Button();
+        button6 = new Custom.Button();
 
         setBackground(new java.awt.Color(51, 51, 51));
         setPreferredSize(new java.awt.Dimension(1059, 641));
@@ -70,6 +79,11 @@ public class Customer_GUI extends javax.swing.JPanel {
         button1.setFocusable(false);
         button1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         button1.setRadius(10);
+        button1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button1MouseClicked(evt);
+            }
+        });
 
         button2.setBorder(null);
         button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/filter.png"))); // NOI18N
@@ -77,6 +91,11 @@ public class Customer_GUI extends javax.swing.JPanel {
         button2.setFocusable(false);
         button2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         button2.setRadius(10);
+        button2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button2MouseClicked(evt);
+            }
+        });
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Tích lũy < 5", "Tích lũy >= 5" }));
@@ -149,6 +168,11 @@ public class Customer_GUI extends javax.swing.JPanel {
             }
         });
         jTable1.setRowHeight(24);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
@@ -251,6 +275,11 @@ public class Customer_GUI extends javax.swing.JPanel {
         button3.setFocusable(false);
         button3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button3.setRadius(10);
+        button3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button3MouseClicked(evt);
+            }
+        });
 
         button4.setBorder(null);
         button4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/config-user.png"))); // NOI18N
@@ -258,13 +287,34 @@ public class Customer_GUI extends javax.swing.JPanel {
         button4.setFocusable(false);
         button4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button4.setRadius(10);
+        button4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button4MouseClicked(evt);
+            }
+        });
 
         button5.setBorder(null);
         button5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/delete-user.png"))); // NOI18N
         button5.setText("Xóa");
+        button5.setEnabled(false);
         button5.setFocusable(false);
         button5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button5.setRadius(10);
+        button5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button5MouseClicked(evt);
+            }
+        });
+
+        button6.setBorder(null);
+        button6.setText("Clear All");
+        button6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        button6.setRadius(10);
+        button6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
         roundPanel3.setLayout(roundPanel3Layout);
@@ -277,13 +327,15 @@ public class Customer_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(roundPanel3Layout.createSequentialGroup()
                         .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
-                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(button6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(button4, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
                         .addGap(39, 39, 39)
-                        .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         roundPanel3Layout.setVerticalGroup(
@@ -298,7 +350,9 @@ public class Customer_GUI extends javax.swing.JPanel {
                     .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -330,6 +384,21 @@ public class Customer_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void renderTable() {
+        Customer_DAO ctdao = new Customer_DAO();
+        userList = ctdao.read();
+        DefaultTableModel tm = (DefaultTableModel)jTable1.getModel();
+        tm.setRowCount(0);
+        for(Customer ct: userList) {
+            String cusId = ct.getCustomerId();
+            String cusName = ct.getCustomerName();
+            int cusBirth = ct.getCustomerBirthYear();
+            int purTime = ct.getPurchaseTimes();
+            Object row[] = new Object[]{cusId, cusName, cusBirth, purTime};
+            tm.addRow(row);
+        }
+    }
+    
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
         if(jTextField1.getText().equals("Nhập ID ...")) {
             jTextField1.setText("");
@@ -344,6 +413,152 @@ public class Customer_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField1FocusLost
 
+    private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
+        Customer_BUS cusBUS = new Customer_BUS();
+        if(jTextField2.getText().equals("") || jTextField3.getText().equals("") 
+           || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if( !(jTextField4.getText().matches("-?\\d+")) || 2022 - Integer.parseInt(jTextField4.getText()) < 18 || 2022 - Integer.parseInt(jTextField4.getText()) > 90) {
+            JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 18 đến 90!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            Customer ct = new Customer();
+            ct.setCustomerId(jTextField2.getText());
+            ct.setCustomerName(jTextField3.getText());
+            ct.setCustomerBirthYear(Integer.parseInt(jTextField4.getText()));
+            ct.setPurchaseTimes(Integer.parseInt(jTextField5.getText()));
+            JOptionPane.showMessageDialog(this, cusBUS.addCustomer(ct), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            renderTable();
+            jComboBox1.setSelectedIndex(0);
+            clearText();
+        }
+    }//GEN-LAST:event_button3MouseClicked
+
+    private void button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button4MouseClicked
+        Customer_BUS cusBUS = new Customer_BUS();
+        if(jTextField3.getText().equals("") || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if( !(jTextField4.getText().matches("-?\\d+")) || 2022 - Integer.parseInt(jTextField4.getText()) < 18 || 2022 - Integer.parseInt(jTextField4.getText()) > 90) {
+            JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 18 đến 90!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            Customer ct = new Customer();
+            ct.setCustomerId(jTextField2.getText());
+            ct.setCustomerName(jTextField3.getText());
+            ct.setCustomerBirthYear(Integer.parseInt(jTextField4.getText()));
+            ct.setPurchaseTimes(Integer.parseInt(jTextField5.getText()));
+            JOptionPane.showMessageDialog(this, cusBUS.updateCustomer(ct), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            renderTable();
+            jComboBox1.setSelectedIndex(0);
+            clearText();
+        }
+        
+    }//GEN-LAST:event_button4MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        button5.setEnabled(true);
+        int row = jTable1.getSelectedRow();
+        if(row >= 0) {
+            jTextField2.setEditable(false);
+            jTextField2.setText(jTable1.getModel().getValueAt(row, 0).toString());
+            jTextField3.setText(jTable1.getModel().getValueAt(row, 1).toString());
+            jTextField4.setText(jTable1.getModel().getValueAt(row, 2).toString());
+            jTextField5.setText(jTable1.getModel().getValueAt(row, 3).toString());
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    public void clearText() {
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField2.setEditable(true);
+    }
+    
+    private void button6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button6MouseClicked
+        clearText();
+        ListSelectionModel model = jTable1.getSelectionModel();
+        model.removeSelectionInterval(jTable1.getRowCount(),0);
+        button5.setEnabled(false);
+    }//GEN-LAST:event_button6MouseClicked
+
+    private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked
+        int reply = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        int row = jTable1.getSelectedRow();
+        if(reply == JOptionPane.YES_OPTION) {
+            Customer_BUS cusBUS = new Customer_BUS();
+            row = jTable1.getSelectedRow();
+            if(row >= 0) {
+                String customerId = jTable1.getModel().getValueAt(row, 0).toString();
+                JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            renderTable();
+            jComboBox1.setSelectedIndex(0);
+            clearText();
+            button5.setEnabled(false);
+        }
+        else {
+            ListSelectionModel model = jTable1.getSelectionModel();
+            model.removeSelectionInterval(row,0);
+        }
+    }//GEN-LAST:event_button5MouseClicked
+
+    private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
+        if(jTextField1.getText().isEmpty() || jTextField1.getText().equals("Nhập ID ...")) {
+//            do nothing
+        }
+        else {
+            ListSelectionModel model = jTable1.getSelectionModel();
+            String customerId = jTextField1.getText();
+            Customer_BUS cusBUS = new Customer_BUS();
+            Customer ct = cusBUS.findCustomerById(customerId);
+            if(ct == null) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy trong dữ liệu!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                jTextField2.setText(ct.getCustomerId());
+                jTextField2.setEditable(false);
+                jTextField3.setText(ct.getCustomerName());
+                jTextField4.setText(ct.getCustomerBirthYear()+"");
+                jTextField5.setText(ct.getPurchaseTimes()+"");
+                for(int i=0; i<jTable1.getRowCount(); i++) {
+//                    System.out.println(jTable1.getValueAt(i, 0));
+                    if(jTable1.getValueAt(i, 0).equals(ct.getCustomerId()))
+                        model.setSelectionInterval(i,i);
+                }
+            }
+        }
+    }//GEN-LAST:event_button1MouseClicked
+
+    private void button2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button2MouseClicked
+        String option = jComboBox1.getSelectedItem().toString();
+        if(option.equals("Tất cả")) {
+            renderTable();
+        }
+        else {
+            Customer_BUS cusBUS = new Customer_BUS();
+            ArrayList<Customer> customerList = cusBUS.filterCustomerByPurchase(option);
+            DefaultTableModel tm = (DefaultTableModel)jTable1.getModel();
+            tm.setRowCount(0);
+            for(Customer ct: customerList) {
+                String cusId = ct.getCustomerId();
+                String cusName = ct.getCustomerName();
+                int cusBirth = ct.getCustomerBirthYear();
+                int purTime = ct.getPurchaseTimes();
+                Object row[] = new Object[]{cusId, cusName, cusBirth, purTime};
+                tm.addRow(row);
+            }
+        }
+    }//GEN-LAST:event_button2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button button1;
@@ -351,6 +566,7 @@ public class Customer_GUI extends javax.swing.JPanel {
     private Custom.Button button3;
     private Custom.Button button4;
     private Custom.Button button5;
+    private Custom.Button button6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
