@@ -45,14 +45,6 @@ public class Category_GUI extends javax.swing.JPanel {
         btnDelete = new Custom.Button();
         btnAdd = new Custom.Button();
         btnUpdate = new Custom.Button();
-        roundPanel4 = new Custom.RoundPanel();
-        pnlCategoryDetails = new javax.swing.JPanel();
-        lblCategoryIDLabel = new javax.swing.JLabel();
-        lblCategoryIDDisplay = new javax.swing.JLabel();
-        lblCategoryNameLabel = new javax.swing.JLabel();
-        lblCategoryNameDisplay = new javax.swing.JLabel();
-        lblBusinessStatusLabel = new javax.swing.JLabel();
-        lblBusinessStatusDisplay = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(1070, 700));
@@ -181,7 +173,7 @@ public class Category_GUI extends javax.swing.JPanel {
                     .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(scrCategoryList, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+                .addComponent(scrCategoryList, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -288,7 +280,7 @@ public class Category_GUI extends javax.swing.JPanel {
                                 .addComponent(txtCategoryID, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(lblCategoryNameConfig)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                                 .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(lblBusinessStatusConfig)
@@ -353,78 +345,6 @@ public class Category_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        pnlCategoryDetails.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Category Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        lblCategoryIDLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblCategoryIDLabel.setText("Category ID:");
-
-        lblCategoryIDDisplay.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblCategoryIDDisplay.setText("CATA01");
-
-        lblCategoryNameLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblCategoryNameLabel.setText("Category name:");
-
-        lblCategoryNameDisplay.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblCategoryNameDisplay.setText("Hamburger");
-
-        lblBusinessStatusLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lblBusinessStatusLabel.setText("Businness status:");
-
-        lblBusinessStatusDisplay.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblBusinessStatusDisplay.setText("On");
-
-        javax.swing.GroupLayout pnlCategoryDetailsLayout = new javax.swing.GroupLayout(pnlCategoryDetails);
-        pnlCategoryDetails.setLayout(pnlCategoryDetailsLayout);
-        pnlCategoryDetailsLayout.setHorizontalGroup(
-            pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCategoryDetailsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCategoryIDLabel)
-                    .addComponent(lblCategoryNameLabel)
-                    .addComponent(lblBusinessStatusLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblBusinessStatusDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblCategoryNameDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                    .addComponent(lblCategoryIDDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnlCategoryDetailsLayout.setVerticalGroup(
-            pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCategoryDetailsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCategoryIDLabel)
-                    .addComponent(lblCategoryIDDisplay))
-                .addGap(18, 18, 18)
-                .addGroup(pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCategoryNameLabel)
-                    .addComponent(lblCategoryNameDisplay))
-                .addGap(18, 18, 18)
-                .addGroup(pnlCategoryDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBusinessStatusLabel)
-                    .addComponent(lblBusinessStatusDisplay))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout roundPanel4Layout = new javax.swing.GroupLayout(roundPanel4);
-        roundPanel4.setLayout(roundPanel4Layout);
-        roundPanel4Layout.setHorizontalGroup(
-            roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlCategoryDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        roundPanel4Layout.setVerticalGroup(
-            roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlCategoryDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
         roundPanel3.setLayout(roundPanel3Layout);
         roundPanel3Layout.setHorizontalGroup(
@@ -433,9 +353,7 @@ public class Category_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(roundPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         roundPanel3Layout.setVerticalGroup(
@@ -446,9 +364,7 @@ public class Category_GUI extends javax.swing.JPanel {
                     .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roundPanel3Layout.createSequentialGroup()
                         .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 306, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -645,21 +561,13 @@ public class Category_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBusinessStatusConfig;
-    private javax.swing.JLabel lblBusinessStatusDisplay;
-    private javax.swing.JLabel lblBusinessStatusLabel;
     private javax.swing.JLabel lblCategoryIDConfig;
-    private javax.swing.JLabel lblCategoryIDDisplay;
-    private javax.swing.JLabel lblCategoryIDLabel;
     private javax.swing.JLabel lblCategoryNameConfig;
-    private javax.swing.JLabel lblCategoryNameDisplay;
-    private javax.swing.JLabel lblCategoryNameLabel;
-    private javax.swing.JPanel pnlCategoryDetails;
     private javax.swing.JRadioButton rdo_Off;
     private javax.swing.JRadioButton rdo_On;
     private Custom.RoundPanel roundPanel1;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;
-    private Custom.RoundPanel roundPanel4;
     private javax.swing.JScrollPane scrCategoryList;
     private javax.swing.JTable tblCategoryList;
     private javax.swing.JTextField txtCategoryID;

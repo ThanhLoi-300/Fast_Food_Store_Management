@@ -9,6 +9,7 @@
             <file>file:/C:/Fast_Food_Store_Management/src/DAO/Category_DAO.java</file>
         </group>
         <group>
+<<<<<<< Updated upstream
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/GUI/Sale_GUI.java</file>
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/GUI/Category_GUI.java</file>
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/GUI/Bill_GUI.java</file>
@@ -28,6 +29,16 @@
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/DAO/Category_DAO.java</file>
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/GUI/Account_GUI.java</file>
             <file>file:/C:/Users/DELL/Fast_Food_Store_Management/src/DAO/Customer_DAO.java</file>
+=======
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/DTO/Customer.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/BUS/Category_BUS.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/DAO/connectDB.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/DAO/Category_DAO.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/DAO/Customer_DAO.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Category_GUI.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Home_GUI.java</file>
+            <file>file:/C:/Users/DLCH/Fast_Food_Store_Management/src/GUI/Product_GUI.java</file>
+>>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>
