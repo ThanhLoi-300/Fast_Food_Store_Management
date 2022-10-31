@@ -36,9 +36,6 @@ public class Product_GUI extends javax.swing.JPanel {
         lblQuantityLabelConfig1 = new javax.swing.JLabel();
         txtQuantity1 = new javax.swing.JTextField();
         lblCategoryIDLabelConfig1 = new javax.swing.JLabel();
-        btnAdd1 = new javax.swing.JButton();
-        btnDelete1 = new javax.swing.JButton();
-        btnUpdate1 = new javax.swing.JButton();
         cbbCategoryID1 = new javax.swing.JComboBox<>();
         lblBusinessStatusLabelConfig1 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -46,6 +43,9 @@ public class Product_GUI extends javax.swing.JPanel {
         lblProductImgLabelConfig2 = new javax.swing.JLabel();
         btnProductImage = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        button4 = new Custom.Button();
+        button5 = new Custom.Button();
+        button6 = new Custom.Button();
         cbbSearchFilter = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         button1 = new Custom.Button();
@@ -145,15 +145,6 @@ public class Product_GUI extends javax.swing.JPanel {
         lblCategoryIDLabelConfig1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblCategoryIDLabelConfig1.setText("Category ID:");
 
-        btnAdd1.setText("Add");
-        btnAdd1.setFocusable(false);
-
-        btnDelete1.setText("Delete");
-        btnDelete1.setFocusable(false);
-
-        btnUpdate1.setText("Update");
-        btnUpdate1.setFocusable(false);
-
         lblBusinessStatusLabelConfig1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblBusinessStatusLabelConfig1.setText("Business Status:");
 
@@ -179,6 +170,39 @@ public class Product_GUI extends javax.swing.JPanel {
         });
 
         jLabel1.setPreferredSize(new java.awt.Dimension(120, 120));
+
+        button4.setText("Update");
+        button4.setColor(new java.awt.Color(255, 255, 255));
+        button4.setColorClick(new java.awt.Color(255, 255, 255));
+        button4.setColorOver(new java.awt.Color(242, 152, 174));
+        button4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
+
+        button5.setText("Add");
+        button5.setColor(new java.awt.Color(255, 255, 255));
+        button5.setColorClick(new java.awt.Color(255, 255, 255));
+        button5.setColorOver(new java.awt.Color(242, 152, 174));
+        button5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
+
+        button6.setText("Delete");
+        button6.setColor(new java.awt.Color(255, 255, 255));
+        button6.setColorClick(new java.awt.Color(255, 255, 255));
+        button6.setColorOver(new java.awt.Color(242, 152, 174));
+        button6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        button6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlProductConfiguration1Layout = new javax.swing.GroupLayout(pnlProductConfiguration1);
         pnlProductConfiguration1.setLayout(pnlProductConfiguration1Layout);
@@ -210,19 +234,20 @@ public class Product_GUI extends javax.swing.JPanel {
                                 .addGap(34, 34, 34)
                                 .addComponent(jRadioButton2)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(btnProductImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(pnlProductConfiguration1Layout.createSequentialGroup()
-                        .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 4, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(btnProductImage, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProductConfiguration1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProductConfiguration1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(17, 17, 17)
+                .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pnlProductConfiguration1Layout.setVerticalGroup(
             pnlProductConfiguration1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,15 +288,11 @@ public class Product_GUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlProductConfiguration1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProductConfiguration1Layout.createSequentialGroup()
-                        .addComponent(btnUpdate1)
-                        .addGap(20, 20, 20))
-                    .addGroup(pnlProductConfiguration1Layout.createSequentialGroup()
-                        .addGroup(pnlProductConfiguration1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAdd1)
-                            .addComponent(btnDelete1))
-                        .addContainerGap())))
+                .addGroup(pnlProductConfiguration1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
 
         cbbSearchFilter.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -285,7 +306,7 @@ public class Product_GUI extends javax.swing.JPanel {
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
         button1.setColor(new java.awt.Color(255, 255, 255));
         button1.setColorClick(new java.awt.Color(255, 255, 255));
-        button1.setColorOver(new java.awt.Color(255, 255, 255));
+        button1.setColorOver(new java.awt.Color(242, 152, 174));
         button1.setFocusPainted(false);
         button1.setRadius(5);
         button1.addActionListener(new java.awt.event.ActionListener() {
@@ -301,7 +322,7 @@ public class Product_GUI extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(srcProductList1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                    .addComponent(srcProductList1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -366,13 +387,25 @@ public class Product_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnProductImageMouseClicked
 
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button4ActionPerformed
+
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button5ActionPerformed
+
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd1;
-    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnProductImage;
-    private javax.swing.JButton btnUpdate1;
     private Custom.Button button1;
+    private Custom.Button button4;
+    private Custom.Button button5;
+    private Custom.Button button6;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbCategoryID1;
     private javax.swing.JComboBox<String> cbbSearchFilter;
