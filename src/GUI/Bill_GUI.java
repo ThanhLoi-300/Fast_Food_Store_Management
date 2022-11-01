@@ -4,7 +4,10 @@
  */
 package GUI;
 
+import BUS.Bill_BUS;
 import BUS.ReceivedNote_BUS;
+import DTO.Bill;
+import DTO.BillDetail;
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
 import java.util.ArrayList;
@@ -19,14 +22,19 @@ public class Bill_GUI extends javax.swing.JPanel {
     /**
      * Creates new form Bill_GUI
      */
+    private DefaultTableModel model;
     private ReceivedNote_BUS rnBUS;
+    private Bill_BUS bBUS;
     private ArrayList<ReceivedNote> rnL = new ArrayList<>();
+    private ArrayList<Bill> bL= new ArrayList<>();
     
     public Bill_GUI() {
         initComponents();
         rnBUS = new ReceivedNote_BUS();
         rnL = rnBUS.load_Data();
-        loadTable();
+        bBUS= new Bill_BUS();
+        bL=bBUS.LoadData();
+        loadrnTable();
         
     }
 
@@ -211,26 +219,26 @@ public class Bill_GUI extends javax.swing.JPanel {
 
         detailTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "TÊN HÀNG", "SIZE", "SL", "T.TIỀN"
+                "TÊN HÀNG", "SIZE", "Đ.GIÁ", "SL", "T.TIỀN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -239,9 +247,10 @@ public class Bill_GUI extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(detailTable);
         if (detailTable.getColumnModel().getColumnCount() > 0) {
-            detailTable.getColumnModel().getColumn(0).setPreferredWidth(90);
+            detailTable.getColumnModel().getColumn(0).setPreferredWidth(120);
             detailTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-            detailTable.getColumnModel().getColumn(2).setPreferredWidth(5);
+            detailTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+            detailTable.getColumnModel().getColumn(3).setPreferredWidth(5);
         }
 
         roundPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 252, 398, 228));
@@ -255,12 +264,12 @@ public class Bill_GUI extends javax.swing.JPanel {
         roundPanel2.add(value2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel5.setText("Địa chỉ :");
-        roundPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 53, -1));
+        jLabel5.setText("Địa chỉ : trường đại học Sài Gòn");
+        roundPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 190, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel6.setText("Contact :");
-        roundPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 57, -1));
+        jLabel6.setText("Contact : 0909-XXX-153");
+        roundPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 230, -1));
         roundPanel2.add(idOutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
         roundPanel2.add(P_COutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, -1, -1));
 
@@ -338,6 +347,10 @@ public class Bill_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button1ActionPerformed
 
     private void banBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banBtnMouseClicked
+        if(!nhapBtn.isEnabled()){
+            model = (DefaultTableModel)detailTable.getModel();
+            model.setRowCount(0);
+        }
         nhapBtn.setEnabled(true);
         banBtn.setEnabled(false);
         listTitle.setText("Danh sách hóa đơn bán hàng");
@@ -345,9 +358,16 @@ public class Bill_GUI extends javax.swing.JPanel {
         P_CLabel.setText("Tên khách hàng:");
         value2Label.setText("Tiền nhận:");
         value3Label.setText("Tiền thừa:");
+        refresh();
+        loadbTable();
+        
     }//GEN-LAST:event_banBtnMouseClicked
 
     private void nhapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhapBtnMouseClicked
+        if(nhapBtn.isEnabled()){
+            model = (DefaultTableModel)detailTable.getModel();
+            model.setRowCount(0);           
+        }
         nhapBtn.setEnabled(false);
         banBtn.setEnabled(true);
         listTitle.setText("Danh sách phiếu nhập hàng");
@@ -355,13 +375,17 @@ public class Bill_GUI extends javax.swing.JPanel {
         P_CLabel.setText("Nhà cung cấp:");
         value2Label.setText("Thuế:");
         value3Label.setText("Thành tiền:");
+        refresh();
+        loadrnTable();
+        
     }//GEN-LAST:event_nhapBtnMouseClicked
 
     private void blTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_blTableMouseClicked
 
         int i = blTable.getSelectedRow();
+        if(!nhapBtn.isEnabled()){
         ReceivedNote rn = rnL.get(i);
-        loadDetail(rn.getDetail());
+        loadrnDetail(rn.getDetail());
         idOutput.setText(rn.getId());
         timeOutput.setText(rn.getDate());
         P_COutput.setText(rn.getSupplier());
@@ -370,10 +394,33 @@ public class Bill_GUI extends javax.swing.JPanel {
         double a = rn.getTotalValue() * 0.1;
         value2.setText(String.valueOf(a));
         value3.setText(String.valueOf(rn.getTotalValue()-a));
+        }
+        else{
+            Bill b = bL.get(i);
+            loadbDetail(b.getBillDetail());
+            idOutput.setText(b.getBill_ID());
+            timeOutput.setText(b.getDate());
+            P_COutput.setText(b.getCustomerName());
+            staffOutput.setText(b.getStaffName());
+            value1.setText(String.valueOf(b.getTotalValue()));
+            value2.setText(String.valueOf(b.getReceivedMoney()));
+            value3.setText(String.valueOf(b.getExcessMoney()));
+            
+        }
     }//GEN-LAST:event_blTableMouseClicked
 
-    public void loadTable(){
-        DefaultTableModel model = (DefaultTableModel)blTable.getModel();
+        public void refresh(){
+        idOutput.setText("");
+        timeOutput.setText("");
+        staffOutput.setText("");
+        P_COutput.setText("");
+        value1.setText("");
+        value2.setText("");
+        value3.setText("");
+    } 
+    
+    public void loadrnTable(){
+        model = (DefaultTableModel)blTable.getModel();
         model.setRowCount(0);
         for (ReceivedNote rnL1 : rnL) {
             String id=rnL1.getId();
@@ -384,17 +431,44 @@ public class Bill_GUI extends javax.swing.JPanel {
         }
     }
     
-    public void loadDetail(ArrayList<ReceivedNoteDetail> rnd){
-        DefaultTableModel model = (DefaultTableModel)detailTable.getModel();
+        public void loadbTable(){
+        model = (DefaultTableModel)blTable.getModel();
+        model.setRowCount(0);
+        for (Bill bL1 : bL) {
+            String id=bL1.getBill_ID();
+            String date= bL1.getDate();
+            String staffName = bL1.getStaffName();
+            Object[] row = new Object[]{id,date,staffName};
+            model.addRow(row);
+        }
+    }
+    
+    public void loadrnDetail(ArrayList<ReceivedNoteDetail> rnd){
+        model = (DefaultTableModel)detailTable.getModel();
         model.setRowCount(0);
         for(ReceivedNoteDetail rnd1 : rnd){
             String productName = rnd1.getProductName();
             String productSize = rnd1.getSize();
+            String productUnitPrice = String.valueOf(rnd1.getUnitPrice());
             String productQuantity = String.valueOf(rnd1.getQuantity());
             String productValue = String.valueOf(rnd1.getPrice())+"đ";
-            Object[] row = new Object[]{productName,productSize,productQuantity,productValue};
+            Object[] row = new Object[]{productName,productSize,productUnitPrice,productQuantity,productValue};
             model.addRow(row);
         }
+    }
+    public void loadbDetail(ArrayList<BillDetail> bd){
+        model = (DefaultTableModel)detailTable.getModel();
+        model.setRowCount(0);
+        for(BillDetail bd1 : bd){
+            String productName = bd1.getProductName();
+            String productSize = bd1.getSize();
+            String productUnitPrice = String.valueOf(bd1.getUnitPrice());
+            String productQuantity = String.valueOf(bd1.getAmount());
+            String productValue = String.valueOf(bd1.getTotalValue())+"đ";
+            Object[] row = new Object[]{productName,productSize,productUnitPrice,productQuantity,productValue};
+            model.addRow(row);
+        }
+        
     }
     
 

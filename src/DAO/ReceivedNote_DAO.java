@@ -48,8 +48,8 @@ public class ReceivedNote_DAO extends connectDB{
     {
         try{
             String id=rn.getId();
-            String sql="INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Supplier`) "
-                        + "VALUES ('"+id+"', '"+rn.getDate()+"', '"+rn.getTotalValue()+"', '"+rn.getSupplier()+"')";
+            String sql="INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Supplier`,'TaxValue','FinalValue') "
+                        + "VALUES ('"+id+"', '"+rn.getDate()+"', '"+rn.getTotalValue()+"', '"+rn.getSupplier()+"','"+rn.getTax̣()+"','"+rn.getFinal()+"')";
             Statement stm = conn.createStatement();
             stm.executeUpdate(sql);
             sql="UPDATE received_note,staff SET received_note.Staff_ID=staff.Staff_id  " +

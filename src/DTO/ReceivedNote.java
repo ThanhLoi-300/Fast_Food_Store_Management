@@ -8,7 +8,7 @@ package DTO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 /**
  *
@@ -18,12 +18,12 @@ public class ReceivedNote {
     private String id;
     private LocalDateTime date;
     private ArrayList<ReceivedNoteDetail> detail;
-    private int totalValue;
+    private double totalValue;
     private String supplier;
     private String staffName;
 
     public ReceivedNote() {
-        detail = new ArrayList<ReceivedNoteDetail>();
+        detail = new ArrayList<>();
     }
 
     public ReceivedNote(String id, LocalDateTime date, ArrayList<ReceivedNoteDetail> detail, int totalValue, String supplier, String staffName) {
@@ -61,7 +61,7 @@ public class ReceivedNote {
         this.detail = detail;
     }
 
-    public int getTotalValue() {
+    public double getTotalValue() {
         return totalValue;
     }
 
@@ -84,7 +84,13 @@ public class ReceivedNote {
     public void setStaffName(String staffName) {
         this.staffName = staffName;
     }
-
+    public double getTax̣()
+    {
+        return totalValue*0.1;
+    }
+    public double getFinal(){
+        return totalValue + totalValue*0.1;
+    }
     @Override
     public String toString() {
         return "ReceivedNote{" + "id=" + id + ", date=" + date + ", detail=" + detail.toString() + ", totalValue=" + totalValue + ", supplier=" + supplier + ", staffName=" + staffName + '}';

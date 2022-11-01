@@ -13,6 +13,7 @@ public class ReceivedNoteDetail {
     private String productName;
     private String size;
     private int quantity;
+    private int unitPrice;
     private int price;
 
     public ReceivedNoteDetail() {
@@ -65,6 +66,14 @@ public class ReceivedNoteDetail {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     @Override
