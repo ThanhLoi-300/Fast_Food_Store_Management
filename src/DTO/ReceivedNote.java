@@ -6,6 +6,7 @@ package DTO;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 public class ReceivedNote {
     private String id;
-    private String date;
+    private LocalDateTime date;
     private ArrayList<ReceivedNoteDetail> detail;
     private int totalValue;
     private String supplier;
@@ -25,7 +26,7 @@ public class ReceivedNote {
         detail = new ArrayList<ReceivedNoteDetail>();
     }
 
-    public ReceivedNote(String id, String date, ArrayList<ReceivedNoteDetail> detail, int totalValue, String supplier, String staffName) {
+    public ReceivedNote(String id, LocalDateTime date, ArrayList<ReceivedNoteDetail> detail, int totalValue, String supplier, String staffName) {
         this.id = id;
         this.date = date;
         this.detail = detail;
@@ -43,11 +44,13 @@ public class ReceivedNote {
     }
 
     public String getDate() {
-        return date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return date.format(formatter);
     }
 
     public void setDate(String date) {
-        this.date = date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.date = LocalDateTime.parse(date, formatter);
     }
 
     public ArrayList<ReceivedNoteDetail> getDetail() {
