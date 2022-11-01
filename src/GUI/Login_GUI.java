@@ -1,7 +1,10 @@
 
 package GUI;
 
+import BUS.Login_BUS;
+import DTO.Account;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class Login_GUI extends javax.swing.JFrame {
     public Login_GUI() {
@@ -238,8 +241,21 @@ public class Login_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
-        this.dispose();
-        new Home_GUI();
+        if(jTextField6.getText().equals("") || jPasswordField1.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else {
+            Login_BUS loginBUS = new Login_BUS();
+            Account acc = loginBUS.userlogin(jTextField6.getText(), jPasswordField1.getText());
+            if(acc == null) {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                String staffName = loginBUS.loginGetStaffName(jTextField6.getText(), jPasswordField1.getText());
+                this.dispose();
+                new Home_GUI(staffName);
+            }
+        }
     }//GEN-LAST:event_button3MouseClicked
 
     public static void main(String args[]) {

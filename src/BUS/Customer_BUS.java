@@ -22,6 +22,9 @@ public class Customer_BUS {
         cusList = cusDAO.read();
     }
     
+    public ArrayList<Customer> readCustomerData() {
+        return cusDAO.read();
+    }
     
     public Boolean checkPrimaryKeyConstrains(Customer ct) {
         for(Customer i : cusList) {

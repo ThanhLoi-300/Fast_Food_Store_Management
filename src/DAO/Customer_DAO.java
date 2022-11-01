@@ -18,7 +18,7 @@ public class Customer_DAO extends connectDB{
     public ArrayList<Customer> read() {
         ArrayList<Customer> customerList = new ArrayList<Customer>();
         try {
-            String sql = "SELECT * FROM customer";
+            String sql = "SELECT * FROM `customer` WHERE `Customer_id` != 'C0' AND `IsDeleted` !='1'";
             Statement  stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()) {
@@ -35,15 +35,17 @@ public class Customer_DAO extends connectDB{
         return customerList;
     }
     
+    
     public Boolean create(Customer ct) {
         int rowAffected = 0;
         try {
-            String sql = "INSERT INTO `customer`(`Customer_id`, `Customer_name`, `YearOfBirth`, `Purchase_Time`) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO `customer`(`Customer_id`, `Customer_name`, `YearOfBirth`, `Purchase_Time`, `IsDeleted`) VALUES (?,?,?,?,?)";
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, ct.getCustomerId());
             pstm.setString(2, ct.getCustomerName());
             pstm.setInt(3, ct.getCustomerBirthYear());
             pstm.setInt(4, ct.getPurchaseTimes());
+            pstm.setInt(5, 0);
             rowAffected = pstm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Customer_DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +71,7 @@ public class Customer_DAO extends connectDB{
     
     public Boolean delete(String id) {
         int rowAffected = 0;
-        String sql = "DELETE FROM `customer` WHERE `Customer_id` = ?";
+        String sql = "UPDATE `customer` SET `IsDeleted`='1' WHERE `Customer_id`=?";
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, id);
@@ -81,7 +83,8 @@ public class Customer_DAO extends connectDB{
     }
     
     public Customer findById(String id) {
-        String sql = "SELECT * FROM `customer` WHERE `Customer_id` = ?";
+        String sql = "SELECT `Customer_id`, `Customer_name`, `YearOfBirth`, `Purchase_Time` FROM `customer` "
+                + "WHERE `Customer_id`= ? AND `IsDeleted` != '1'";
         Customer ct = null;
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
@@ -102,8 +105,8 @@ public class Customer_DAO extends connectDB{
     
     public ArrayList<Customer> filter(String filter) {
         ArrayList<Customer> customerList = new ArrayList<Customer>();
-        String sqlGreaterThan = "SELECT * FROM `customer` WHERE `Purchase_Time` >= 5";
-        String sqlSmallerThan = "SELECT * FROM `customer` WHERE `Purchase_Time` < 5";
+        String sqlGreaterThan = "SELECT * FROM `customer` WHERE `Purchase_Time` >= 5 AND `IsDeleted` != '1' AND `Customer_id` != 'C0'";
+        String sqlSmallerThan = "SELECT * FROM `customer` WHERE `Purchase_Time` < 5 AND `IsDeleted` != '1' AND `Customer_id` != 'C0'";
         if(filter.equals("Tích lũy < 5")) {
             try {
                 PreparedStatement pstm = conn.prepareStatement(sqlSmallerThan);
