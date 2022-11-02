@@ -8,6 +8,7 @@ import DTO.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -39,20 +40,22 @@ public class Login_DAO extends connectDB{
         return acc;
     }
     
-    public String getStaffName(String username, String password) {
-        String sql = "SELECT `Full_Name` FROM account JOIN staff ON account.Staff_id = staff.Staff_id WHERE account.UserName =? AND account.Password=?";
+    public ArrayList<String> getStaffInfo(String username, String password) {
+        ArrayList<String> staffInfo = new ArrayList<String>();
+        String sql = "SELECT `Full_Name`, `UserType` FROM account JOIN staff ON account.Staff_id = staff.Staff_id WHERE account.UserName =? AND account.Password=?";
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, username);
             pstm.setString(2, password);
             ResultSet rs = pstm.executeQuery();
             if(rs.next()) {
-                return rs.getNString(1);
+                staffInfo.add(rs.getNString(1));
+                staffInfo.add(rs.getNString(2));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "";
+        return staffInfo;
     }
 }
 

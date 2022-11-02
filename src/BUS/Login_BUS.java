@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.Login_DAO;
 import DTO.Account;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,12 +27,12 @@ public class Login_BUS {
         return acc;
     } 
     
-    public String loginGetStaffName(String username, String password) {
-        String staffName = loginDAO.getStaffName(username, password);
-        if(!staffName.isEmpty()) {
-            return staffName;
+    public ArrayList<String> loginGetStaffInfo(String username, String password) {
+        ArrayList<String> staffInfo = loginDAO.getStaffInfo(username, password);
+        if(!staffInfo.isEmpty()) {
+            return staffInfo;
         }
-        else return "";
+        else return null;
     }
 }
 
