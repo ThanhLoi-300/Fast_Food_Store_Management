@@ -350,34 +350,32 @@ public class Bill_GUI extends javax.swing.JPanel {
         if(!nhapBtn.isEnabled()){
             model = (DefaultTableModel)detailTable.getModel();
             model.setRowCount(0);
+            nhapBtn.setEnabled(true);
+            banBtn.setEnabled(false);
+            listTitle.setText("Danh sách hóa đơn bán hàng");
+            billTitle.setText("Hóa đơn");
+            P_CLabel.setText("Tên khách hàng:");
+            value2Label.setText("Tiền nhận:");
+            value3Label.setText("Tiền thừa:");
+            refresh();
+            loadbTable();
         }
-        nhapBtn.setEnabled(true);
-        banBtn.setEnabled(false);
-        listTitle.setText("Danh sách hóa đơn bán hàng");
-        billTitle.setText("Hóa đơn");
-        P_CLabel.setText("Tên khách hàng:");
-        value2Label.setText("Tiền nhận:");
-        value3Label.setText("Tiền thừa:");
-        refresh();
-        loadbTable();
-        
     }//GEN-LAST:event_banBtnMouseClicked
 
     private void nhapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhapBtnMouseClicked
         if(nhapBtn.isEnabled()){
             model = (DefaultTableModel)detailTable.getModel();
-            model.setRowCount(0);           
+            model.setRowCount(0);
+            nhapBtn.setEnabled(false);
+            banBtn.setEnabled(true);
+            listTitle.setText("Danh sách phiếu nhập hàng");
+            billTitle.setText("Phiếu nhập hàng");
+            P_CLabel.setText("Nhà cung cấp:");
+            value2Label.setText("Thuế:");
+            value3Label.setText("Thành tiền:");
+            refresh();
+            loadrnTable();
         }
-        nhapBtn.setEnabled(false);
-        banBtn.setEnabled(true);
-        listTitle.setText("Danh sách phiếu nhập hàng");
-        billTitle.setText("Phiếu nhập hàng");
-        P_CLabel.setText("Nhà cung cấp:");
-        value2Label.setText("Thuế:");
-        value3Label.setText("Thành tiền:");
-        refresh();
-        loadrnTable();
-        
     }//GEN-LAST:event_nhapBtnMouseClicked
 
     private void blTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_blTableMouseClicked
