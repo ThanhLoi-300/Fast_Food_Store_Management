@@ -50,6 +50,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         roundPanel2 = new Custom.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        button5 = new Custom.Button();
         roundPanel3 = new Custom.RoundPanel();
         jLabel2 = new javax.swing.JLabel();
         roundPanel4 = new Custom.RoundPanel();
@@ -63,7 +64,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         button3 = new Custom.Button();
         button4 = new Custom.Button();
-        button5 = new Custom.Button();
         button6 = new Custom.Button();
 
         setBackground(new java.awt.Color(51, 51, 51));
@@ -73,6 +73,8 @@ public class Customer_GUI extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ KHÁCH HÀNG");
+
+        roundPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
         button1.setBorder(null);
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
@@ -142,6 +144,10 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        roundPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+
         jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -176,6 +182,19 @@ public class Customer_GUI extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        button5.setBorder(null);
+        button5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/delete-user.png"))); // NOI18N
+        button5.setText("Xóa");
+        button5.setEnabled(false);
+        button5.setFocusable(false);
+        button5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        button5.setRadius(10);
+        button5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
         roundPanel2.setLayout(roundPanel2Layout);
         roundPanel2Layout.setHorizontalGroup(
@@ -184,21 +203,31 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(roundPanel2Layout.createSequentialGroup()
+                .addGap(260, 260, 260)
+                .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        roundPanel3.setBackground(new java.awt.Color(0, 0, 0));
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("THÔNG TIN KHÁCH HÀNG");
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -294,21 +323,8 @@ public class Customer_GUI extends javax.swing.JPanel {
             }
         });
 
-        button5.setBorder(null);
-        button5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/delete-user.png"))); // NOI18N
-        button5.setText("Xóa");
-        button5.setEnabled(false);
-        button5.setFocusable(false);
-        button5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        button5.setRadius(10);
-        button5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                button5MouseClicked(evt);
-            }
-        });
-
         button6.setBorder(null);
-        button6.setText("Clear All");
+        button6.setText("Clear Text");
         button6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button6.setRadius(10);
         button6.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -330,18 +346,13 @@ public class Customer_GUI extends javax.swing.JPanel {
                     .addGroup(roundPanel3Layout.createSequentialGroup()
                         .addContainerGap(26, Short.MAX_VALUE)
                         .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel3Layout.createSequentialGroup()
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(roundPanel3Layout.createSequentialGroup()
-                                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(roundPanel3Layout.createSequentialGroup()
-                                .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(37, 37, 37)
+                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         roundPanel3Layout.setVerticalGroup(
@@ -351,14 +362,12 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(49, 49, 49)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -386,7 +395,7 @@ public class Customer_GUI extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -395,9 +404,10 @@ public class Customer_GUI extends javax.swing.JPanel {
         String id = "C";
         int num = 1;
         String check_id;
-        for(Customer ct : cusBUS.readCustomerData()) {
+        ArrayList<String> idList = cusBUS.readAllIDCustomerData();
+        for(String item : idList) {
             check_id = id + num;
-            if(check_id.equals(ct.getCustomerId())) num++;
+            if(idList.contains(check_id)) num++;
         }
         id += num;
         jTextField2.setText(id);
@@ -434,7 +444,7 @@ public class Customer_GUI extends javax.swing.JPanel {
 
     private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
         Customer_BUS cusBUS = new Customer_BUS();
-        if(jTextField2.getText().equals("") || jTextField3.getText().equals("") 
+        if(jTextField3.getText().equals("") 
            || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -486,7 +496,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         button5.setEnabled(true);
         int row = jTable1.getSelectedRow();
         if(row >= 0) {
-            jTextField2.setEditable(false);
             jTextField2.setText(jTable1.getModel().getValueAt(row, 0).toString());
             jTextField3.setText(jTable1.getModel().getValueAt(row, 1).toString());
             jTextField4.setText(jTable1.getModel().getValueAt(row, 2).toString());
@@ -499,7 +508,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
-        jTextField2.setEditable(true);
         autoGenerateId();
     }
     
@@ -511,23 +519,25 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button6MouseClicked
 
     private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked
-        int reply = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-        int row = jTable1.getSelectedRow();
-        if(reply == JOptionPane.YES_OPTION) {
-            Customer_BUS cusBUS = new Customer_BUS();
-            row = jTable1.getSelectedRow();
-            if(row >= 0) {
-                String customerId = jTable1.getModel().getValueAt(row, 0).toString();
-                JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        if(button5.isEnabled()) {
+            int reply = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            int row = jTable1.getSelectedRow();
+            if(reply == JOptionPane.YES_OPTION) {
+                Customer_BUS cusBUS = new Customer_BUS();
+                row = jTable1.getSelectedRow();
+                if(row >= 0) {
+                    String customerId = jTable1.getModel().getValueAt(row, 0).toString();
+                    JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
+                renderTable();
+                jComboBox1.setSelectedIndex(0);
+                clearText();
+                button5.setEnabled(false);
             }
-            renderTable();
-            jComboBox1.setSelectedIndex(0);
-            clearText();
-            button5.setEnabled(false);
-        }
-        else {
-            ListSelectionModel model = jTable1.getSelectionModel();
-            model.removeSelectionInterval(row,0);
+            else {
+                ListSelectionModel model = jTable1.getSelectionModel();
+                model.removeSelectionInterval(row,0);
+            }
         }
     }//GEN-LAST:event_button5MouseClicked
 
@@ -544,8 +554,8 @@ public class Customer_GUI extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy trong dữ liệu!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
+                renderTable();
                 jTextField2.setText(ct.getCustomerId());
-                jTextField2.setEditable(false);
                 jTextField3.setText(ct.getCustomerName());
                 jTextField4.setText(ct.getCustomerBirthYear()+"");
                 jTextField5.setText(ct.getPurchaseTimes()+"");
@@ -554,6 +564,8 @@ public class Customer_GUI extends javax.swing.JPanel {
                     if(jTable1.getValueAt(i, 0).equals(ct.getCustomerId()))
                         model.setSelectionInterval(i,i);
                 }
+                jComboBox1.setSelectedIndex(0);
+                button5.setEnabled(true);
             }
         }
     }//GEN-LAST:event_button1MouseClicked

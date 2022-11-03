@@ -26,6 +26,10 @@ public class Customer_BUS {
         return cusDAO.read();
     }
     
+    public ArrayList<String> readAllIDCustomerData() {
+        return cusDAO.readAllID();
+    }
+    
     public Boolean checkPrimaryKeyConstrains(Customer ct) {
         for(Customer i : cusList) {
             if(i.getCustomerId().equals(ct.getCustomerId())) {
