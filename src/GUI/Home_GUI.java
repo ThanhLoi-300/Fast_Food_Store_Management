@@ -68,9 +68,9 @@ public class Home_GUI extends javax.swing.JFrame {
         roundPanel15 = new Custom.RoundPanel();
         jLabel18 = new javax.swing.JLabel();
         imageAvatar11 = new Custom.ImageAvatar();
-        roundPanel18 = new Custom.RoundPanel();
-        jLabel21 = new javax.swing.JLabel();
-        imageAvatar14 = new Custom.ImageAvatar();
+        roundPanel17 = new Custom.RoundPanel();
+        jLabel20 = new javax.swing.JLabel();
+        imageAvatar13 = new Custom.ImageAvatar();
         jPanel1 = new Custom.RoundPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -587,42 +587,42 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        roundPanel18.setBackground(new java.awt.Color(51, 51, 51));
-        roundPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+        roundPanel17.setBackground(new java.awt.Color(51, 51, 51));
+        roundPanel17.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                roundPanel18MouseClicked(evt);
+                roundPanel17MouseClicked(evt);
             }
         });
 
-        jLabel21.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel21.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("Phân quyền");
-        jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel20.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel20.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Phân quyền");
+        jLabel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        imageAvatar14.setForeground(new java.awt.Color(255, 255, 255));
-        imageAvatar14.setBorderSize(2);
-        imageAvatar14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/locksmith.png"))); // NOI18N
+        imageAvatar13.setForeground(new java.awt.Color(255, 255, 255));
+        imageAvatar13.setBorderSize(2);
+        imageAvatar13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/locksmith.png"))); // NOI18N
 
-        javax.swing.GroupLayout roundPanel18Layout = new javax.swing.GroupLayout(roundPanel18);
-        roundPanel18.setLayout(roundPanel18Layout);
-        roundPanel18Layout.setHorizontalGroup(
-            roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel18Layout.createSequentialGroup()
+        javax.swing.GroupLayout roundPanel17Layout = new javax.swing.GroupLayout(roundPanel17);
+        roundPanel17.setLayout(roundPanel17Layout);
+        roundPanel17Layout.setHorizontalGroup(
+            roundPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(imageAvatar14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(imageAvatar13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jLabel21)
+                .addComponent(jLabel20)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        roundPanel18Layout.setVerticalGroup(
-            roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel18Layout.createSequentialGroup()
+        roundPanel17Layout.setVerticalGroup(
+            roundPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(imageAvatar14, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(roundPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(imageAvatar13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -643,7 +643,7 @@ public class Home_GUI extends javax.swing.JFrame {
                     .addComponent(roundPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(roundPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         roundPanel4Layout.setVerticalGroup(
@@ -670,7 +670,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(roundPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -806,9 +806,10 @@ public class Home_GUI extends javax.swing.JFrame {
         OpenChildForm(new Staff_GUI());
     }//GEN-LAST:event_roundPanel16MouseClicked
 
-    private void roundPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel18MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roundPanel18MouseClicked
+    private void roundPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel17MouseClicked
+        Active(roundPanel17);
+        OpenChildForm(new Decentralization_GUI());
+    }//GEN-LAST:event_roundPanel17MouseClicked
     
     private void Active( JPanel btn) {     
         Disable();
@@ -875,7 +876,6 @@ public class Home_GUI extends javax.swing.JFrame {
     private Custom.ImageAvatar imageAvatar11;
     private Custom.ImageAvatar imageAvatar12;
     private Custom.ImageAvatar imageAvatar13;
-    private Custom.ImageAvatar imageAvatar14;
     private Custom.ImageAvatar imageAvatar2;
     private Custom.ImageAvatar imageAvatar4;
     private Custom.ImageAvatar imageAvatar5;
@@ -896,7 +896,6 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private Custom.RoundPanel jPanel1;
     private javax.swing.JLabel lb_Time;
@@ -908,7 +907,6 @@ public class Home_GUI extends javax.swing.JFrame {
     private Custom.RoundPanel roundPanel15;
     private Custom.RoundPanel roundPanel16;
     private Custom.RoundPanel roundPanel17;
-    private Custom.RoundPanel roundPanel18;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;
     private Custom.RoundPanel roundPanel4;
