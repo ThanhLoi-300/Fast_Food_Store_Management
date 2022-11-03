@@ -114,7 +114,8 @@ public class Button extends JButton{
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
         //Border set 2px
         g2.setColor(getBackground());
-        g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, radius, radius);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
         super.paintComponent(g); 
     }
     
