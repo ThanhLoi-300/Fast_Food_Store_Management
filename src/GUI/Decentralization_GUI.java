@@ -27,12 +27,12 @@ public class Decentralization_GUI extends javax.swing.JPanel {
     private void initComponents() {
 
         btnGroupChiTietQuyen = new javax.swing.ButtonGroup();
-        roundPanel1 = new Custom.RoundPanel();
-        pnlDecentralizationList = new Custom.RoundPanel();
-        scrDanhSachQuyen = new javax.swing.JScrollPane();
-        tblDanhSachQuyen = new javax.swing.JTable();
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new Custom.Button();
+        roundPanel5 = new Custom.RoundPanel();
+        pnlDecentralizationList3 = new Custom.RoundPanel();
+        scrDanhSachQuyen3 = new javax.swing.JScrollPane();
+        tblDanhSachQuyen3 = new javax.swing.JTable();
+        txtSearch3 = new javax.swing.JTextField();
+        btnSearch3 = new Custom.Button();
         roundPanel3 = new Custom.RoundPanel();
         btnAdd = new Custom.Button();
         btnFix = new Custom.Button();
@@ -40,18 +40,18 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnImport = new Custom.Button();
         btnExport = new Custom.Button();
 
-        setPreferredSize(new java.awt.Dimension(1070, 652));
+        setPreferredSize(new java.awt.Dimension(1015, 650));
 
-        roundPanel1.setBackground(new java.awt.Color(51, 51, 51));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(1070, 652));
+        roundPanel5.setBackground(new java.awt.Color(51, 51, 51));
+        roundPanel5.setPreferredSize(new java.awt.Dimension(1050, 652));
 
-        pnlDecentralizationList.setBackground(new java.awt.Color(245, 245, 245));
-        pnlDecentralizationList.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlDecentralizationList3.setBackground(new java.awt.Color(245, 245, 245));
+        pnlDecentralizationList3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        scrDanhSachQuyen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
-        scrDanhSachQuyen.setPreferredSize(new java.awt.Dimension(470, 423));
+        scrDanhSachQuyen3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        scrDanhSachQuyen3.setPreferredSize(new java.awt.Dimension(470, 423));
 
-        tblDanhSachQuyen.setModel(new javax.swing.table.DefaultTableModel(
+        tblDanhSachQuyen3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,48 +70,48 @@ public class Decentralization_GUI extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        scrDanhSachQuyen.setViewportView(tblDanhSachQuyen);
+        scrDanhSachQuyen3.setViewportView(tblDanhSachQuyen3);
 
-        txtSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtSearch.setPreferredSize(new java.awt.Dimension(64, 19));
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtSearch3.setPreferredSize(new java.awt.Dimension(64, 19));
+        txtSearch3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
             }
         });
 
-        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
-        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        btnSearch.setColor(new java.awt.Color(255, 255, 255));
-        btnSearch.setColorClick(new java.awt.Color(255, 255, 255));
-        btnSearch.setColorOver(new java.awt.Color(242, 152, 174));
-        btnSearch.setPreferredSize(new java.awt.Dimension(16, 16));
-        btnSearch.setRadius(5);
+        btnSearch3.setBackground(new java.awt.Color(255, 255, 255));
+        btnSearch3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearch3.setColor(new java.awt.Color(255, 255, 255));
+        btnSearch3.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSearch3.setColorOver(new java.awt.Color(242, 152, 174));
+        btnSearch3.setPreferredSize(new java.awt.Dimension(16, 16));
+        btnSearch3.setRadius(5);
 
-        javax.swing.GroupLayout pnlDecentralizationListLayout = new javax.swing.GroupLayout(pnlDecentralizationList);
-        pnlDecentralizationList.setLayout(pnlDecentralizationListLayout);
-        pnlDecentralizationListLayout.setHorizontalGroup(
-            pnlDecentralizationListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationListLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDecentralizationList3Layout = new javax.swing.GroupLayout(pnlDecentralizationList3);
+        pnlDecentralizationList3.setLayout(pnlDecentralizationList3Layout);
+        pnlDecentralizationList3Layout.setHorizontalGroup(
+            pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationList3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationListLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationList3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrDanhSachQuyen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        pnlDecentralizationListLayout.setVerticalGroup(
-            pnlDecentralizationListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDecentralizationListLayout.createSequentialGroup()
+        pnlDecentralizationList3Layout.setVerticalGroup(
+            pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDecentralizationList3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDecentralizationListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrDanhSachQuyen, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -167,8 +167,8 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         roundPanel3.setLayout(roundPanel3Layout);
         roundPanel3Layout.setHorizontalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
-                .addContainerGap(135, Short.MAX_VALUE)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addGap(113, 113, 113)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnFix, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,51 +178,51 @@ public class Decentralization_GUI extends javax.swing.JPanel {
                 .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFix, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
-        roundPanel1.setLayout(roundPanel1Layout);
-        roundPanel1Layout.setHorizontalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlDecentralizationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+        javax.swing.GroupLayout roundPanel5Layout = new javax.swing.GroupLayout(roundPanel5);
+        roundPanel5.setLayout(roundPanel5Layout);
+        roundPanel5Layout.setHorizontalGroup(
+            roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlDecentralizationList3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        roundPanel1Layout.setVerticalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
+        roundPanel5Layout.setVerticalGroup(
+            roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(pnlDecentralizationList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlDecentralizationList3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(roundPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(roundPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -239,11 +239,29 @@ public class Decentralization_GUI extends javax.swing.JPanel {
     private javax.swing.ButtonGroup btnGroupChiTietQuyen;
     private Custom.Button btnImport;
     private Custom.Button btnSearch;
+    private Custom.Button btnSearch1;
+    private Custom.Button btnSearch2;
+    private Custom.Button btnSearch3;
     private Custom.RoundPanel pnlDecentralizationList;
+    private Custom.RoundPanel pnlDecentralizationList1;
+    private Custom.RoundPanel pnlDecentralizationList2;
+    private Custom.RoundPanel pnlDecentralizationList3;
     private Custom.RoundPanel roundPanel1;
+    private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;
+    private Custom.RoundPanel roundPanel4;
+    private Custom.RoundPanel roundPanel5;
     private javax.swing.JScrollPane scrDanhSachQuyen;
+    private javax.swing.JScrollPane scrDanhSachQuyen1;
+    private javax.swing.JScrollPane scrDanhSachQuyen2;
+    private javax.swing.JScrollPane scrDanhSachQuyen3;
     private javax.swing.JTable tblDanhSachQuyen;
+    private javax.swing.JTable tblDanhSachQuyen1;
+    private javax.swing.JTable tblDanhSachQuyen2;
+    private javax.swing.JTable tblDanhSachQuyen3;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearch1;
+    private javax.swing.JTextField txtSearch2;
+    private javax.swing.JTextField txtSearch3;
     // End of variables declaration//GEN-END:variables
 }
