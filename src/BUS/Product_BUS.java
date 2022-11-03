@@ -24,8 +24,8 @@ public class Product_BUS {
         return false;
     }
     
-    public boolean deleteProduct (String id) {
-        if (productDAO.deleteProduct(id)) return true;
+    public boolean deleteProduct (String id, String size) {
+        if (productDAO.deleteProduct(id,size)) return true;
         return false;
     }
     
@@ -38,8 +38,16 @@ public class Product_BUS {
         return productDAO.searchProduct(keyword, filter);
     }
     
+    public Boolean restoreProduct(String size, String name) {
+        return productDAO.restoreProduct(size, name);
+    }
+    
     public boolean productNameExisted (String id, String name) {
         return productDAO.productNameExisted(id, name);
+    }
+    
+    public boolean productDeletedPreviously (String size, String name, int price, int quantity, String categoryID) {
+        return productDAO.productDeletedPreviously(size, name, price, quantity, categoryID);
     }
     
     public String autoID() {
