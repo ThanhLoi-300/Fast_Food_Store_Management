@@ -9,10 +9,11 @@ package DTO;
  * @author DLCH
  */
 public class Product_DTO {
-    String  productID, size, productName, categoryID, image, businessStatus;
+    String  productID, size, productName, categoryID, image;
     int price, quantity;
+    boolean isDeleted, businessStatus;
 
-    public Product_DTO(String productID, String size, String productName, String categoryID, int price, int quantity, String image, String businessStatus) {
+    public Product_DTO(String productID, String size, String productName, String categoryID, int price, int quantity, String image, boolean isDeleted, boolean businessStatus) {
         this.productID = productID;
         this.size = size;
         this.productName = productName;
@@ -20,6 +21,7 @@ public class Product_DTO {
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.isDeleted = isDeleted;
         this.businessStatus = businessStatus;
     }
 
@@ -79,11 +81,24 @@ public class Product_DTO {
         this.quantity = quantity;
     }
 
+    public boolean isIsDeleted() {
+        return isDeleted;
+    }
+    
     public String getBusinessStatus() {
+        if (isBusinessStatus()) return "On";
+        else return "Off";
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public boolean isBusinessStatus() {
         return businessStatus;
     }
 
-    public void setBusinessStatus(String businessStatus) {
+    public void setBusinessStatus(boolean businessStatus) {
         this.businessStatus = businessStatus;
     }
     

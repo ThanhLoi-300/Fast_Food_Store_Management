@@ -41,4 +41,8 @@ public class Product_BUS {
     public boolean productNameExisted (String id, String name) {
         return productDAO.productNameExisted(id, name);
     }
+    
+    public String autoID() {
+        return productDAO.autoID();
+    }
 }
