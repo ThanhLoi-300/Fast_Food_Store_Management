@@ -118,25 +118,11 @@ public class Product_DAO extends connectDB {
         }
         return listProduct;
     }
-    
-    public boolean restoreProduct(String size, String name) {
-        try {
-            String sql = "UPDATE product SET IsDeleted = 0 WHERE Size = '" + size + "' AND Product_Name = '" + name + "'";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.executeUpdate();
-        }
-        catch (Exception e) {
-            System.out.println("Error occured at restoreProduct from Product_DAO class");
-            System.out.println(e);
-            return false;
-        }
-        return true;
-    }
 
     public Boolean productNameExisted(String id, String name) {
         Boolean isExisted = false;
         try {
-            String sql = "SELECT * FROM product WHERE Product_Name = '" + name + "' AND Product_ID NOT IN ('" + id + "')";
+            String sql = "SELECT * FROM product WHERE Product_Name = '" + name + "' AND Product_ID NOT IN ('" + id + "') AND IsDeleted <> 1";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -153,24 +139,38 @@ public class Product_DAO extends connectDB {
         return isExisted;
     }
     
-    public boolean productDeletedPreviously (String size, String name, int price, int quantity, String categoryID) {
-        Boolean isDeleted = false;
+    public boolean productDeletedPreviously(String id, String size) {
+        boolean isDeleted = false;
         try {
-            String sql = "SELECT * FROM product WHERE Size = '" + size + "' AND Product_Name = '"+ name + "'" + " AND UnitPrice = "+ price + " AND Quantity = " + quantity + " AND Category_ID = '" + categoryID + "'";
+            String sql = "SELECT * FROM product WHERE Product_ID = '"+id+"' AND Size = '"+size+"'";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-
+            
             while (rs.next()) {
                 if (rs.getBoolean("IsDeleted")) {
-                    isDeleted = true;
-                    break;
+                    return true;
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Error occured at productDeletedPreviously from Product_DAO class");
             System.out.println(e);
         }
         return isDeleted;
+    }
+    
+    public boolean restoreProduct(String id, String size, int price, int quantity) {
+        try {
+            String sql = "UPDATE product SET IsDeleted = 0, UnitPrice = "+price+" , Quantity = "+quantity+" WHERE Product_ID = '"+id+"' AND Size = '"+size+"'";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+        }
+        catch (Exception e) {
+            System.out.println("Error occured at restoreProduct from Product_DAO class");
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 
     public String autoID() {

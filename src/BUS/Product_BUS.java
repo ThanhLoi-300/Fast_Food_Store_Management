@@ -38,16 +38,16 @@ public class Product_BUS {
         return productDAO.searchProduct(keyword, filter);
     }
     
-    public Boolean restoreProduct(String size, String name) {
-        return productDAO.restoreProduct(size, name);
-    }
-    
     public boolean productNameExisted (String id, String name) {
         return productDAO.productNameExisted(id, name);
     }
     
-    public boolean productDeletedPreviously (String size, String name, int price, int quantity, String categoryID) {
-        return productDAO.productDeletedPreviously(size, name, price, quantity, categoryID);
+    public boolean productDeletedPreviously(String id, String size) {
+        return productDAO.productDeletedPreviously(id, size);
+    }
+    
+    public boolean restoreProduct(String id, String size, int price, int quantity) {
+        return productDAO.restoreProduct(id, size, price, quantity);
     }
     
     public String autoID() {

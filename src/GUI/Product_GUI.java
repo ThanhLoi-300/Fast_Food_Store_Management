@@ -504,16 +504,7 @@ public class Product_GUI extends javax.swing.JPanel {
             newID = productBUS.autoID();
             if (isInputEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không được để trống thông tin sản phẩm!");
-            }
-            else if (productBUS.productDeletedPreviously(txtSizeID1.getText(), txtProductName1.getText(), Integer.parseInt(txtPrice1.getText()), Integer.parseInt(txtQuantity1.getText()), cbbCategoryID1.getSelectedItem()+"")) {
-                if (productBUS.restoreProduct(txtSizeID1.getText(), txtProductName1.getText())) {
-                    JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-                    listProduct = productBUS.loadDataProduct();
-                    loadProductList(listProduct);
-                    refresh();
-                }
-            }
-            else if (productBUS.productNameExisted(newID, txtProductName1.getText())) {
+            } else if (productBUS.productNameExisted(newID, txtProductName1.getText())) {
                 JOptionPane.showMessageDialog(this, "Tên sản phẩm đã tồn tại!");
             } else {
                 chosenImg = chosenImg.replace("\\", "/");
@@ -537,7 +528,7 @@ public class Product_GUI extends javax.swing.JPanel {
         } else {
             int i = tblProductList1.getSelectedRow();
             Product_DTO selectedProduct = listProduct.get(i);
-            if (productBUS.deleteProduct(selectedProduct.getProductID(),selectedProduct.getSize())) {
+            if (productBUS.deleteProduct(selectedProduct.getProductID(), selectedProduct.getSize())) {
                 JOptionPane.showMessageDialog(this, "Xóa sản phẩm thành công");
                 listProduct = productBUS.loadDataProduct();
                 loadProductList(listProduct);
@@ -571,7 +562,7 @@ public class Product_GUI extends javax.swing.JPanel {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             chosenImg = file.getPath();
-            File file2 = new File("src\\Img\\"+file.getName());
+            File file2 = new File("src\\Img\\" + file.getName());
             file.renameTo(file2);
             chosenImg = file2.getPath();
             ImageIcon icon = new ImageIcon(chosenImg);
@@ -594,11 +585,19 @@ public class Product_GUI extends javax.swing.JPanel {
                     if (txtPriceAddSize.getText().isEmpty() || txtSizeAddSize.getText().isEmpty() || txtQuantityAddSize.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(pnlAddSize, "Không được để trống thông tin");
                     } else {
-                        Product_DTO product = new Product_DTO(selectedProduct.getProductID(), txtSizeAddSize.getText(), selectedProduct.getProductName(), selectedProduct.getCategoryID(), Integer.parseInt(txtPriceAddSize.getText()), Integer.parseInt(txtQuantityAddSize.getText()), selectedProduct.getImage(), false, selectedProduct.isBusinessStatus());
-                        if (productBUS.insertProduct(product)) {
-                            JOptionPane.showMessageDialog(pnlAddSize, "Thêm size sản phẩm thành công");
-                            listProduct = productBUS.loadDataProduct();
-                            loadProductList(listProduct);
+                        if (productBUS.productDeletedPreviously(id, txtSizeAddSize.getText())) {
+                            if (productBUS.restoreProduct(id, txtSizeAddSize.getText(), Integer.parseInt(txtPriceAddSize.getText()), Integer.parseInt(txtQuantityAddSize.getText()))) {
+                                JOptionPane.showMessageDialog(pnlAddSize, "Thêm size sản phẩm thành công");
+                                listProduct = productBUS.loadDataProduct();
+                                loadProductList(listProduct);
+                            }
+                        } else {
+                            Product_DTO product = new Product_DTO(selectedProduct.getProductID(), txtSizeAddSize.getText(), selectedProduct.getProductName(), selectedProduct.getCategoryID(), Integer.parseInt(txtPriceAddSize.getText()), Integer.parseInt(txtQuantityAddSize.getText()), selectedProduct.getImage(), false, selectedProduct.isBusinessStatus());
+                            if (productBUS.insertProduct(product)) {
+                                JOptionPane.showMessageDialog(pnlAddSize, "Thêm size sản phẩm thành công");
+                                listProduct = productBUS.loadDataProduct();
+                                loadProductList(listProduct);
+                            }
                         }
                     }
                 } catch (NumberFormatException e) {
@@ -648,7 +647,7 @@ public class Product_GUI extends javax.swing.JPanel {
                 || (!rdOn.isSelected() && !rdOff.isSelected())
                 || lblProductImg.getIcon() == null;
     }
-    
+
     private boolean selectedBusinessStatus() {
         return rdOn.isSelected();
     }
