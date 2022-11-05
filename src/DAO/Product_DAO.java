@@ -93,9 +93,6 @@ public class Product_DAO extends connectDB {
                 case "ProductName":
                     searchField = "Product_Name";
                     break;
-                case "BusinessStatus":
-                    searchField = "BusinessStatus";
-                    break;
                 case "CategoryID":
                     searchField = "Category_ID";
                     break;
@@ -104,7 +101,7 @@ public class Product_DAO extends connectDB {
                     break;
             }
 
-            String sql = "SELECT * FROM product WHERE " + searchField + " LIKE '%" + keyword + "%'";
+            String sql = "SELECT * FROM product WHERE " + searchField + " LIKE '%" + keyword + "%' AND IsDeleted = 0";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
