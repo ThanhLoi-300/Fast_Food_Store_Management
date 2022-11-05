@@ -20,13 +20,14 @@ public class Detail_Bill extends javax.swing.JPanel {
         return data;
     }
     
-    public void setData(Product_DTO data, int quantity){
+    public void setData(Product_DTO data, int quantity, int index){
         this.data = data;
         lbl_Name.setText(data.getProductName()+"("+data.getSize()+")");
         DecimalFormat df = new DecimalFormat("###.###");
         lbl_Quantity_X_Price.setText( quantity + " x " + df.format(data.getPrice()));
         double total = quantity * data.getPrice();
         lbl_Total.setText(df.format(total)+"VND");
+        this.index = index;
     }
 
     public JLabel getLbl_Delete() {

@@ -99,8 +99,11 @@ public class Sale_GUI extends javax.swing.JPanel {
     public void addBill( ArrayList<Product_DTO> list_Detail_Bill, ArrayList<Integer> list_Quantity_Choice){
         for(int e = 0; e < list_Detail_Bill.size();e++){
             Detail_Bill detail_Bill = new Detail_Bill();
-            detail_Bill.setData( list_Detail_Bill.get(e), list_Quantity_Choice.get(e));
+            detail_Bill.setData( list_Detail_Bill.get(e), list_Quantity_Choice.get(e), e);
             Product_DTO product = list_Detail_Bill.get(e);
+            
+            int index = e;
+            
             detail_Bill.getDetail_Panel().addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
@@ -112,7 +115,10 @@ public class Sale_GUI extends javax.swing.JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                    
+                    getList_Detail_Bill().remove(index);
+                    getList_Quantity_Choice().remove(index);
+                    Detail_Bill_Panel.removeAll();
+                    addBill(list_Detail_Bill, list_Quantity_Choice);
                 }
             }     
         });
