@@ -27,34 +27,55 @@ public class Account_GUI extends javax.swing.JPanel {
     private void initComponents() {
 
         roundPanel1 = new Custom.RoundPanel();
-        scrAccountList = new javax.swing.JScrollPane();
-        tblAccountList = new javax.swing.JTable();
+        roundPanel2 = new Custom.RoundPanel();
         cbbSearchFilter = new javax.swing.JComboBox<>();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new Custom.Button();
-        pnlAccountConfiguration = new javax.swing.JPanel();
+        scrAccountList = new javax.swing.JScrollPane();
+        tblAccountList = new javax.swing.JTable();
+        roundPanel3 = new Custom.RoundPanel();
         lblAccountIDConfig = new javax.swing.JLabel();
         txtAccountID = new javax.swing.JTextField();
         lblUserNameConfig = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         lblPasswordConfig = new javax.swing.JLabel();
-        txtType = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         lblTypeConfig = new javax.swing.JLabel();
+        txtType = new javax.swing.JTextField();
         txtStaffID = new javax.swing.JTextField();
         lblStaffIDConfig = new javax.swing.JLabel();
         btnAdd = new Custom.Button();
-        btnDelete = new Custom.Button();
         btnUpdate = new Custom.Button();
-        btnImportFile = new Custom.Button();
+        btnDelete = new Custom.Button();
         btnExportFile = new Custom.Button();
+        btnImportFile = new Custom.Button();
 
+        setBackground(new java.awt.Color(51, 51, 51));
         setPreferredSize(new java.awt.Dimension(1015, 650));
 
         roundPanel1.setBackground(new java.awt.Color(51, 51, 51));
         roundPanel1.setPreferredSize(new java.awt.Dimension(1015, 650));
 
-        scrAccountList.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách tài khoản"));
+        cbbSearchFilter.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        cbbSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tài khoản", "Tên tài khoản", "Loại", "Mã nhân viên" }));
+        cbbSearchFilter.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        txtSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearch.setColor(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorOver(new java.awt.Color(242, 152, 174));
+        btnSearch.setRadius(5);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        scrAccountList.setBackground(new java.awt.Color(242, 242, 242));
+        scrAccountList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
         scrAccountList.setName(""); // NOI18N
         scrAccountList.setPreferredSize(new java.awt.Dimension(470, 423));
 
@@ -106,30 +127,42 @@ public class Account_GUI extends javax.swing.JPanel {
         });
         scrAccountList.setViewportView(tblAccountList);
 
-        cbbSearchFilter.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        cbbSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tài khoản", "Tên tài khoản", "Loại", "Mã nhân viên" }));
-        cbbSearchFilter.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
+        roundPanel2.setLayout(roundPanel2Layout);
+        roundPanel2Layout.setHorizontalGroup(
+            roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrAccountList, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundPanel2Layout.createSequentialGroup()
+                        .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        roundPanel2Layout.setVerticalGroup(
+            roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrAccountList, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
+        );
 
-        txtSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
-        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        btnSearch.setColor(new java.awt.Color(255, 255, 255));
-        btnSearch.setColorClick(new java.awt.Color(255, 255, 255));
-        btnSearch.setColorOver(new java.awt.Color(242, 152, 174));
-        btnSearch.setRadius(5);
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-
-        pnlAccountConfiguration.setBorder(javax.swing.BorderFactory.createTitledBorder("Account Configuration"));
-        pnlAccountConfiguration.setPreferredSize(new java.awt.Dimension(340, 410));
+        roundPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Chỉnh sửa danh sách tài khoản"));
 
         lblAccountIDConfig.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblAccountIDConfig.setText("Mã tài khoản:");
 
+        txtAccountID.setEditable(false);
         txtAccountID.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txtAccountID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,15 +175,15 @@ public class Account_GUI extends javax.swing.JPanel {
 
         txtUserName.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        txtPassword.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
         lblPasswordConfig.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblPasswordConfig.setText("Mật khẩu:");
 
-        txtType.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtPassword.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         lblTypeConfig.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTypeConfig.setText("Loại:");
+
+        txtType.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtStaffID.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
@@ -170,19 +203,6 @@ public class Account_GUI extends javax.swing.JPanel {
             }
         });
 
-        btnDelete.setBackground(new java.awt.Color(255, 255, 255));
-        btnDelete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnDelete.setText("Xóa");
-        btnDelete.setColor(new java.awt.Color(255, 255, 255));
-        btnDelete.setColorClick(new java.awt.Color(255, 255, 255));
-        btnDelete.setColorOver(new java.awt.Color(242, 152, 174));
-        btnDelete.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
         btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
         btnUpdate.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnUpdate.setText("Sửa");
@@ -196,16 +216,16 @@ public class Account_GUI extends javax.swing.JPanel {
             }
         });
 
-        btnImportFile.setBackground(new java.awt.Color(255, 255, 255));
-        btnImportFile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnImportFile.setText("Nhập File Excel");
-        btnImportFile.setColor(new java.awt.Color(255, 255, 255));
-        btnImportFile.setColorClick(new java.awt.Color(255, 255, 255));
-        btnImportFile.setColorOver(new java.awt.Color(242, 152, 174));
-        btnImportFile.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        btnImportFile.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setBackground(new java.awt.Color(255, 255, 255));
+        btnDelete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDelete.setText("Xóa");
+        btnDelete.setColor(new java.awt.Color(255, 255, 255));
+        btnDelete.setColorClick(new java.awt.Color(255, 255, 255));
+        btnDelete.setColorOver(new java.awt.Color(242, 152, 174));
+        btnDelete.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImportFileActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -222,75 +242,88 @@ public class Account_GUI extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout pnlAccountConfigurationLayout = new javax.swing.GroupLayout(pnlAccountConfiguration);
-        pnlAccountConfiguration.setLayout(pnlAccountConfigurationLayout);
-        pnlAccountConfigurationLayout.setHorizontalGroup(
-            pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAccountConfigurationLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(btnImportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(btnExportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlAccountConfigurationLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlAccountConfigurationLayout.createSequentialGroup()
-                        .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblTypeConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblPasswordConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblUserNameConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblAccountIDConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStaffIDConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtStaffID, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .addComponent(txtType)
-                            .addComponent(txtPassword)
-                            .addComponent(txtUserName)
-                            .addComponent(txtAccountID))
-                        .addContainerGap())
-                    .addGroup(pnlAccountConfigurationLayout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))))
+        btnImportFile.setBackground(new java.awt.Color(255, 255, 255));
+        btnImportFile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnImportFile.setText("Nhập File Excel");
+        btnImportFile.setColor(new java.awt.Color(255, 255, 255));
+        btnImportFile.setColorClick(new java.awt.Color(255, 255, 255));
+        btnImportFile.setColorOver(new java.awt.Color(242, 152, 174));
+        btnImportFile.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnImportFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportFileActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
+        roundPanel3.setLayout(roundPanel3Layout);
+        roundPanel3Layout.setHorizontalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(btnImportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnExportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(roundPanel3Layout.createSequentialGroup()
+                            .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblTypeConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblPasswordConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblUserNameConfig, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                .addComponent(lblAccountIDConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblStaffIDConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtStaffID)
+                                .addComponent(txtType)
+                                .addComponent(txtPassword)
+                                .addComponent(txtUserName)
+                                .addComponent(txtAccountID, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(roundPanel3Layout.createSequentialGroup()
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(24, 24, 24)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(11, 11, 11)))))
         );
-        pnlAccountConfigurationLayout.setVerticalGroup(
-            pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAccountConfigurationLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        roundPanel3Layout.setVerticalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAccountIDConfig)
                     .addComponent(txtAccountID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUserNameConfig)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPasswordConfig)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTypeConfig)
                     .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStaffIDConfig)
                     .addComponent(txtStaffID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlAccountConfigurationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImportFile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
@@ -298,45 +331,33 @@ public class Account_GUI extends javax.swing.JPanel {
         roundPanel1Layout.setHorizontalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scrAccountList, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlAccountConfiguration, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlAccountConfiguration, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addComponent(scrAccountList, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1019, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -382,8 +403,9 @@ public class Account_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel lblStaffIDConfig;
     private javax.swing.JLabel lblTypeConfig;
     private javax.swing.JLabel lblUserNameConfig;
-    private javax.swing.JPanel pnlAccountConfiguration;
     private Custom.RoundPanel roundPanel1;
+    private Custom.RoundPanel roundPanel2;
+    private Custom.RoundPanel roundPanel3;
     private javax.swing.JScrollPane scrAccountList;
     private javax.swing.JTable tblAccountList;
     private javax.swing.JTextField txtAccountID;

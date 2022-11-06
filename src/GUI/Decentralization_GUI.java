@@ -28,95 +28,23 @@ public class Decentralization_GUI extends javax.swing.JPanel {
 
         btnGroupChiTietQuyen = new javax.swing.ButtonGroup();
         roundPanel5 = new Custom.RoundPanel();
-        pnlDecentralizationList3 = new Custom.RoundPanel();
-        scrDanhSachQuyen3 = new javax.swing.JScrollPane();
-        tblDanhSachQuyen3 = new javax.swing.JTable();
-        txtSearch3 = new javax.swing.JTextField();
-        btnSearch3 = new Custom.Button();
-        roundPanel3 = new Custom.RoundPanel();
+        roundPanel6 = new Custom.RoundPanel();
         btnAdd = new Custom.Button();
         btnFix = new Custom.Button();
         btnDelete = new Custom.Button();
         btnImport = new Custom.Button();
         btnExport = new Custom.Button();
+        roundPanel7 = new Custom.RoundPanel();
+        txtSearch3 = new javax.swing.JTextField();
+        btnSearch3 = new Custom.Button();
+        scrDanhSachQuyen3 = new javax.swing.JScrollPane();
+        tblDanhSachQuyen3 = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(51, 51, 51));
         setPreferredSize(new java.awt.Dimension(1015, 650));
 
         roundPanel5.setBackground(new java.awt.Color(51, 51, 51));
         roundPanel5.setPreferredSize(new java.awt.Dimension(1050, 652));
-
-        pnlDecentralizationList3.setBackground(new java.awt.Color(245, 245, 245));
-        pnlDecentralizationList3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        scrDanhSachQuyen3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
-        scrDanhSachQuyen3.setPreferredSize(new java.awt.Dimension(470, 423));
-
-        tblDanhSachQuyen3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã Quyền", "Tên Quyền", "Chi Tiết Quyền"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        scrDanhSachQuyen3.setViewportView(tblDanhSachQuyen3);
-
-        txtSearch3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtSearch3.setPreferredSize(new java.awt.Dimension(64, 19));
-        txtSearch3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-
-        btnSearch3.setBackground(new java.awt.Color(255, 255, 255));
-        btnSearch3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        btnSearch3.setColor(new java.awt.Color(255, 255, 255));
-        btnSearch3.setColorClick(new java.awt.Color(255, 255, 255));
-        btnSearch3.setColorOver(new java.awt.Color(242, 152, 174));
-        btnSearch3.setPreferredSize(new java.awt.Dimension(16, 16));
-        btnSearch3.setRadius(5);
-
-        javax.swing.GroupLayout pnlDecentralizationList3Layout = new javax.swing.GroupLayout(pnlDecentralizationList3);
-        pnlDecentralizationList3.setLayout(pnlDecentralizationList3Layout);
-        pnlDecentralizationList3Layout.setHorizontalGroup(
-            pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationList3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationList3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlDecentralizationList3Layout.setVerticalGroup(
-            pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDecentralizationList3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlDecentralizationList3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        roundPanel3.setBackground(new java.awt.Color(245, 245, 245));
-        roundPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnAdd.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAdd.setText("Thêm");
@@ -163,62 +91,134 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnExport.setInheritsPopupMenu(true);
         btnExport.setRadius(15);
 
-        javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
-        roundPanel3.setLayout(roundPanel3Layout);
-        roundPanel3Layout.setHorizontalGroup(
-            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
+        javax.swing.GroupLayout roundPanel6Layout = new javax.swing.GroupLayout(roundPanel6);
+        roundPanel6.setLayout(roundPanel6Layout);
+        roundPanel6Layout.setHorizontalGroup(
+            roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFix, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addGap(125, 125, 125))
         );
-        roundPanel3Layout.setVerticalGroup(
-            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        roundPanel6Layout.setVerticalGroup(
+            roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel6Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFix, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        txtSearch3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtSearch3.setPreferredSize(new java.awt.Dimension(64, 19));
+        txtSearch3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+
+        btnSearch3.setBackground(new java.awt.Color(255, 255, 255));
+        btnSearch3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearch3.setColor(new java.awt.Color(255, 255, 255));
+        btnSearch3.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSearch3.setColorOver(new java.awt.Color(242, 152, 174));
+        btnSearch3.setPreferredSize(new java.awt.Dimension(16, 16));
+        btnSearch3.setRadius(5);
+
+        scrDanhSachQuyen3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrDanhSachQuyen3.setPreferredSize(new java.awt.Dimension(470, 423));
+
+        tblDanhSachQuyen3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "STT", "Mã Quyền", "Tên Quyền", "Chi Tiết Quyền"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrDanhSachQuyen3.setViewportView(tblDanhSachQuyen3);
+
+        javax.swing.GroupLayout roundPanel7Layout = new javax.swing.GroupLayout(roundPanel7);
+        roundPanel7.setLayout(roundPanel7Layout);
+        roundPanel7Layout.setHorizontalGroup(
+            roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel7Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(roundPanel7Layout.createSequentialGroup()
+                        .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
+        );
+        roundPanel7Layout.setVerticalGroup(
+            roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel7Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout roundPanel5Layout = new javax.swing.GroupLayout(roundPanel5);
         roundPanel5.setLayout(roundPanel5Layout);
         roundPanel5Layout.setHorizontalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDecentralizationList3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(roundPanel5Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(roundPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel5Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(roundPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlDecentralizationList3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(roundPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1015, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 1035, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,30 +238,12 @@ public class Decentralization_GUI extends javax.swing.JPanel {
     private Custom.Button btnFix;
     private javax.swing.ButtonGroup btnGroupChiTietQuyen;
     private Custom.Button btnImport;
-    private Custom.Button btnSearch;
-    private Custom.Button btnSearch1;
-    private Custom.Button btnSearch2;
     private Custom.Button btnSearch3;
-    private Custom.RoundPanel pnlDecentralizationList;
-    private Custom.RoundPanel pnlDecentralizationList1;
-    private Custom.RoundPanel pnlDecentralizationList2;
-    private Custom.RoundPanel pnlDecentralizationList3;
-    private Custom.RoundPanel roundPanel1;
-    private Custom.RoundPanel roundPanel2;
-    private Custom.RoundPanel roundPanel3;
-    private Custom.RoundPanel roundPanel4;
     private Custom.RoundPanel roundPanel5;
-    private javax.swing.JScrollPane scrDanhSachQuyen;
-    private javax.swing.JScrollPane scrDanhSachQuyen1;
-    private javax.swing.JScrollPane scrDanhSachQuyen2;
+    private Custom.RoundPanel roundPanel6;
+    private Custom.RoundPanel roundPanel7;
     private javax.swing.JScrollPane scrDanhSachQuyen3;
-    private javax.swing.JTable tblDanhSachQuyen;
-    private javax.swing.JTable tblDanhSachQuyen1;
-    private javax.swing.JTable tblDanhSachQuyen2;
     private javax.swing.JTable tblDanhSachQuyen3;
-    private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtSearch1;
-    private javax.swing.JTextField txtSearch2;
     private javax.swing.JTextField txtSearch3;
     // End of variables declaration//GEN-END:variables
 }
