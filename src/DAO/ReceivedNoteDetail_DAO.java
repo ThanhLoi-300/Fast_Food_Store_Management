@@ -45,16 +45,5 @@ public class ReceivedNoteDetail_DAO extends connectDB {
         return rndList;
     }
     
-    public boolean Insert(ReceivedNoteDetail rnd,String id)
-    {
-        try{
-            String sql ="INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `Quantity`,'UnitPrice', `Price`)"
-                    + " VALUES ('"+id+"', '"+rnd.getProductId()+"', '"+rnd.getSize()+"', '"+rnd.getQuantity()+"','"+rnd.getUnitPrice()+"', '"+rnd.getPrice()+"')";
-            Statement stm = conn.createStatement();
-            stm.executeUpdate(sql);
-        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
-                               return false;}
-        return true;
-    }
 
 }
