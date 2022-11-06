@@ -3,20 +3,34 @@ package GUI;
 
 import DTO.Product_DTO;
 import java.awt.GridLayout;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class NewJFrame1 extends javax.swing.JFrame {
     private Sale_GUI sale_GUI ;
     private Product_DTO product;
     
-    public NewJFrame1( Product_DTO product, Sale_GUI sale_GUI) {
+    public NewJFrame1( Product_DTO product, Sale_GUI sale_GUI, String title) {
         initComponents();
+        this.setTitle(title);
         this.sale_GUI= sale_GUI;
         this.product = product;
         jLabel1.setText(product.getProductName());
-        DecimalFormat df = new DecimalFormat("###.###");
-        jLabel2.setText(df.format(product.getPrice())+"VND");
-        jLabel3.setText(product.getQuantity()+"");
+        //Định dạng tiền tệ
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        jLabel2.setText(format.format(product.getPrice()));
+        
+        if(this.getTitle().equals("Add new Product to Bill"))
+            jLabel3.setText(1+"");
+        else{
+            int index = sale_GUI.getList_Detail_Bill().indexOf(this.product);
+            int newQuantity = sale_GUI.getList_Quantity_Choice().get(index);
+            jLabel3.setText(newQuantity +"");
+        }
         setVisible(true);
     }
 
@@ -103,9 +117,17 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        sale_GUI.getList_Detail_Bill().add(this.product);
         int quantity = Integer.parseInt(jLabel3.getText());
-        sale_GUI.getList_Quantity_Choice().add(quantity);
+
+        if(sale_GUI.getList_Detail_Bill().contains(this.product)){
+            //Cập nhật quantity
+            int index = sale_GUI.getList_Detail_Bill().indexOf(this.product);
+            sale_GUI.getList_Quantity_Choice().set(index, quantity);
+        }else{
+            sale_GUI.getList_Detail_Bill().add(this.product);
+            sale_GUI.getList_Quantity_Choice().add(quantity);
+        }
+
         int k = sale_GUI.getList_Detail_Bill().size();
         sale_GUI.getDetail_Bill_Panel().setLayout(new GridLayout(k+5,1,0,0));
         sale_GUI.getDetail_Bill_Panel().removeAll();
@@ -118,7 +140,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        jLabel3.setText( ((Integer.parseInt(jLabel3.getText())-1) +"" ));
+        if(Integer.parseInt(jLabel3.getText()) == 1){}
+        else
+            jLabel3.setText( ((Integer.parseInt(jLabel3.getText())-1) +"" ));
     }//GEN-LAST:event_jButton3MouseClicked
 
     public static void main(String args[]) {
