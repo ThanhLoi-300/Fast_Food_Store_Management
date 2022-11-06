@@ -75,7 +75,7 @@ public class Statistic_DAO extends connectDB {
                     statisticalObject so = new statisticalObject();
                     so.setName(rs.getString("Product_Name"));
                     so.setSize(rs.getString("Size"));
-                    so.setSize(rs.getString("Size"));
+                    so.setValue(rs.getInt("amount"));
                     soL.add(so);
                 }
             }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
