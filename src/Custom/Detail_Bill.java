@@ -2,7 +2,10 @@
 package Custom;
 
 import DTO.Product_DTO;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,11 +25,14 @@ public class Detail_Bill extends javax.swing.JPanel {
     
     public void setData(Product_DTO data, int quantity, int index){
         this.data = data;
-        lbl_Name.setText(data.getProductName()+"("+data.getSize()+")");
-        DecimalFormat df = new DecimalFormat("###.###");
-        lbl_Quantity_X_Price.setText( quantity + " x " + df.format(data.getPrice()));
+        lbl_Name.setText(data.getProductName()+" ("+data.getSize()+")");
+        //Định dạng tiền tệ
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        lbl_Quantity_X_Price.setText( quantity + " x " + format.format(data.getPrice()));
         double total = quantity * data.getPrice();
-        lbl_Total.setText(df.format(total)+"VND");
+        lbl_Total.setText(format.format(total));
         this.index = index;
     }
 

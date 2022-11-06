@@ -7,7 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 
 public class Item_Product extends javax.swing.JPanel {
@@ -19,10 +22,14 @@ public class Item_Product extends javax.swing.JPanel {
     }
     public void setData( Product_DTO data){
         this.data = data;
-        name.setText(data.getProductName()+"("+data.getSize()+")");
-        DecimalFormat df = new DecimalFormat("###.###");
-        price.setText(df.format(data.getPrice()) +"VND");
-        ImageIcon icon = new ImageIcon("src\\Img\\"+ data.getImage());
+        name.setText("<html>"+data.getProductName()+" ("+data.getSize()+")</html>");
+        //Định dạng tiền tệ
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        price.setText(format.format(data.getPrice()));
+        
+        ImageIcon icon = new ImageIcon("src\\IMG\\"+ data.getImage());
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(156, 104, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
@@ -73,7 +80,7 @@ public class Item_Product extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
