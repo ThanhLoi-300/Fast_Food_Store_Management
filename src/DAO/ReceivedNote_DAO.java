@@ -23,20 +23,20 @@ public class ReceivedNote_DAO extends connectDB{
     public ArrayList<ReceivedNote> loadData(){
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String sql ="SELECT *,staff.Full_Name FROM received_note,staff "
-                    + "WHERE received_note.staff_ID=staff.staff_id";
+            String sql ="SELECT * FROM received_note_detail"
+                    +   "ORDER BY received_note.Date DESC ";
             
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
                 ReceivedNote rn = new ReceivedNote();
-                rn.setId(rs.getString("Received_Note_ID"));
+                rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
                 rn.setDate(rs.getString("Date"));
-                ReceivedNoteDetail_DAO rndList = new ReceivedNoteDetail_DAO();
-                rn.setDetail(rndList.LoadDetail(rn.getId()));
-                rn.setTotalValue(rs.getInt("Total_Value"));
+                rn.setTotalValue(rs.getDouble("Total_Value"));
+                rn.setTaxValue(rs.getDouble("Tax_Value"));
+                rn.setFinalValue(rs.getDouble("Final_Value"));
                 rn.setSupplier(rs.getString("Supplier"));
-                rn.setStaffName(rs.getString("Full_Name"));
+                rn.setStaffId(rs.getString("Staff_ID"));
                 rnList.add(rn);
             }
         } catch(SQLException e){
@@ -44,22 +44,29 @@ public class ReceivedNote_DAO extends connectDB{
         }
         return rnList;
     }
-    public boolean insert(ReceivedNote rn,ReceivedNoteDetail rnd)
-    {
+   
+    public ArrayList<ReceivedNote> searchByDate(String date){
+        ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String id=rn.getId();
-            String sql="INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Supplier`,'TaxValue','FinalValue') "
-                        + "VALUES ('"+id+"', '"+rn.getDate()+"', '"+rn.getTotalValue()+"', '"+rn.getSupplier()+"','"+rn.getTax̣()+"','"+rn.getFinal()+"')";
+            String sql ="SELECT * FROM received_note "  
+                    + "WHERE DATE(date)='"+date+"' "
+                    + "ORDER BY received_note.Date DESC";
+            
             Statement stm = conn.createStatement();
-            stm.executeUpdate(sql);
-            sql="UPDATE received_note,staff SET received_note.Staff_ID=staff.Staff_id  " +
-                "WHERE staff.Full_Name='"+rn.getStaffName()+"' AND received_note.Received_Note_ID='"+id+"'";
-            stm.executeUpdate(sql);
-            ReceivedNoteDetail_DAO rndList = new ReceivedNoteDetail_DAO();
-            rndList.Insert(rnd, id);
-        }catch(SQLException e){ Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
-                                return false;}        
-        return true;
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()){
+                ReceivedNote rn = new ReceivedNote();
+                rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
+                rn.setDate(rs.getString("Date"));
+                rn.setTotalValue(rs.getDouble("Total_Value"));
+                rn.setTaxValue(rs.getDouble("Tax_Value"));
+                rn.setFinalValue(rs.getDouble("Final_Value"));
+                rn.setStaffId(rs.getString("Staff_ID"));
+                rnList.add(rn);
+            }
+        } catch(SQLException e){
+            Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return rnList;
     }
-    
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -68,8 +69,8 @@ public class Product_GUI extends javax.swing.JPanel {
         button6 = new Custom.Button();
         btnAddSize = new Custom.Button();
         cbbSearchFilter = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        button1 = new Custom.Button();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new Custom.Button();
 
         lblAddSize.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lblAddSize.setText("Adding a new size for product \"P01\"");
@@ -410,22 +411,22 @@ public class Product_GUI extends javax.swing.JPanel {
         );
 
         cbbSearchFilter.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        cbbSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ProductID", "SizeID", "ProductName", "BusinessStatus", "CategoryID" }));
+        cbbSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ProductID", "SizeID", "ProductName", "CategoryID" }));
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        txtSearch.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        button1.setBackground(new java.awt.Color(255, 255, 255));
-        button1.setBorder(null);
-        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        button1.setColor(new java.awt.Color(255, 255, 255));
-        button1.setColorClick(new java.awt.Color(255, 255, 255));
-        button1.setColorOver(new java.awt.Color(242, 152, 174));
-        button1.setFocusPainted(false);
-        button1.setRadius(5);
-        button1.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
+        btnSearch.setBorder(null);
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearch.setColor(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorClick(new java.awt.Color(255, 255, 255));
+        btnSearch.setColorOver(new java.awt.Color(242, 152, 174));
+        btnSearch.setFocusPainted(false);
+        btnSearch.setRadius(5);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
@@ -440,9 +441,9 @@ public class Product_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlProductConfiguration1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -457,8 +458,8 @@ public class Product_GUI extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(srcProductList1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(70, 70, 70))
@@ -476,9 +477,17 @@ public class Product_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button1ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        if (!txtSearch.getText().isEmpty()) {
+            ArrayList<Product_DTO> resultList = productBUS.searchProduct(txtSearch.getText(),cbbSearchFilter.getSelectedItem()+"");
+            loadProductList(resultList);
+            refresh();
+        }
+        else {
+            loadProductList(listProduct);
+            refresh();
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
         //Update button
@@ -557,6 +566,9 @@ public class Product_GUI extends javax.swing.JPanel {
 
     private void btnProductImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductImageActionPerformed
         JFileChooser fc = new JFileChooser();
+        fc.removeChoosableFileFilter(fc.getFileFilter());
+        FileFilter filter = new FileNameExtensionFilter("Images (.jpeg, .jpg, .png)","jpeg","jpg","png");
+        fc.setFileFilter(filter);
         int returnVal = fc.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -655,7 +667,7 @@ public class Product_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAddSize;
     private javax.swing.JButton btnProductImage;
-    private Custom.Button button1;
+    private Custom.Button btnSearch;
     private Custom.Button button4;
     private Custom.Button button5;
     private Custom.Button button6;
@@ -666,7 +678,6 @@ public class Product_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAddSize;
     private javax.swing.JLabel lblBusinessStatusLabelConfig1;
     private javax.swing.JLabel lblCategoryIDLabelConfig1;
@@ -689,6 +700,7 @@ public class Product_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtProductName1;
     private javax.swing.JTextField txtQuantity1;
     private javax.swing.JTextField txtQuantityAddSize;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtSizeAddSize;
     private javax.swing.JTextField txtSizeID1;
     // End of variables declaration//GEN-END:variables

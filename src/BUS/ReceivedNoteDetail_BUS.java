@@ -1,0 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
+ */
+package BUS;
+
+import DAO.ReceivedNoteDetail_DAO;
+import DTO.ReceivedNoteDetail;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Bum
+ */
+public class ReceivedNoteDetail_BUS {
+
+    private ReceivedNoteDetail_DAO rn_DAO = new ReceivedNoteDetail_DAO();
+    public ArrayList<ReceivedNoteDetail> load_Data(String id){
+        return rn_DAO.LoadDetail(id);
+    }
+}

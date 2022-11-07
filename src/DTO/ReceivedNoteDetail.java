@@ -9,8 +9,8 @@ package DTO;
  * @author Bum
  */
 public class ReceivedNoteDetail {
+    private String receivedNoteID;
     private String productId;
-    private String productName;
     private String size;
     private int quantity;
     private int unitPrice;
@@ -19,23 +19,23 @@ public class ReceivedNoteDetail {
     public ReceivedNoteDetail() {
     }
 
-    public ReceivedNoteDetail(String productId, String productName, String size, int quantity, int price) {
+    public ReceivedNoteDetail(String receivedNoteID, String productId, String size, int quantity, int unitPrice, int price) {
+        this.receivedNoteID = receivedNoteID;
         this.productId = productId;
-        this.productName=productName;
         this.size = size;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
         this.price = price;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getReceivedNoteID() {
+        return receivedNoteID;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setReceivedNoteID(String receivedNoteID) {
+        this.receivedNoteID = receivedNoteID;
     }
 
-    
     public String getProductId() {
         return productId;
     }
@@ -60,14 +60,6 @@ public class ReceivedNoteDetail {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public int getUnitPrice() {
         return unitPrice;
     }
@@ -76,11 +68,15 @@ public class ReceivedNoteDetail {
         this.unitPrice = unitPrice;
     }
 
-    @Override
-    public String toString() {
-        return "ReceivedNoteDetail{" + "productId=" + productId + ", productName=" + productName + ", size=" + size + ", quantity=" + quantity + ", price=" + price + '}';
+    public int getPrice() {
+        return price;
     }
-    
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+
 
    
 }

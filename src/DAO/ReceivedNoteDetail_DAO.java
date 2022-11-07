@@ -24,17 +24,13 @@ public class ReceivedNoteDetail_DAO extends connectDB {
         
         ArrayList<ReceivedNoteDetail> rndList= new ArrayList<>();
         try{
-        String sql="SELECT Product_Name,received_note_detail.* FROM product, received_note_detail,received_note "
-                    + "WHERE product.Product_ID=received_note_detail.Product_ID "
-                    + "AND product.Size=received_note_detail.Size "
-                    + "AND received_note.Received_Note_ID = received_note_detail.Received_Note_ID  "
-                    + "AND received_note.Received_Note_ID = '"+ id +"'";
+        String sql="SELECT * FROM received_note_detail"
+                + "WHERE Received_Note_ID='"+id+"'";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         while(rs.next()){
             ReceivedNoteDetail rnd = new ReceivedNoteDetail();
             rnd.setProductId(rs.getString("Product_ID"));
-            rnd.setProductName(rs.getString("Product_Name"));
             rnd.setSize(rs.getString("Size"));
             rnd.setQuantity(rs.getInt("Quantity"));
             rnd.setUnitPrice(rs.getInt("UnitPrice"));
@@ -45,16 +41,5 @@ public class ReceivedNoteDetail_DAO extends connectDB {
         return rndList;
     }
     
-    public boolean Insert(ReceivedNoteDetail rnd,String id)
-    {
-        try{
-            String sql ="INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `Quantity`,'UnitPrice', `Price`)"
-                    + " VALUES ('"+id+"', '"+rnd.getProductId()+"', '"+rnd.getSize()+"', '"+rnd.getQuantity()+"','"+rnd.getUnitPrice()+"', '"+rnd.getPrice()+"')";
-            Statement stm = conn.createStatement();
-            stm.executeUpdate(sql);
-        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
-                               return false;}
-        return true;
-    }
 
 }

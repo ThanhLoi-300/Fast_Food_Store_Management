@@ -154,6 +154,7 @@ public class Bill_GUI extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        blTable.setRowHeight(30);
         blTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 blTableMouseClicked(evt);
