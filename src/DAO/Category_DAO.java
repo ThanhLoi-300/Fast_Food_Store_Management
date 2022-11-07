@@ -31,6 +31,25 @@ public class Category_DAO extends connectDB{
         return list_Category;
     }
     
+    //code của Thái
+    public ArrayList<Category_DTO> load_Data_CategoryOnBusiness(){
+        ArrayList<Category_DTO> list_Category = new ArrayList<Category_DTO>();
+        String sql = "SELECT * FROM `category` WHERE Business_Status = 'On'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+                Category_DTO category = new Category_DTO(rs.getString("Category_ID"), rs.getString("Category_Name"), rs.getString("Business_Status"));
+                list_Category.add(category);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  load_Data_Category() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return list_Category;
+    }
+    
     public boolean insert_Category(Category_DTO category){
         try {
             //Lệnh truy vấn

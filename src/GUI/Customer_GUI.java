@@ -24,10 +24,11 @@ public class Customer_GUI extends javax.swing.JPanel {
      */
     public Customer_GUI() {
         initComponents();
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(68);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(190);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(126);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(68);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(176);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(37);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(112);
+        jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
         renderTable();
         autoGenerateId();
     }
@@ -62,6 +63,8 @@ public class Customer_GUI extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
         button3 = new Custom.Button();
         button4 = new Custom.Button();
         button6 = new Custom.Button();
@@ -73,8 +76,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ KHÁCH HÀNG");
-
-        roundPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
         button1.setBorder(null);
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
@@ -105,7 +106,7 @@ public class Customer_GUI extends javax.swing.JPanel {
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setText("Nhập ID ...");
+        jTextField1.setText("Nhập sđt ...");
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
@@ -144,30 +145,28 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        roundPanel2.setBackground(new java.awt.Color(0, 0, 0));
-
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
 
         jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Tên Khách Hàng", "Năm Sinh", "Tích lũy mua"
+                "ID", "Tên Khách Hàng", "Năm Sinh", "SĐT", "Tích lũy mua"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -218,10 +217,8 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        roundPanel3.setBackground(new java.awt.Color(0, 0, 0));
-
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("THÔNG TIN KHÁCH HÀNG");
 
@@ -233,8 +230,14 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jTextField4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         jTextField5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextField5.setText("0");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -252,30 +255,47 @@ public class Customer_GUI extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Tích lũy mua");
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel7.setText("Số điện thoại");
+
+        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout roundPanel4Layout = new javax.swing.GroupLayout(roundPanel4);
         roundPanel4.setLayout(roundPanel4Layout);
         roundPanel4Layout.setHorizontalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel4Layout.createSequentialGroup()
+            .addGroup(roundPanel4Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(roundPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(roundPanel4Layout.createSequentialGroup()
+                        .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(roundPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
+                                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(28, 28, 28))))
         );
         roundPanel4Layout.setVerticalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,11 +308,15 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
                 .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -324,7 +348,8 @@ public class Customer_GUI extends javax.swing.JPanel {
         });
 
         button6.setBorder(null);
-        button6.setText("Clear Text");
+        button6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/refresh.png"))); // NOI18N
+        button6.setText("Clear");
         button6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button6.setRadius(10);
         button6.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -337,23 +362,22 @@ public class Customer_GUI extends javax.swing.JPanel {
         roundPanel3.setLayout(roundPanel3Layout);
         roundPanel3Layout.setHorizontalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roundPanel3Layout.createSequentialGroup()
-                        .addContainerGap(26, Short.MAX_VALUE)
-                        .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(roundPanel3Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addGap(0, 16, Short.MAX_VALUE)
+                        .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(roundPanel3Layout.createSequentialGroup()
+                                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 16, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,12 +386,12 @@ public class Customer_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(18, 18, 18)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -422,14 +446,15 @@ public class Customer_GUI extends javax.swing.JPanel {
             String cusId = ct.getCustomerId();
             String cusName = ct.getCustomerName();
             int cusBirth = ct.getCustomerBirthYear();
+            String phoneNum = ct.getPhoneNum();
             int purTime = ct.getPurchaseTimes();
-            Object row[] = new Object[]{cusId, cusName, cusBirth, purTime};
+            Object row[] = new Object[]{cusId, cusName, cusBirth, phoneNum, purTime};
             tm.addRow(row);
         }
     }
     
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
-        if(jTextField1.getText().equals("Nhập ID ...")) {
+        if(jTextField1.getText().equals("Nhập sđt ...")) {
             jTextField1.setText("");
             jTextField1.setForeground(Color.BLACK);
         }
@@ -437,19 +462,22 @@ public class Customer_GUI extends javax.swing.JPanel {
 
     private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
         if(jTextField1.getText().equals("")) {
-            jTextField1.setText("Nhập ID ...");
+            jTextField1.setText("Nhập sđt ...");
             jTextField1.setForeground( new Color(150, 150, 150));
         }
     }//GEN-LAST:event_jTextField1FocusLost
 
     private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
         Customer_BUS cusBUS = new Customer_BUS();
-        if(jTextField3.getText().equals("") 
+        if(jTextField3.getText().equals("") || jTextField6.getText().equals("")
            || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if( !(jTextField4.getText().matches("-?\\d+")) || 2022 - Integer.parseInt(jTextField4.getText()) < 18 || 2022 - Integer.parseInt(jTextField4.getText()) > 90) {
             JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 18 đến 90!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(!jTextField6.getText().matches("^84|0[3|5|7|8|9]\\d{8}$")) {
+            JOptionPane.showMessageDialog(this, "Định dạng số điện thoại không đúng!(VN)", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -459,6 +487,7 @@ public class Customer_GUI extends javax.swing.JPanel {
             ct.setCustomerId(jTextField2.getText());
             ct.setCustomerName(jTextField3.getText());
             ct.setCustomerBirthYear(Integer.parseInt(jTextField4.getText()));
+            ct.setPhoneNum(jTextField6.getText());
             ct.setPurchaseTimes(Integer.parseInt(jTextField5.getText()));
             JOptionPane.showMessageDialog(this, cusBUS.addCustomer(ct), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             renderTable();
@@ -469,11 +498,15 @@ public class Customer_GUI extends javax.swing.JPanel {
 
     private void button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button4MouseClicked
         Customer_BUS cusBUS = new Customer_BUS();
-        if(jTextField3.getText().equals("") || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
+        if(jTextField3.getText().equals("") || jTextField4.getText().equals("") 
+                || jTextField5.getText().equals("") || jTextField6.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if( !(jTextField4.getText().matches("-?\\d+")) || 2022 - Integer.parseInt(jTextField4.getText()) < 18 || 2022 - Integer.parseInt(jTextField4.getText()) > 90) {
             JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 18 đến 90!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(!jTextField6.getText().matches("^84|0[3|5|7|8|9]\\d{8}$")) {
+            JOptionPane.showMessageDialog(this, "Định dạng số điện thoại không đúng!(VN)", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -483,6 +516,7 @@ public class Customer_GUI extends javax.swing.JPanel {
             ct.setCustomerId(jTextField2.getText());
             ct.setCustomerName(jTextField3.getText());
             ct.setCustomerBirthYear(Integer.parseInt(jTextField4.getText()));
+            ct.setPhoneNum(jTextField6.getText());
             ct.setPurchaseTimes(Integer.parseInt(jTextField5.getText()));
             JOptionPane.showMessageDialog(this, cusBUS.updateCustomer(ct), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             renderTable();
@@ -499,7 +533,8 @@ public class Customer_GUI extends javax.swing.JPanel {
             jTextField2.setText(jTable1.getModel().getValueAt(row, 0).toString());
             jTextField3.setText(jTable1.getModel().getValueAt(row, 1).toString());
             jTextField4.setText(jTable1.getModel().getValueAt(row, 2).toString());
-            jTextField5.setText(jTable1.getModel().getValueAt(row, 3).toString());
+            jTextField6.setText(jTable1.getModel().getValueAt(row, 3).toString());
+            jTextField5.setText(jTable1.getModel().getValueAt(row, 4).toString());
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -507,6 +542,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
+        jTextField6.setText("");
         jTextField5.setText("");
         autoGenerateId();
     }
@@ -542,14 +578,14 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button5MouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
-        if(jTextField1.getText().isEmpty() || jTextField1.getText().equals("Nhập ID ...")) {
-//            do nothing
+        if(jTextField1.getText().isEmpty() || jTextField1.getText().equals("Nhập sđt ...")) {
+            // do nothing
         }
         else {
             ListSelectionModel model = jTable1.getSelectionModel();
-            String customerId = jTextField1.getText();
+            String phoneNum = jTextField1.getText();
             Customer_BUS cusBUS = new Customer_BUS();
-            Customer ct = cusBUS.findCustomerById(customerId);
+            Customer ct = cusBUS.findCustomerByPhoneNum(phoneNum);
             if(ct == null) {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy trong dữ liệu!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -591,6 +627,14 @@ public class Customer_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_button2MouseClicked
 
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button button1;
@@ -606,6 +650,7 @@ public class Customer_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
@@ -613,6 +658,7 @@ public class Customer_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private Custom.RoundPanel roundPanel1;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;

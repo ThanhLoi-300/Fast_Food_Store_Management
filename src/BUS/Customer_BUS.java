@@ -44,7 +44,6 @@ public class Customer_BUS {
         String messege = "";
         if(checkPrimaryKeyConstrains(ct)) {
             if(cusDAO.create(ct)) {
-//                cusList.add(ct);
                 messege = "Thêm khách hàng mới thành công!";
             }
         }
@@ -61,6 +60,10 @@ public class Customer_BUS {
         return messege;
     }
     
+    public Boolean updatePurchaseTime(String id, int purchaseTimes) {
+        return cusDAO.updatePurchaseTime(id, purchaseTimes);
+    }
+    
     public String deleteCustomer(String id) {
         String messege = "";
         if(cusDAO.delete(id)) {
@@ -72,6 +75,22 @@ public class Customer_BUS {
     
     public Customer findCustomerById(String id) {
         Customer ct = cusDAO.findById(id);
+        if(ct == null) {
+            return null;
+        }
+        return ct;
+    }
+    
+    public String GetNameById(String id){
+        String name=cusDAO.GetNameByID(id);
+        if(name==null){
+            return "";
+        }
+        return name;
+    }
+    
+    public Customer findCustomerByPhoneNum(String phoneNum) {
+        Customer ct = cusDAO.findByPhoneNum(phoneNum);
         if(ct == null) {
             return null;
         }

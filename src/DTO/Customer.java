@@ -15,15 +15,17 @@ public class Customer {
     private String customerId;
     private String customerName;
     private int customerBirthYear;
+    private String phoneNum;
     private int purchaseTimes;
 
     public Customer() {
     }
 
-    public Customer(String customerId, String customerName, int customerBirthYear, int purchaseTimes) {
+    public Customer(String customerId, String customerName, int customerBirthYear, String phoneNum, int purchaseTimes) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerBirthYear = customerBirthYear;
+        this.phoneNum = phoneNum;
         this.purchaseTimes = purchaseTimes;
     }
 
@@ -37,6 +39,10 @@ public class Customer {
 
     public int getCustomerBirthYear() {
         return customerBirthYear;
+    }
+    
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
     public int getPurchaseTimes() {
@@ -56,6 +62,10 @@ public class Customer {
 //        LocalDate date = LocalDate.parse(customerBirthYear, formatter);
 //        this.customerBirthYear = date.format(DateTimeFormatter.ofPattern("yyyy"));
         this.customerBirthYear = customerBirthYear;
+    }
+    
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
     public void setPurchaseTimes(int purchaseTimes) {

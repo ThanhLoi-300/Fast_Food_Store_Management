@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.Bill;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,51 +20,86 @@ import java.util.logging.Logger;
 public class Bill_DAO extends connectDB{
 
     public ArrayList<Bill> LoadData()
+        {
+            ArrayList<Bill> bL = new ArrayList<>();
+            try{
+                String sql ="SELECT * FROM bill ORDER BY Date DESC";
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while(rs.next()){
+                    Bill b = new Bill();
+                    b.setBill_ID(rs.getString("Bill_ID"));
+                    b.setDate(rs.getString("Date"));
+                    b.setTotalValue(rs.getInt("TotalValue"));
+                    b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
+                    b.setExcessMoney(rs.getDouble("ExcessMoney"));
+                    b.setStaffID(rs.getString("Staff_id"));
+                    b.setCustomerID(rs.getString("Customer_id"));
+                    bL.add(b);
+                }
+            } catch(SQLException e){
+                Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+            return bL;
+        }
+    
+
+    public ArrayList<Bill> searchByDate(String date)
     {
         ArrayList<Bill> bL = new ArrayList<>();
         try{
-            String sql ="SELECT bill.*,staff.Full_Name,customer.Customer_name FROM bill,customer,staff\n" +
-                        "WHERE staff.Staff_id=bill.Staff_id AND customer.Customer_id = bill.Customer_id";
-            
+            String sql ="SELECT * FROM bill \n" 
+                    +   "WHERE DATE(Date)='"+date+"'"
+                    +   "ORDER BY Date DESC";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
                 Bill b = new Bill();
                 b.setBill_ID(rs.getString("Bill_ID"));
                 b.setDate(rs.getString("Date"));
-                BillDetail_DAO bd = new BillDetail_DAO();
-                b.setBillDetail(bd.LoadDetail(b.getBill_ID()));
                 b.setTotalValue(rs.getInt("TotalValue"));
                 b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
                 b.setExcessMoney(rs.getDouble("ExcessMoney"));
-                b.setStaffName(rs.getString("Full_Name"));
-                b.setCustomerName(rs.getString("Customer_Name"));
+                b.setStaffID(rs.getString("Staff_id"));
+                b.setCustomerID(rs.getString("Customer_id"));
                 bL.add(b);
-            }
-        } catch(SQLException e){
-            Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
         }
+        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
         return bL;
     }
-    
-    public boolean insert(Bill b)
-    {
-        try{
-            String id=b.getBill_ID();
-            String sql="INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`) "
-                        + "VALUES ('"+id+"', '"+b.getDate()+"', '"+b.getTotalValue()+"', )";
-            Statement stm = conn.createStatement();
-            stm.executeUpdate(sql);
-            sql="UPDATE bill,staff,customer SET bill.Staff_ID=staff.Staff_id AND bill.Customer_id=customer.Customer_id  " +
-                "WHERE staff.Full_Name='"+b.getStaffName()+
-                "AND customer.Customer_name="+b.getCustomerName()+
-                "AND bill.Bill_ID="+id;
-            stm.executeUpdate(sql);
-            BillDetail_DAO bdL = new BillDetail_DAO();
-            bdL.Insert(b.getBillDetail(), id);
-        }catch(SQLException e){ Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
-                                return false;}        
-        return true;
    
-}
+    // code của Thái
+    public String countGenerateId() {
+        String sql  ="SELECT COUNT(Bill_ID) FROM `bill`";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Bill_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    // code của Thái
+    public Boolean insert(Bill bill) {
+        int rowAffected  = 0;
+        String sql = "INSERT INTO `bill`(`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMoney`, `Staff_id`, `Customer_id`) VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, bill.getBill_ID());
+            pstm.setString(2, bill.getDate());
+            pstm.setDouble(3, bill.getTotalValue());
+            pstm.setDouble(4, bill.getReceivedMoney());
+            pstm.setDouble(5, bill.getExcessMoney());
+            pstm.setString(6, bill.getStaffID());
+            pstm.setString(7, bill.getCustomerID());
+            rowAffected = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Bill_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowAffected > 0 ? true:false;
+    }
 }

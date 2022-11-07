@@ -10,10 +10,11 @@ package DTO;
  */
 public class Product_DTO {
     String  productID, size, productName, categoryID, image;
-    int price, quantity;
+    int quantity;
+    double price;
     boolean isDeleted, businessStatus;
 
-    public Product_DTO(String productID, String size, String productName, String categoryID, int price, int quantity, String image, boolean isDeleted, boolean businessStatus) {
+    public Product_DTO(String productID, String size, String productName, String categoryID, double price, int quantity, String image, boolean isDeleted, boolean businessStatus) {
         this.productID = productID;
         this.size = size;
         this.productName = productName;
@@ -65,7 +66,7 @@ public class Product_DTO {
         this.categoryID = categoryID;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

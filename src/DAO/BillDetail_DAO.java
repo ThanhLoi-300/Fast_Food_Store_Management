@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.BillDetail;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,19 +22,16 @@ public class BillDetail_DAO extends connectDB {
     public ArrayList<BillDetail> LoadDetail(String id){
         ArrayList<BillDetail> bdL = new ArrayList<>();
         try{
-        String sql="SELECT Product_Name,product.UnitPrice,bill_detail.* FROM product, bill_detail,bill  " +
-"                    WHERE product.Product_ID=bill_detail.Product_id " +
-"                    AND product.Size=bill_detail.Size " +
-"                    AND bill.Bill_id = bill_detail.Bill_id  " +
-"                    AND bill.Bill_id = '"+ id +"'";
+        String sql="SELECT * FROM bill_detail  " +
+"                   WHERE Bill_id = '"+ id +"'";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         while(rs.next()){
             BillDetail bd = new BillDetail();
-            bd.setProductName(rs.getString("Product_Name"));
+            bd.setBillId(rs.getString("Bill_id"));
+            bd.setProductId(rs.getString("Product_id"));
             bd.setSize(rs.getString("Size"));
-            bd.setUnitPrice(rs.getInt("UnitPrice"));
-            bd.setAmount(rs.getInt("Quantity"));
+            bd.setQuantity(rs.getInt("Quantity"));
             bd.setTotalValue(rs.getInt("TotalValue"));
             bdL.add(bd);
             }
@@ -41,18 +39,21 @@ public class BillDetail_DAO extends connectDB {
         return bdL;
     }
     
-    public boolean Insert(ArrayList<BillDetail> bd,String id)
-    {
-        for (BillDetail bd1 : bd) {
-            try{
-                String sql ="INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `Quantity`, `Price`)"
-                        + " VALUES ('"+id+"', '"+bd1.getProductId()+"', '"+bd1.getSize()+"', '"+bd1.getAmount()+"', '"+bd1.getTotalValue()+"')";
-                Statement stm = conn.createStatement();
-                stm.executeUpdate(sql);
-            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
-            return false;}
+    public Boolean insert(BillDetail bd) {
+        int rowAffected  = 0;
+        String sql = "INSERT INTO `bill_detail`(`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`) VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, bd.getBillId());
+            pstm.setString(2, bd.getProductId());
+            pstm.setString(3, bd.getSize());
+            pstm.setInt(4, bd.getQuantity());
+            pstm.setDouble(5, bd.getTotalValue());
+            rowAffected = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BillDetail_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return true;
+        return rowAffected > 0 ? true:false;
     }
     
     

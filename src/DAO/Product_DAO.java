@@ -36,6 +36,23 @@ public class Product_DAO extends connectDB {
         }
         return listProduct;
     }
+    
+    // code của Thái
+    public ArrayList<Product_DTO> readProductOnBusiness() {
+        ArrayList<Product_DTO> listProduct = new ArrayList<Product_DTO>();
+        String sql = "SELECT product.* FROM product JOIN category ON product.Category_ID = category.Category_ID WHERE product.BusinessStatus!=0 AND product.IsDeleted!=1 AND category.Business_Status LIKE 'ON' GROUP BY Product_ID";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()) {
+                Product_DTO pd = new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));
+                listProduct.add(pd);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listProduct;
+    }
 
     public boolean insertProduct(Product_DTO product) {
         try {
@@ -77,6 +94,22 @@ public class Product_DAO extends connectDB {
         }
         return true;
     }
+    
+    //code của Thái
+    public Boolean updateProductQuantity(Product_DTO product, int quantity) {
+        int rowAffected = 0;
+        String sql = "UPDATE `product` SET Quantity = ? WHERE Product_ID = ? AND Size = ?";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, quantity);
+            pstm.setString(2, product.getProductID());
+            pstm.setString(3, product.getSize());
+            rowAffected = pstm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowAffected > 0 ? true:false;
+    } 
 
     public ArrayList<Product_DTO> searchProduct(String keyword, String filter) {
         ArrayList<Product_DTO> listProduct = new ArrayList<Product_DTO>();
@@ -116,6 +149,80 @@ public class Product_DAO extends connectDB {
         return listProduct;
     }
 
+    // code cua Thái
+    public ArrayList<Product_DTO> readProductByCategoryName(String categoryName) {
+        ArrayList<Product_DTO> productList = new ArrayList<Product_DTO>();
+        String sql = "SELECT product.* FROM `product` JOIN category ON product.Category_ID = category.Category_ID WHERE category.Category_Name='"+categoryName+"' AND product.IsDeleted!=1 AND product.BusinessStatus!=0 GROUP BY product.Product_ID";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()) {
+                Product_DTO product = new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));
+                productList.add(product);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productList;
+    }
+    
+    //code của Thái
+    public ArrayList<Product_DTO> readProductByName(String categoryName, String productName) {
+        ArrayList<Product_DTO> productList = new ArrayList<Product_DTO>();
+        String sql;
+        if(categoryName.equals("Tất cả"))
+            sql = "SELECT product.* FROM product JOIN category ON product.Category_ID = category.Category_ID WHERE product.Product_Name LIKE '%"+productName+"%' AND product.BusinessStatus!=0 AND product.IsDeleted!=1 AND category.Business_Status LIKE 'ON' GROUP BY Product_ID";
+        else 
+            sql = "SELECT product.* FROM `product` JOIN category ON product.Category_ID = category.Category_ID WHERE category.Category_Name='"+categoryName+"' AND product.Product_Name LIKE '%"+productName+"%' AND product.IsDeleted!=1 AND product.BusinessStatus!=0 GROUP BY product.Product_ID";
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()) {
+                Product_DTO product = new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));
+                productList.add(product);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productList;
+    }
+    
+    //code của Thái
+    public ArrayList<String> readSizeByProductID(Product_DTO product) {
+        ArrayList<String> sizes = new ArrayList<String>();
+        String sql = "SELECT Size FROM `product` WHERE Product_ID =? AND BusinessStatus !=0 AND IsDeleted !=1";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, product.getProductID());
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()) {
+                sizes.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sizes;
+    }
+    
+    // code Thai
+    public ArrayList<String> readProductPriceAndQuantity(String productId, String size) {
+        ArrayList<String> priceAndQuantity = new ArrayList<String>();
+        String sql = "SELECT UnitPrice, Quantity FROM `product` WHERE Product_ID = ? AND Size = ?";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, productId);
+            pstm.setString(2, size);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()) {
+                priceAndQuantity.add(rs.getString(1));
+                priceAndQuantity.add(rs.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return priceAndQuantity;
+    }
+    
     public Boolean productNameExisted(String id, String name) {
         Boolean isExisted = false;
         try {

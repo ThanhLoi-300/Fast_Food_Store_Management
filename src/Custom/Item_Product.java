@@ -29,7 +29,8 @@ public class Item_Product extends javax.swing.JPanel {
         format.setRoundingMode(RoundingMode.HALF_UP);
         price.setText(format.format(data.getPrice()));
         
-        ImageIcon icon = new ImageIcon("src\\IMG\\"+ data.getImage());
+//        ImageIcon icon = new ImageIcon("src\\IMG\\"+ data.getImage());
+        ImageIcon icon = new ImageIcon(data.getImage());
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(156, 104, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);

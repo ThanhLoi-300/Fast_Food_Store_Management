@@ -12,30 +12,27 @@ import java.util.ArrayList;
  *
  * @author Bum
  */
+
 public class Bill {
     private String bill_ID;
     private LocalDateTime date;
-    private ArrayList<BillDetail> billDetail;
-    private int totalAmount;
     private double totalValue;
     private double receivedMoney;
     private double excessMoney;
-    private String staffName;
-    private String CustomerName;
+    private String staffID;
+    private String CustomerID;
 
     public Bill() {
     }
 
-    public Bill(String bill_ID, LocalDateTime date, ArrayList<BillDetail> billDetail, int totalAmount, double totalValue, double receivedMoney, double excessMoney, String staffName, String CustomerName) {
+    public Bill(String bill_ID, LocalDateTime date, double totalValue, double receivedMoney, double excessMoney, String staffID, String CustomerID) {
         this.bill_ID = bill_ID;
         this.date = date;
-        this.billDetail = billDetail;
-        this.totalAmount = totalAmount;
         this.totalValue = totalValue;
         this.receivedMoney = receivedMoney;
         this.excessMoney = excessMoney;
-        this.staffName = staffName;
-        this.CustomerName = CustomerName;
+        this.staffID = staffID;
+        this.CustomerID = CustomerID;
     }
 
     
@@ -48,13 +45,6 @@ public class Bill {
         this.bill_ID = bill_ID;
     }
 
-    public int getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(int totalAmount) {
-        this.totalAmount = totalAmount;
-    }
 
     public double getTotalValue() {
         return totalValue;
@@ -80,20 +70,20 @@ public class Bill {
         this.excessMoney = excessMoney;
     }
 
-    public String getStaffName() {
-        return staffName;
+    public String getStaffID() {
+        return staffID;
     }
 
-    public void setStaffName(String staffName) {
-        this.staffName = staffName;
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
     }
 
-    public String getCustomerName() {
-        return CustomerName;
+    public String getCustomerID() {
+        return CustomerID;
     }
 
-    public void setCustomerName(String CustomerName) {
-        this.CustomerName = CustomerName;
+    public void setCustomerID(String CustomerID) {
+        this.CustomerID = CustomerID;
     }
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -105,12 +95,5 @@ public class Bill {
         this.date = LocalDateTime.parse(date, formatter);
     }
 
-    public ArrayList<BillDetail> getBillDetail() {
-        return billDetail;
-    }
 
-    public void setBillDetail(ArrayList<BillDetail> billDetail) {
-        this.billDetail = billDetail;
-    }
-    
 }

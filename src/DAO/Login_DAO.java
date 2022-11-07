@@ -42,7 +42,7 @@ public class Login_DAO extends connectDB{
     
     public ArrayList<String> getStaffInfo(String username, String password) {
         ArrayList<String> staffInfo = new ArrayList<String>();
-        String sql = "SELECT `Full_Name`, `UserType` FROM account JOIN staff ON account.Staff_id = staff.Staff_id WHERE account.UserName =? AND account.Password=?";
+        String sql = "SELECT account.Staff_ID ,`Full_Name`, `UserType` FROM account JOIN staff ON account.Staff_id = staff.Staff_id WHERE account.UserName=? AND account.Password=?";
         try {
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, username);
@@ -51,6 +51,7 @@ public class Login_DAO extends connectDB{
             if(rs.next()) {
                 staffInfo.add(rs.getNString(1));
                 staffInfo.add(rs.getNString(2));
+                staffInfo.add(rs.getString(3));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login_DAO.class.getName()).log(Level.SEVERE, null, ex);

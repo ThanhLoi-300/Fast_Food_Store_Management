@@ -12,6 +12,11 @@ public class Category_BUS {
         return category_DAO.load_Data_Category();
     }
     
+    //code của Thái
+    public ArrayList<Category_DTO> load_Data_CategoryObBusiness(){
+        return category_DAO.load_Data_CategoryOnBusiness();
+    }
+    
     public boolean insert_Category( Category_DTO category){
         if(category_DAO.insert_Category(category)) return true;
         return false;

@@ -19,6 +19,11 @@ public class Product_BUS {
         return productDAO.loadDataProduct();
     }
     
+    // code của Thái
+    public ArrayList<Product_DTO> readProductOnBusiness() {
+        return productDAO.readProductOnBusiness();
+    }
+    
     public boolean insertProduct (Product_DTO product) {
         if (productDAO.insertProduct(product)) return true;
         return false;
@@ -34,8 +39,32 @@ public class Product_BUS {
         return false;
     }
     
+    //code cua Thai
+    public boolean updateProductQuantity(Product_DTO product, int quantity) {
+        return productDAO.updateProductQuantity(product, quantity);
+    }
+    
     public ArrayList<Product_DTO> searchProduct(String keyword, String filter) {
         return productDAO.searchProduct(keyword, filter);
+    }
+    
+    //code của Thái
+    public ArrayList<Product_DTO> readProductByCategoryName(String categoryName) {
+        return productDAO.readProductByCategoryName(categoryName);
+    }
+    
+    //code của Thái
+    public ArrayList<Product_DTO> readProductByName(String categoryName, String productName) {
+        return productDAO.readProductByName(categoryName, productName);
+    }
+    
+    //code của Thái
+    public ArrayList<String> readSizeByProductID(Product_DTO product) {
+        return productDAO.readSizeByProductID(product);
+    }
+    // code Thai
+    public ArrayList<String> readProductPriceAndQuantity(String productId, String size) {
+        return productDAO.readProductPriceAndQuantity(productId, size);
     }
     
     public boolean productNameExisted (String id, String name) {

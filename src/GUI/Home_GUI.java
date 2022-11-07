@@ -11,13 +11,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Home_GUI extends javax.swing.JFrame {
-
+    
+    ArrayList<String> staffInfo;
+    
     public Home_GUI(ArrayList<String> staffInfo) {
         initComponents();
-        jLabel2.setText(staffInfo.get(0));
-        jLabel1.setText(staffInfo.get(1));
+        this.staffInfo = staffInfo;
+        jLabel2.setText(this.staffInfo.get(1));
+        jLabel1.setText(this.staffInfo.get(2));
         Active(roundPanel7);
-        OpenChildForm( new Sale_GUI());
+        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));
         set_Time();
         System.out.println(jPanel1.getWidth());
         System.out.println(jPanel1.getHeight());
@@ -767,7 +770,7 @@ public class Home_GUI extends javax.swing.JFrame {
 
     private void roundPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel7MouseClicked
         Active(roundPanel7);
-        OpenChildForm( new Sale_GUI());
+        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));
     }//GEN-LAST:event_roundPanel7MouseClicked
 
     private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked

@@ -9,30 +9,21 @@ package DTO;
  * @author Bum
  */
 public class BillDetail {
+    private String billId;
     private String productId;
-    private String productName;
     private String Size;
-    private int unitPrice;
-    private int Amount;
+    private int Quantity;
     private double totalValue; 
 
     public BillDetail() {
     }
 
-    public BillDetail(String productId,String productName, String Size, int Amount, double totalValue) {
+    public BillDetail(String billId,String productId,String Size, int Quantity, double totalValue) {
+        this.billId=billId;
         this.productId=productId;
-        this.productName = productName;
         this.Size = Size;
-        this.Amount = Amount;
+        this.Quantity = Quantity;
         this.totalValue = totalValue;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
     public String getSize() {
@@ -43,12 +34,12 @@ public class BillDetail {
         this.Size = Size;
     }
 
-    public int getAmount() {
-        return Amount;
+    public int getQuantity() {
+        return Quantity;
     }
 
-    public void setAmount(int Amount) {
-        this.Amount = Amount;
+    public void setQuantity(int Quantity) {
+        this.Quantity = Quantity;
     }
 
     public double getTotalValue() {
@@ -67,12 +58,12 @@ public class BillDetail {
         this.productId = productId;
     }
 
-    public int getUnitPrice() {
-        return unitPrice;
+    public String getBillId() {
+        return billId;
     }
 
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setBillId(String billId) {
+        this.billId = billId;
     }
-    
+
 }

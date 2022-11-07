@@ -15,10 +15,16 @@ import java.util.ArrayList;
 public class Bill_BUS {
 
     private Bill_DAO b_DAO = new Bill_DAO();
+    
     public ArrayList<Bill>LoadData(){
         return b_DAO.LoadData();
     }
-    public boolean Insert(Bill b){
+    
+    public String countGenerateId() {
+        return b_DAO.countGenerateId();
+    }
+    
+    public Boolean Insert(Bill b){
         return b_DAO.insert(b);
     }
 }
