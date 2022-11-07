@@ -15,33 +15,13 @@ import java.util.ArrayList;
  * @author Bum
  */
 public class ReceivedNote {
-    private String id;
+    private String receivedNoteID;
     private LocalDateTime date;
-    private ArrayList<ReceivedNoteDetail> detail;
     private double totalValue;
+    private double taxValue;
+    private double finalValue;
     private String supplier;
-    private String staffName;
-
-    public ReceivedNote() {
-        detail = new ArrayList<>();
-    }
-
-    public ReceivedNote(String id, LocalDateTime date, ArrayList<ReceivedNoteDetail> detail, int totalValue, String supplier, String staffName) {
-        this.id = id;
-        this.date = date;
-        this.detail = detail;
-        this.totalValue = totalValue;
-        this.supplier = supplier;
-        this.staffName = staffName;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String staffId;
 
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -53,20 +33,36 @@ public class ReceivedNote {
         this.date = LocalDateTime.parse(date, formatter);
     }
 
-    public ArrayList<ReceivedNoteDetail> getDetail() {
-        return detail;
+    public String getReceivedNoteID() {
+        return receivedNoteID;
     }
 
-    public void setDetail(ArrayList<ReceivedNoteDetail> detail) {
-        this.detail = detail;
+    public void setReceivedNoteID(String receivedNoteID) {
+        this.receivedNoteID = receivedNoteID;
     }
 
     public double getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(int totalValue) {
+    public void setTotalValue(double totalValue) {
         this.totalValue = totalValue;
+    }
+
+    public double getTaxValue() {
+        return taxValue;
+    }
+
+    public void setTaxValue(double taxValue) {
+        this.taxValue = taxValue;
+    }
+
+    public double getFinalValue() {
+        return finalValue;
+    }
+
+    public void setFinalValue(double finalValue) {
+        this.finalValue = finalValue;
     }
 
     public String getSupplier() {
@@ -77,24 +73,14 @@ public class ReceivedNote {
         this.supplier = supplier;
     }
 
-    public String getStaffName() {
-        return staffName;
+    public String getStaffId() {
+        return staffId;
     }
 
-    public void setStaffName(String staffName) {
-        this.staffName = staffName;
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
     }
-    public double getTax̣()
-    {
-        return totalValue*0.1;
-    }
-    public double getFinal(){
-        return totalValue + totalValue*0.1;
-    }
-    @Override
-    public String toString() {
-        return "ReceivedNote{" + "id=" + id + ", date=" + date + ", detail=" + detail.toString() + ", totalValue=" + totalValue + ", supplier=" + supplier + ", staffName=" + staffName + '}';
-    }
-    
+
+
    
 }

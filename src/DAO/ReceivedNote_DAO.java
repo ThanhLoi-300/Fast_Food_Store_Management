@@ -23,20 +23,20 @@ public class ReceivedNote_DAO extends connectDB{
     public ArrayList<ReceivedNote> loadData(){
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String sql ="SELECT *,staff.Full_Name FROM received_note,staff "
-                    + "WHERE received_note.staff_ID=staff.staff_id";
+            String sql ="SELECT * FROM received_note_detail"
+                    +   "ORDER BY received_note.Date DESC ";
             
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
                 ReceivedNote rn = new ReceivedNote();
-                rn.setId(rs.getString("Received_Note_ID"));
+                rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
                 rn.setDate(rs.getString("Date"));
-                ReceivedNoteDetail_DAO rndList = new ReceivedNoteDetail_DAO();
-                rn.setDetail(rndList.LoadDetail(rn.getId()));
-                rn.setTotalValue(rs.getInt("Total_Value"));
+                rn.setTotalValue(rs.getDouble("Total_Value"));
+                rn.setTaxValue(rs.getDouble("Tax_Value"));
+                rn.setFinalValue(rs.getDouble("Final_Value"));
                 rn.setSupplier(rs.getString("Supplier"));
-                rn.setStaffName(rs.getString("Full_Name"));
+                rn.setStaffId(rs.getString("Staff_ID"));
                 rnList.add(rn);
             }
         } catch(SQLException e){
@@ -48,22 +48,20 @@ public class ReceivedNote_DAO extends connectDB{
     public ArrayList<ReceivedNote> searchByDate(String date){
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String sql ="SELECT received_note.*,staff.Full_Name FROM received_note,staff "
-                    + "WHERE received_note.staff_ID=staff.staff_id "
-                    + "AND DATE(date)='"+date+"' "
+            String sql ="SELECT * FROM received_note "  
+                    + "WHERE DATE(date)='"+date+"' "
                     + "ORDER BY received_note.Date DESC";
             
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
                 ReceivedNote rn = new ReceivedNote();
-                rn.setId(rs.getString("Received_Note_ID"));
+                rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
                 rn.setDate(rs.getString("Date"));
-                ReceivedNoteDetail_DAO rndList = new ReceivedNoteDetail_DAO();
-                rn.setDetail(rndList.LoadDetail(rn.getId()));
-                rn.setTotalValue(rs.getInt("Total_Value"));
-                rn.setSupplier(rs.getString("Supplier"));
-                rn.setStaffName(rs.getString("Full_Name"));
+                rn.setTotalValue(rs.getDouble("Total_Value"));
+                rn.setTaxValue(rs.getDouble("Tax_Value"));
+                rn.setFinalValue(rs.getDouble("Final_Value"));
+                rn.setStaffId(rs.getString("Staff_ID"));
                 rnList.add(rn);
             }
         } catch(SQLException e){
