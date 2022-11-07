@@ -156,7 +156,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 calendarStateChanged(evt);
             }
         });
-        add(calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 190, -1));
+        add(calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, 190, -1));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 204, 153));
 
@@ -714,7 +714,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(roundPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
@@ -731,7 +731,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Chi tiết", jPanel6);
 
-        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 650));
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 650));
     }// </editor-fold>//GEN-END:initComponents
 
     private void calendarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_calendarStateChanged
