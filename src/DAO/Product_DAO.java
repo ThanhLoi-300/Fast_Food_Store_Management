@@ -295,27 +295,4 @@ public class Product_DAO extends connectDB {
         }
         return id + counter;
     }
-        public String getNameByID(String id){
-        String name="";
-        try{
-            String sql="SELECT Product_Name FROM product "
-                    +   "WHERE Product_ID= '"+id+"'";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) name=rs.getString("Product_Name");
-        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
-        return name;
-    }
-    public double getUnitPriceByID_Size(String id,String size){
-        double unitPrice=0;
-        try{
-            String sql="SELECT UnitPrice FROM product "
-                    +   "WHERE Product_ID='"+id+"' "
-                    +   "AND Size='"+size+"'";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) unitPrice = rs.getDouble("UnitPrice");
-        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
-        return unitPrice;
-    }
 }

@@ -23,8 +23,8 @@ public class ReceivedNote_DAO extends connectDB{
     public ArrayList<ReceivedNote> loadData(){
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String sql ="SELECT * FROM received_note\n" +
-"                    ORDER BY Date DESC ";
+            String sql ="SELECT * FROM received_note_detail"
+                    +   "ORDER BY received_note.Date DESC ";
             
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -45,13 +45,12 @@ public class ReceivedNote_DAO extends connectDB{
         return rnList;
     }
    
-    
-    public ArrayList<ReceivedNote> loadDataByDate(String Date){
+    public ArrayList<ReceivedNote> searchByDate(String date){
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
         try{
-            String sql ="SELECT * FROM received_note\n" +
-                        "WHERE DATE(Date)='"+Date+"'"+
-"                        ORDER BY Date DESC ";
+            String sql ="SELECT * FROM received_note "  
+                    + "WHERE DATE(date)='"+date+"' "
+                    + "ORDER BY received_note.Date DESC";
             
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -62,7 +61,6 @@ public class ReceivedNote_DAO extends connectDB{
                 rn.setTotalValue(rs.getDouble("Total_Value"));
                 rn.setTaxValue(rs.getDouble("Tax_Value"));
                 rn.setFinalValue(rs.getDouble("Final_Value"));
-                rn.setSupplier(rs.getString("Supplier"));
                 rn.setStaffId(rs.getString("Staff_ID"));
                 rnList.add(rn);
             }
@@ -71,26 +69,4 @@ public class ReceivedNote_DAO extends connectDB{
         }
         return rnList;
     }
-    public double getPayValueByDate(String date){
-        double value=0;
-        try{
-            String sql ="SELECT SUM(Final_Value) AS value FROM received_note "
-                    +   "WHERE DATE(Date) = '"+date+"' ";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) value = rs.getDouble("value");
-        }catch(SQLException e){}
-        return value;
-    }
-    public int countRNByDay(String date){
-        int value=0;
-        String sql;
-        try{
-            sql="SELECT COUNT(Received_Note_ID) AS amount FROM received_note where DATE(Date)='"+date+"'";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            if(rs.next()) value = rs.getInt("amount");
-            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
-        return value;
-        }
 }
