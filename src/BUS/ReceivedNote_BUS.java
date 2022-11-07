@@ -19,4 +19,10 @@ public class ReceivedNote_BUS {
     public ArrayList<ReceivedNote> load_Data(){
         return rn_DAO.loadData();
     }
+    public double getPayValueByDate(String date){
+         return rn_DAO.getPayValueByDate(date);
+     }
+    public int countRNByDay(String date){
+         return rn_DAO.countRNByDay(date);
+     }
 }

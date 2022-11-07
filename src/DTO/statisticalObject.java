@@ -10,24 +10,24 @@ package DTO;
  */
 public class statisticalObject {
 
-    private String name;
+    private String id;
     private String size;
     private int value;
 
     public statisticalObject() {
     }
 
-    public statisticalObject(String name, int value) {
-        this.name = name;
+    public statisticalObject(String id, int value) {
+        this.id = id;
         this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getValue() {

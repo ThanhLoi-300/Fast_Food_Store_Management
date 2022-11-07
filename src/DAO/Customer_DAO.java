@@ -138,7 +138,7 @@ public class Customer_DAO extends connectDB{
     public String GetNameByID(String id){
         String name=null;
         try{
-            String sql= "SELECT customer_name FROM customer"
+            String sql= "SELECT customer_name FROM customer "
                     +   "WHERE customer_id = '"+id+"' ";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);

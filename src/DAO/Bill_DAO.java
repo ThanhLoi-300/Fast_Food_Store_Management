@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.Bill;
+import DTO.statisticalObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,29 +45,6 @@ public class Bill_DAO extends connectDB{
         }
     
 
-    public ArrayList<Bill> searchByDate(String date)
-    {
-        ArrayList<Bill> bL = new ArrayList<>();
-        try{
-            String sql ="SELECT * FROM bill \n" 
-                    +   "WHERE DATE(Date)='"+date+"'"
-                    +   "ORDER BY Date DESC";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while(rs.next()){
-                Bill b = new Bill();
-                b.setBill_ID(rs.getString("Bill_ID"));
-                b.setDate(rs.getString("Date"));
-                b.setTotalValue(rs.getInt("TotalValue"));
-                b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
-                b.setExcessMoney(rs.getDouble("ExcessMoney"));
-                b.setStaffID(rs.getString("Staff_id"));
-                b.setCustomerID(rs.getString("Customer_id"));
-                bL.add(b);
-        }
-        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
-        return bL;
-    }
    
     // code của Thái
     public String countGenerateId() {
@@ -102,4 +80,81 @@ public class Bill_DAO extends connectDB{
         }
         return rowAffected > 0 ? true:false;
     }
+             public ArrayList<Bill> loadDataByDate(String date)
+    {
+        ArrayList<Bill> bL = new ArrayList<>();
+        try{
+            String sql ="SELECT * FROM bill \n" 
+                    +   "WHERE DATE(Date)='"+date+"'"
+                    +   "ORDER BY Date DESC";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()){
+                Bill b = new Bill();
+                b.setBill_ID(rs.getString("Bill_ID"));
+                b.setDate(rs.getString("Date"));
+                b.setTotalValue(rs.getInt("TotalValue"));
+                b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
+                b.setExcessMoney(rs.getDouble("ExcessMoney"));
+                b.setStaffID(rs.getString("Staff_id"));
+                b.setCustomerID(rs.getString("Customer_id"));
+                bL.add(b);
+        }
+        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+        return bL;
+    }
+         
+        public double getEarnedValueByDate(String date){
+             double value=0;
+        try{
+            String sql ="SELECT SUM(TotalValue) AS value FROM bill  "
+                    +   "WHERE DATE(Date) = '"+date+"' ";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            if(rs.next()) value = rs.getDouble("value");
+        }catch(SQLException e){}
+        return value;
+    }       
+        public ArrayList<statisticalObject> countPurchaseTimeByDay(String date)
+        {
+            ArrayList<statisticalObject> soL= new ArrayList<>();
+            try{
+                String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
+                          +  "WHERE customer.Customer_id=bill.Customer_id\n" +
+                             "AND DATE(Date)='"+date+"' " +
+                             "GROUP BY Customer_id";
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Customer_id"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+            }catch(SQLException e){}
+            return soL;
+        }   
+        public int countCustomerByDay(String date){
+            int value=0;
+            try{
+                String sql="SELECT COUNT(Customer_id) AS amount FROM bill where DATE(Date)='"+date+"'";
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                if(rs.next()) value = rs.getInt("amount");
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return value;
+        }
+         public int countBillByDay(String date){
+            int value=0;
+            String sql;
+            try{
+
+                sql="SELECT COUNT(Bill_ID) AS amount FROM bill where DATE(Date)='"+date+"'";                
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                if(rs.next()) value = rs.getInt("amount");
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return value;
+        }
+    
 }

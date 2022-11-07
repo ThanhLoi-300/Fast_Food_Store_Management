@@ -4,7 +4,11 @@
  */
 package GUI;
 
+import BUS.BillDetail_BUS;
 import BUS.Bill_BUS;
+import BUS.Customer_BUS;
+import BUS.Product_BUS;
+import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
 import DTO.Bill;
 import DTO.BillDetail;
@@ -24,15 +28,23 @@ public class Bill_GUI extends javax.swing.JPanel {
      */
     private DefaultTableModel model;
     private ReceivedNote_BUS rnBUS;
+    private ReceivedNoteDetail_BUS rndBUS;
     private Bill_BUS bBUS;
+    private BillDetail_BUS bdBUS;
+    private Customer_BUS cBUS;
+    private Product_BUS pBUS;
     private ArrayList<ReceivedNote> rnL = new ArrayList<>();
     private ArrayList<Bill> bL= new ArrayList<>();
     
     public Bill_GUI() {
         initComponents();
         rnBUS = new ReceivedNote_BUS();
+        pBUS= new Product_BUS();
+        rndBUS = new ReceivedNoteDetail_BUS();
         rnL = rnBUS.load_Data();
         bBUS= new Bill_BUS();
+        bdBUS = new BillDetail_BUS();
+        cBUS = new Customer_BUS();
         bL=bBUS.LoadData();
         loadrnTable();
         
@@ -272,7 +284,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         jLabel6.setText("Contact : 0909-XXX-153");
         roundPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 230, -1));
         roundPanel2.add(idOutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
-        roundPanel2.add(P_COutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, -1, -1));
+        roundPanel2.add(P_COutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, -1, -1));
 
         value3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         value3.setToolTipText("");
@@ -384,23 +396,22 @@ public class Bill_GUI extends javax.swing.JPanel {
         int i = blTable.getSelectedRow();
         if(!nhapBtn.isEnabled()){
         ReceivedNote rn = rnL.get(i);
-        loadrnDetail(rn.getDetail());
-        idOutput.setText(rn.getId());
+        loadrnDetail(rndBUS.load_Data(rn.getReceivedNoteID()));
+        idOutput.setText(rn.getReceivedNoteID());
         timeOutput.setText(rn.getDate());
         P_COutput.setText(rn.getSupplier());
-        staffOutput.setText(rn.getStaffName());
+        staffOutput.setText(rn.getStaffId());
         value1.setText(String.valueOf(rn.getTotalValue()));
-        double a = rn.getTotalValue() * 0.1;
-        value2.setText(String.valueOf(a));
-        value3.setText(String.valueOf(rn.getTotalValue()-a));
+        value2.setText(String.valueOf(rn.getTaxValue()));
+        value3.setText(String.valueOf(rn.getFinalValue()));
         }
         else{
             Bill b = bL.get(i);
-            loadbDetail(b.getBillDetail());
+            loadbDetail(bdBUS.LoadDetail(b.getBill_ID()));
             idOutput.setText(b.getBill_ID());
             timeOutput.setText(b.getDate());
-            P_COutput.setText(b.getCustomerName());
-            staffOutput.setText(b.getStaffName());
+            P_COutput.setText(cBUS.GetNameById(b.getCustomerID()));
+            staffOutput.setText(b.getStaffID());
             value1.setText(String.valueOf(b.getTotalValue()));
             value2.setText(String.valueOf(b.getReceivedMoney()));
             value3.setText(String.valueOf(b.getExcessMoney()));
@@ -422,9 +433,9 @@ public class Bill_GUI extends javax.swing.JPanel {
         model = (DefaultTableModel)blTable.getModel();
         model.setRowCount(0);
         for (ReceivedNote rnL1 : rnL) {
-            String id=rnL1.getId();
+            String id=rnL1.getReceivedNoteID();
             String date= rnL1.getDate();
-            String staffName = rnL1.getStaffName();
+            String staffName = rnL1.getStaffId();
             Object[] row = new Object[]{id,date,staffName};
             model.addRow(row);
         }
@@ -436,7 +447,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         for (Bill bL1 : bL) {
             String id=bL1.getBill_ID();
             String date= bL1.getDate();
-            String staffName = bL1.getStaffName();
+            String staffName = bL1.getStaffID();
             Object[] row = new Object[]{id,date,staffName};
             model.addRow(row);
         }
@@ -446,7 +457,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         model = (DefaultTableModel)detailTable.getModel();
         model.setRowCount(0);
         for(ReceivedNoteDetail rnd1 : rnd){
-            String productName = rnd1.getProductName();
+            String productName = pBUS.getNameById(rnd1.getProductId());
             String productSize = rnd1.getSize();
             String productUnitPrice = String.valueOf(rnd1.getUnitPrice());
             String productQuantity = String.valueOf(rnd1.getQuantity());
@@ -459,10 +470,10 @@ public class Bill_GUI extends javax.swing.JPanel {
         model = (DefaultTableModel)detailTable.getModel();
         model.setRowCount(0);
         for(BillDetail bd1 : bd){
-            String productName = bd1.getProductName();
+            String productName = pBUS.getNameById(bd1.getProductId());
             String productSize = bd1.getSize();
-            String productUnitPrice = String.valueOf(bd1.getUnitPrice());
-            String productQuantity = String.valueOf(bd1.getAmount());
+            String productUnitPrice = String.valueOf(pBUS.getUnitPriceByID_Size(bd1.getProductId(), bd1.getSize()));
+            String productQuantity = String.valueOf(bd1.getQuantity());
             String productValue = String.valueOf(bd1.getTotalValue())+"đ";
             Object[] row = new Object[]{productName,productSize,productUnitPrice,productQuantity,productValue};
             model.addRow(row);
