@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
+import DTO.statisticalObject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,7 +25,7 @@ public class ReceivedNoteDetail_DAO extends connectDB {
         
         ArrayList<ReceivedNoteDetail> rndList= new ArrayList<>();
         try{
-        String sql="SELECT * FROM received_note_detail"
+        String sql="SELECT * FROM received_note_detail "
                 + "WHERE Received_Note_ID='"+id+"'";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
@@ -40,6 +41,25 @@ public class ReceivedNoteDetail_DAO extends connectDB {
         }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
         return rndList;
     }
-    
+    public ArrayList<statisticalObject> countReceivedProductByDay(String date)
+        {
+            ArrayList<statisticalObject> soL = new ArrayList<>();
+            try{
+                String sql="SELECT product_id,Size, SUM(Quantity) AS amount FROM received_note_detail,received_note \n" +
+                            "WHERE received_note.Received_Note_ID=received_note_detail.Received_Note_ID "
+                        +   "AND DATE(Date) = '"+date+"'\n" +
+                            "GROUP BY Product_id,Size";
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Product_id"));
+                    so.setSize(rs.getString("Size"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return soL;
+        }
 
 }

@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.Bill_DAO;
 import DTO.Bill;
+import DTO.statisticalObject;
 import java.util.ArrayList;
 
 /**
@@ -26,5 +27,17 @@ public class Bill_BUS {
     
     public Boolean Insert(Bill b){
         return b_DAO.insert(b);
+    }
+        public double getEarnedValueByDate(String date){
+        return b_DAO.getEarnedValueByDate(date);
+    }
+    public int countCustomerByDay(String date){
+        return b_DAO.countCustomerByDay(date);
+    }
+    public int countBillByDay(String date){
+        return b_DAO.countBillByDay(date);
+    }
+    public ArrayList<statisticalObject> countPurchaseTimeByDay(String date){
+        return b_DAO.countPurchaseTimeByDay(date);
     }
 }

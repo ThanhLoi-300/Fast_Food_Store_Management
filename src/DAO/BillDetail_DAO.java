@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.BillDetail;
+import DTO.statisticalObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +56,25 @@ public class BillDetail_DAO extends connectDB {
         }
         return rowAffected > 0 ? true:false;
     }
-    
+    public ArrayList<statisticalObject> countSoldProductByDay(String date)
+        {
+            ArrayList<statisticalObject> soL = new ArrayList<>();
+            try{
+                String sql="SELECT product_id,Size, SUM(Quantity) AS amount FROM bill_detail,bill \n" +
+                            "WHERE Bill.Bill_ID=bill_detail.Bill_id "
+                        +   "AND DATE(Date) = '"+date+"'\n" +
+                            "GROUP BY Product_id,Size";
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Product_id"));
+                    so.setSize(rs.getString("Size"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return soL;
+        }
     
 }

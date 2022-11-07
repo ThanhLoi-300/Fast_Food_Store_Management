@@ -4,7 +4,12 @@
  */
 package GUI;
 
-import BUS.Statistic_BUS;
+import BUS.BillDetail_BUS;
+import BUS.Bill_BUS;
+import BUS.Customer_BUS;
+import BUS.Product_BUS;
+import BUS.ReceivedNoteDetail_BUS;
+import BUS.ReceivedNote_BUS;
 import DTO.statisticalObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,53 +22,64 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Statistic_GUI extends javax.swing.JPanel {
 
-    private final Statistic_BUS s_BUS = new Statistic_BUS();
-    private ArrayList<statisticalObject> soL;
+    private Customer_BUS cBUS;
+    private Product_BUS pBUS;
+    private ReceivedNoteDetail_BUS rndBUS;
+    private ReceivedNote_BUS rnBUS;
+    private Bill_BUS bBUS;
+    private BillDetail_BUS bdBUS;
     private DefaultTableModel model;
     private String date;
+    private ArrayList<statisticalObject> soL;
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
     public Statistic_GUI() {
+        cBUS = new Customer_BUS();
+        bBUS = new Bill_BUS();
+        rnBUS = new ReceivedNote_BUS();
+        rndBUS= new ReceivedNoteDetail_BUS();
+        pBUS = new Product_BUS();
+        bdBUS = new BillDetail_BUS();
         initComponents();
         loadData();
         
     }
     public void loadData(){
         date = fmt.format(calendar.getDate());
-        int eV =s_BUS.getEarnedValueByDay(date);
-        int pV =s_BUS.getPayValueByDay(date);
+        double eV =bBUS.getEarnedValueByDate(date);
+        double pV =rnBUS.getPayValueByDate(date);
         earnedValue.setText(String.valueOf(eV)+"đ");
         payValue.setText(String.valueOf(pV)+"đ");
         totalValue.setText(String.valueOf(eV-pV)+"đ");
-        customerCount.setText(String.valueOf(s_BUS.countCustomerByDay(date)));
+        customerCount.setText(String.valueOf(bBUS.countCustomerByDay(date)));
         CustomerCount1.setText(customerCount.getText());
-        rnCount.setText(String.valueOf(s_BUS.countBillByDay(date, false)));
+        rnCount.setText(String.valueOf(rnBUS.countRNByDay(date)));
         rnCount1.setText(rnCount.getText());
-        bCount.setText(String.valueOf(s_BUS.countBillByDay(date, true)));
+        bCount.setText(String.valueOf(bBUS.countBillByDay(date)));
         bCount1.setText(bCount.getText());
         loadTable(date);
     }
     public void loadTable(String date){
-        soL=s_BUS.countPurchaseTimeByDay(date);
-        renderKHTable(soL);
-        soL=s_BUS.countReceivedProductByDay(date);
-        renderTable(soL,nhTable);
-        soL=s_BUS.countSoldProductByDay(date);
-        renderTable(soL,bhTable);
+        soL=bBUS.countPurchaseTimeByDay(date);
+        renderCustomerTable(soL);
+        soL=rndBUS.countReceivedProductByDay(date);
+        renderProductTable(soL,nhTable);
+        soL=bdBUS.countSoldProductByDay(date);
+        renderProductTable(soL,bhTable);
     }
-    public void renderKHTable(ArrayList<statisticalObject> soL)
+    public void renderCustomerTable(ArrayList<statisticalObject> soL)
     {
         model = (DefaultTableModel)khTable.getModel();
         model.setRowCount(0);
         for(statisticalObject so :soL){
-            Object[] row = new Object[]{so.getName(),so.getValue()};
+            Object[] row = new Object[]{cBUS.GetNameById(so.getId()),so.getValue()};
             model.addRow(row);
         }
     }
-    public void renderTable(ArrayList<statisticalObject> soL,javax.swing.JTable table){
+    public void renderProductTable(ArrayList<statisticalObject> soL,javax.swing.JTable table){
         model = (DefaultTableModel)table.getModel();
         model.setRowCount(0);
         for(statisticalObject so :soL){
-            Object[] row = new Object[]{so.getName(),so.getSize(),so.getValue()};
+            Object[] row = new Object[]{pBUS.getNameById(so.getId()),so.getSize(),so.getValue()};
             model.addRow(row);
         }
     }

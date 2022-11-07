@@ -82,4 +82,13 @@ public class Product_BUS {
     public String autoID() {
         return productDAO.autoID();
     }
+        public String getNameById(String id){
+        String name= productDAO.getNameByID(id);
+        if(name==null) return "";
+        return name;
+    }
+    public double getUnitPriceByID_Size(String id,String size){
+        double unitPrice = productDAO.getUnitPriceByID_Size(id, size);
+        return unitPrice;
+    }
 }
