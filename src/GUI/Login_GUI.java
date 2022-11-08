@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 public class Login_GUI extends javax.swing.JFrame {
     public Login_GUI() {
         initComponents();
+        setBackground(new Color(0,0,0,0));
         setVisible(true);
     }
 
@@ -119,6 +120,7 @@ public class Login_GUI extends javax.swing.JFrame {
         button3.setBackground(new java.awt.Color(250, 110, 240));
         button3.setBorder(null);
         button3.setText("Đăng nhập");
+        button3.setFocusPainted(false);
         button3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         button3.setRadius(10);
         button3.addMouseListener(new java.awt.event.MouseAdapter() {

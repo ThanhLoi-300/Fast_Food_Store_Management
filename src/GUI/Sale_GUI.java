@@ -56,15 +56,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         this.StaffID = staffID;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
         Product_Panel.setLayout( new GridLayout(3,3,15,15));
-//        list_Product.add( new Product_DTO("PD1","S","1","CT0",10000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD2","M","2","CT0",20000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD3","L","3","CT0",30000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD4","XL","4","CT0",40000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD5","XXL","5","CT0",50000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD6","XXXL","6","CT0",60000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD7","S","7","CT0",70000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD8","M","8","CT0",80000,10,"HBG.jpg",false,true));
-//        list_Product.add( new Product_DTO("PD9","XL","9","CT0",90000,10,"HBG.jpg",false,true));
+        
         list_Product = product_BUS.readProductOnBusiness();
         for(int i = 0; i< list_Product.size();i++)
             addItem(list_Product.get(i));
@@ -233,9 +225,12 @@ public class Sale_GUI extends javax.swing.JPanel {
         roundPanel1.setBackground(new java.awt.Color(51, 51, 51));
         roundPanel1.setPreferredSize(new java.awt.Dimension(1033, 654));
 
+        roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel2.setBackground(new java.awt.Color(153, 153, 153));
         jLabel2.setOpaque(true);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(70, 70, 70));
         jLabel1.setText("Tên khách hàng: ");
@@ -244,7 +239,6 @@ public class Sale_GUI extends javax.swing.JPanel {
         jLabel3.setBackground(new java.awt.Color(204, 204, 204));
         jLabel3.setOpaque(true);
 
-        jTextField2.setBackground(new java.awt.Color(240, 240, 240));
         jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
         jTextField2.setText("Số điện thoại");
@@ -275,6 +269,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             }
         });
 
+        Detail_Bill_Panel.setBackground(new java.awt.Color(255, 255, 255));
         Detail_Bill_Panel.setAutoscrolls(true);
 
         javax.swing.GroupLayout Detail_Bill_PanelLayout = new javax.swing.GroupLayout(Detail_Bill_Panel);
@@ -289,6 +284,8 @@ public class Sale_GUI extends javax.swing.JPanel {
         );
 
         jScrollPane1.setViewportView(Detail_Bill_Panel);
+
+        roundPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel6.setText("Tổng tiền:");
@@ -333,7 +330,6 @@ public class Sale_GUI extends javax.swing.JPanel {
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField3.setText("0");
 
         javax.swing.GroupLayout roundPanel6Layout = new javax.swing.GroupLayout(roundPanel6);
         roundPanel6.setLayout(roundPanel6Layout);
@@ -469,6 +465,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        roundPanel3.setBackground(new java.awt.Color(255, 255, 255));
         roundPanel3.setAutoscrolls(true);
         roundPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -486,7 +483,6 @@ public class Sale_GUI extends javax.swing.JPanel {
 
         jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextField1.setOpaque(false);
         roundPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 260, 20));
         jTextField1.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -577,7 +573,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(roundPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE))
+                        .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE))
                     .addGroup(roundPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))

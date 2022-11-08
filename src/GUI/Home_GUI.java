@@ -16,6 +16,7 @@ public class Home_GUI extends javax.swing.JFrame {
     
     public Home_GUI(ArrayList<String> staffInfo) {
         initComponents();
+        setBackground(new Color(0,0,0,0));
         this.staffInfo = staffInfo;
         jLabel2.setText(this.staffInfo.get(1));
         jLabel1.setText(this.staffInfo.get(2));

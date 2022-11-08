@@ -65,7 +65,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="roundPanel3" pref="642" max="32767" attributes="0"/>
+                          <Component id="roundPanel3" pref="632" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -79,6 +79,11 @@
       </Layout>
       <SubComponents>
         <Container class="Custom.RoundPanel" name="roundPanel2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -149,6 +154,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="0"/>
                 </Property>
@@ -169,9 +177,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField2">
               <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="f0" green="f0" red="f0" type="rgb"/>
-                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="0"/>
                 </Property>
@@ -228,6 +233,9 @@
               <SubComponents>
                 <Container class="Custom.RoundPanel" name="Detail_Bill_Panel">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="autoscrolls" type="boolean" value="true"/>
                   </Properties>
 
@@ -247,6 +255,11 @@
               </SubComponents>
             </Container>
             <Container class="Custom.RoundPanel" name="roundPanel6">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -389,7 +402,6 @@
                       <Font name="Tahoma" size="12" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="0"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextField3.getDocument().addDocumentListener(new DocumentListener() {&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    protected void updateFieldState() {&#xa;        Locale locale = new Locale(&quot;vi&quot;,&quot;VN&quot;);&#xa;        NumberFormat format = NumberFormat.getCurrencyInstance(locale);&#xa;        //format.setRoundingMode(RoundingMode.HALF_UP);&#xa;        if(jTextField3.getText().isBlank()|| !(jTextField3.getText().matches(&quot;-?\\d+&quot;))) {&#xa;            // do nothing&#xa;            jLabel9.setText(format.format(0));&#xa;        }&#xa;        else {&#xa;            double totalCash = 0;&#xa;            double receiveCash = Double.parseDouble(jTextField3.getText());&#xa;            try {&#xa;                totalCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel7.getText()).doubleValue();&#xa;            }&#xa;            catch (ParseException ex) {&#xa;                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);&#xa;            }&#xa;            double excessCash = totalCash - receiveCash;&#xa;            jLabel9.setText(format.format(excessCash)+&quot;&quot;);&#xa;        }&#xa;    }&#xa;});"/>
@@ -401,6 +413,9 @@
         </Container>
         <Container class="Custom.RoundPanel" name="roundPanel3">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="autoscrolls" type="boolean" value="true"/>
           </Properties>
 

@@ -57,21 +57,23 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
 
         roundPanel1.setPreferredSize(new java.awt.Dimension(380, 538));
 
-        btnAdd.setBackground(new java.awt.Color(255, 255, 255));
+        btnAdd.setBackground(new java.awt.Color(240, 240, 240));
+        btnAdd.setBorder(null);
         btnAdd.setText("Thêm");
-        btnAdd.setColor(new java.awt.Color(255, 255, 255));
+        btnAdd.setColor(new java.awt.Color(240, 240, 240));
         btnAdd.setColorClick(new java.awt.Color(255, 255, 255));
-        btnAdd.setColorOver(new java.awt.Color(242, 152, 174));
+        btnAdd.setColorOver(new java.awt.Color(255, 255, 255));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAdd.setRadius(5);
+        btnAdd.setRadius(20);
 
-        btnCancel.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancel.setBackground(new java.awt.Color(240, 240, 240));
+        btnCancel.setBorder(null);
         btnCancel.setText("Hủy");
-        btnCancel.setColor(new java.awt.Color(255, 255, 255));
+        btnCancel.setColor(new java.awt.Color(240, 240, 240));
         btnCancel.setColorClick(new java.awt.Color(255, 255, 255));
-        btnCancel.setColorOver(new java.awt.Color(242, 152, 174));
+        btnCancel.setColorOver(new java.awt.Color(255, 255, 255));
         btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCancel.setRadius(5);
+        btnCancel.setRadius(20);
 
         roundPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -311,20 +313,17 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
         roundPanel1Layout.setHorizontalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
+                .addGap(38, 38, 38)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addComponent(scrDecentralizationDetails)
-                        .addContainerGap())
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                    .addComponent(scrDecentralizationDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,8 +334,8 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
                 .addComponent(scrDecentralizationDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 

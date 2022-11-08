@@ -14,7 +14,10 @@ import DTO.Bill;
 import DTO.BillDetail;
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -59,12 +62,7 @@ public class Bill_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        button1 = new Custom.Button();
-        roundPanel1 = new Custom.RoundPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        blTable = new javax.swing.JTable();
-        listTitle = new javax.swing.JLabel();
+        roundPanel3 = new Custom.RoundPanel();
         roundPanel2 = new Custom.RoundPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -91,117 +89,21 @@ public class Bill_GUI extends javax.swing.JPanel {
         value1 = new javax.swing.JLabel();
         value2Label = new javax.swing.JLabel();
         value3Label = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        button1 = new Custom.Button();
         nhapBtn = new Custom.Button();
         banBtn = new Custom.Button();
+        roundPanel1 = new Custom.RoundPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        blTable = new javax.swing.JTable();
+        listTitle = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(51, 51, 51));
+        setBackground(new java.awt.Color(0, 0, 0));
         setToolTipText("");
         setPreferredSize(new java.awt.Dimension(1043, 636));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, 226, 35));
-
-        button1.setBackground(new java.awt.Color(255, 255, 255));
-        button1.setBorder(null);
-        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        button1.setColor(new java.awt.Color(255, 255, 255));
-        button1.setColorClick(new java.awt.Color(228, 228, 228));
-        button1.setColorOver(new java.awt.Color(255, 255, 255));
-        button1.setFocusable(false);
-        button1.setRadius(5);
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
-            }
-        });
-        add(button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 590, 55, 35));
-
-        roundPanel1.setBackground(new java.awt.Color(204, 204, 204));
-
-        blTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Id", "Date", "Tên nhân viên"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        blTable.setRowHeight(30);
-        blTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                blTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(blTable);
-        if (blTable.getColumnModel().getColumnCount() > 0) {
-            blTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-        }
-
-        javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
-        roundPanel1.setLayout(roundPanel1Layout);
-        roundPanel1Layout.setHorizontalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        roundPanel1Layout.setVerticalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        add(roundPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 73, -1, -1));
-
-        listTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        listTitle.setForeground(new java.awt.Color(255, 255, 255));
-        listTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        listTitle.setText("Danh sách phiếu nhập hàng");
-        listTitle.setToolTipText("");
-        add(listTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 42, 515, -1));
+        roundPanel3.setBackground(new java.awt.Color(51, 51, 51));
 
         roundPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -269,8 +171,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         roundPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 252, 398, 228));
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel14.setText("đ");
-        roundPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 490, 10, -1));
+        roundPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 490, 10, 12));
 
         value2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         value2.setToolTipText("");
@@ -291,12 +192,10 @@ public class Bill_GUI extends javax.swing.JPanel {
         roundPanel2.add(value3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 530, 80, -1));
 
         value5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        value5.setText("đ");
-        roundPanel2.add(value5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 510, 10, -1));
+        roundPanel2.add(value5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 510, 10, 12));
 
         value6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        value6.setText("đ");
-        roundPanel2.add(value6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 10, -1));
+        roundPanel2.add(value6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 10, 12));
 
         idLabel.setText("Số hóa đơn:");
         roundPanel2.add(idLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
@@ -325,7 +224,22 @@ public class Bill_GUI extends javax.swing.JPanel {
         value3Label.setText("Thành tiền:");
         roundPanel2.add(value3Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 530, 80, -1));
 
-        add(roundPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, -1, 600));
+        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+
+        button1.setBackground(new java.awt.Color(255, 255, 255));
+        button1.setBorder(null);
+        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        button1.setColor(new java.awt.Color(255, 255, 255));
+        button1.setColorClick(new java.awt.Color(228, 228, 228));
+        button1.setColorOver(new java.awt.Color(255, 255, 255));
+        button1.setFocusable(false);
+        button1.setRadius(5);
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         nhapBtn.setBorder(null);
         nhapBtn.setForeground(new java.awt.Color(51, 51, 51));
@@ -339,7 +253,6 @@ public class Bill_GUI extends javax.swing.JPanel {
                 nhapBtnMouseClicked(evt);
             }
         });
-        add(nhapBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 590, 84, 33));
 
         banBtn.setBorder(null);
         banBtn.setForeground(new java.awt.Color(51, 51, 51));
@@ -352,7 +265,133 @@ public class Bill_GUI extends javax.swing.JPanel {
                 banBtnMouseClicked(evt);
             }
         });
-        add(banBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, 84, 33));
+
+        roundPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
+        blTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Date", "Tên nhân viên"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        blTable.setRowHeight(30);
+        blTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                blTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(blTable);
+        if (blTable.getColumnModel().getColumnCount() > 0) {
+            blTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
+
+        javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
+        roundPanel1.setLayout(roundPanel1Layout);
+        roundPanel1Layout.setHorizontalGroup(
+            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        roundPanel1Layout.setVerticalGroup(
+            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        listTitle.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        listTitle.setForeground(new java.awt.Color(255, 255, 255));
+        listTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        listTitle.setText("Danh sách phiếu nhập hàng");
+        listTitle.setToolTipText("");
+
+        javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
+        roundPanel3.setLayout(roundPanel3Layout);
+        roundPanel3Layout.setHorizontalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(listTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(roundPanel3Layout.createSequentialGroup()
+                                .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(30, 30, 30)
+                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+        );
+        roundPanel3Layout.setVerticalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(listTitle)
+                .addGap(18, 18, 18)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        add(roundPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1035, 650));
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -394,16 +433,21 @@ public class Bill_GUI extends javax.swing.JPanel {
     private void blTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_blTableMouseClicked
 
         int i = blTable.getSelectedRow();
+        //Định dạng tiền tệ
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+
         if(!nhapBtn.isEnabled()){
-        ReceivedNote rn = rnL.get(i);
-        loadrnDetail(rndBUS.load_Data(rn.getReceivedNoteID()));
-        idOutput.setText(rn.getReceivedNoteID());
-        timeOutput.setText(rn.getDate());
-        P_COutput.setText(rn.getSupplier());
-        staffOutput.setText(rn.getStaffId());
-        value1.setText(String.valueOf(rn.getTotalValue()));
-        value2.setText(String.valueOf(rn.getTaxValue()));
-        value3.setText(String.valueOf(rn.getFinalValue()));
+            ReceivedNote rn = rnL.get(i);
+            loadrnDetail(rndBUS.load_Data(rn.getReceivedNoteID()));
+            idOutput.setText(rn.getReceivedNoteID());
+            timeOutput.setText(rn.getDate());
+            P_COutput.setText(rn.getSupplier());
+            staffOutput.setText(rn.getStaffId());
+            value1.setText(format.format(rn.getTotalValue()));
+            value2.setText(format.format(rn.getTaxValue()));
+            value3.setText(format.format(rn.getFinalValue()));
         }
         else{
             Bill b = bL.get(i);
@@ -412,9 +456,9 @@ public class Bill_GUI extends javax.swing.JPanel {
             timeOutput.setText(b.getDate());
             P_COutput.setText(cBUS.GetNameById(b.getCustomerID()));
             staffOutput.setText(b.getStaffID());
-            value1.setText(String.valueOf(b.getTotalValue()));
-            value2.setText(String.valueOf(b.getReceivedMoney()));
-            value3.setText(String.valueOf(b.getExcessMoney()));
+            value1.setText(format.format(b.getTotalValue()));
+            value2.setText(format.format(b.getReceivedMoney()));
+            value3.setText(format.format(b.getExcessMoney()));
             
         }
     }//GEN-LAST:event_blTableMouseClicked
@@ -507,6 +551,7 @@ public class Bill_GUI extends javax.swing.JPanel {
     private Custom.Button nhapBtn;
     private Custom.RoundPanel roundPanel1;
     private Custom.RoundPanel roundPanel2;
+    private Custom.RoundPanel roundPanel3;
     private javax.swing.JLabel staffLabel;
     private javax.swing.JLabel staffOutput;
     private javax.swing.JLabel timeOutput;
