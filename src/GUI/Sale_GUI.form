@@ -65,7 +65,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="roundPanel3" pref="634" max="32767" attributes="0"/>
+                          <Component id="roundPanel3" pref="642" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -444,7 +444,6 @@
                     <EmptyBorder/>
                   </Border>
                 </Property>
-                <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    protected void updateFieldState() {&#xa;        String searchString = jTextField1.getText();&#xa;        Product_Panel.removeAll();&#xa;        list_Product = product_BUS.readProductByName(cbbSearchFilter.getSelectedItem().toString(), searchString);&#xa;        for(int i=0; i&lt;list_Product.size(); i++)&#xa;            addItem(list_Product.get(i));&#xa;    }&#xa;});"/>

@@ -48,9 +48,11 @@ public class Sale_GUI extends javax.swing.JPanel {
     private Customer_BUS customer_BUS = new Customer_BUS();
     private Bill_BUS bill_BUS = new Bill_BUS();
     private BillDetail_BUS bd_BUS = new BillDetail_BUS();
+    private NewJFrame1 NewJFrame1;
     
     public Sale_GUI(String staffID) {
         initComponents();
+        NewJFrame1 = new NewJFrame1();
         this.StaffID = staffID;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
         Product_Panel.setLayout( new GridLayout(3,3,15,15));
@@ -123,10 +125,21 @@ public class Sale_GUI extends javax.swing.JPanel {
         pd.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-                if( checkOrderExits(data) != null)
-                    new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                if( checkOrderExits(data) != null){
+                    if(!NewJFrame1.isShowing())
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                    else {
+                        NewJFrame1.dispose();
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                    }
+                }
                 else
-                    new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                    if(!NewJFrame1.isShowing())
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                    else {
+                        NewJFrame1.dispose();
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                    }
             }
 
             @Override
@@ -138,6 +151,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 pd.setBorder(null);
+                pd.setPreferredSize(new java.awt.Dimension(pd.getWidth(), pd.getHeight()));
             }      
         });
         Product_Panel.add(pd);

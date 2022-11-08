@@ -17,7 +17,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private Sale_GUI sale_GUI ;
     private Product_DTO product;
     private Product_BUS product_BUS;
-    
+    public NewJFrame1(){
+        this.setVisible(false);
+    }
     public NewJFrame1( Product_DTO product, String size, Sale_GUI sale_GUI, String title) {
         initComponents();
         this.setTitle(title);
