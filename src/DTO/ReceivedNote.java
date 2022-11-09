@@ -23,6 +23,22 @@ public class ReceivedNote {
     private String supplier;
     private String staffId;
 
+    public ReceivedNote() {
+        
+    }
+    
+    public ReceivedNote(String receivedNoteID, LocalDateTime date, double totalValue, double taxValue, double finalValue, String supplier, String staffId) {
+        this.receivedNoteID = receivedNoteID;
+        this.date = date;
+        this.totalValue = totalValue;
+        this.taxValue = taxValue;
+        this.finalValue = finalValue;
+        this.supplier = supplier;
+        this.staffId = staffId;
+    }
+
+    
+    
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return date.format(formatter);

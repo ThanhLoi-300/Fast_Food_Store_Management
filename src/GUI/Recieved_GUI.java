@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.Product_BUS;
+import DTO.ReceivedNoteDetail;
 import DTO.ReceivedProduct_DTO;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,15 +44,19 @@ public class Recieved_GUI extends javax.swing.JPanel {
         btnImport = new Custom.Button();
         jLabel5 = new javax.swing.JLabel();
         roundPanel2 = new Custom.RoundPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTotalValue = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Supplier = new javax.swing.JLabel();
         btnDelete = new Custom.Button();
         jLabel4 = new javax.swing.JLabel();
         srcReceiveDetail = new javax.swing.JScrollPane();
         tblReceiveDetail = new javax.swing.JTable();
-        button4 = new Custom.Button();
-        jLabel3 = new javax.swing.JLabel();
+        btnNhapHang = new Custom.Button();
+        lblSupplier = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblTaxValue = new javax.swing.JLabel();
+        lblFinalValue = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setAutoscrolls(true);
@@ -62,37 +67,7 @@ public class Recieved_GUI extends javax.swing.JPanel {
 
         tblProductList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ProductID", "Size", "ProductName", "Price"
@@ -209,9 +184,9 @@ public class Recieved_GUI extends javax.swing.JPanel {
 
         roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("0");
+        lblTotalValue.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblTotalValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotalValue.setText("0");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel2.setText("Tổng:  ");
@@ -242,10 +217,7 @@ public class Recieved_GUI extends javax.swing.JPanel {
 
         tblReceiveDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ProductID", "Size", "ProductName", "Price", "Quantity"
@@ -267,6 +239,14 @@ public class Recieved_GUI extends javax.swing.JPanel {
             }
         });
         tblReceiveDetail.setRowHeight(30);
+        tblReceiveDetail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tblReceiveDetailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tblReceiveDetailFocusLost(evt);
+            }
+        });
         tblReceiveDetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblReceiveDetailMouseClicked(evt);
@@ -274,18 +254,38 @@ public class Recieved_GUI extends javax.swing.JPanel {
         });
         srcReceiveDetail.setViewportView(tblReceiveDetail);
 
-        button4.setBackground(new java.awt.Color(240, 240, 240));
-        button4.setBorder(null);
-        button4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/ad.png"))); // NOI18N
-        button4.setText("Nhập hàng");
-        button4.setColor(new java.awt.Color(240, 240, 240));
-        button4.setColorClick(new java.awt.Color(255, 255, 255));
-        button4.setColorOver(new java.awt.Color(255, 255, 255));
-        button4.setFocusPainted(false);
-        button4.setRadius(10);
+        btnNhapHang.setBackground(new java.awt.Color(240, 240, 240));
+        btnNhapHang.setBorder(null);
+        btnNhapHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/ad.png"))); // NOI18N
+        btnNhapHang.setText("Nhập hàng");
+        btnNhapHang.setColor(new java.awt.Color(240, 240, 240));
+        btnNhapHang.setColorClick(new java.awt.Color(255, 255, 255));
+        btnNhapHang.setColorOver(new java.awt.Color(255, 255, 255));
+        btnNhapHang.setEnabled(false);
+        btnNhapHang.setFocusPainted(false);
+        btnNhapHang.setRadius(10);
+        btnNhapHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhapHangActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSupplier.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblSupplier.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel6.setText("Thuế:");
+
+        lblTaxValue.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblTaxValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTaxValue.setText("0");
+
+        lblFinalValue.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        lblFinalValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblFinalValue.setText("0");
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel9.setText("Giá trị sau thuế:");
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
         roundPanel2.setLayout(roundPanel2Layout);
@@ -301,23 +301,25 @@ public class Recieved_GUI extends javax.swing.JPanel {
                                 .addGap(12, 12, 12)
                                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(roundPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
+                                        .addComponent(btnNhapHang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(roundPanel2Layout.createSequentialGroup()
-                                        .addComponent(Supplier)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23))))
+                                        .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel9)
+                                            .addComponent(Supplier))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblSupplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblFinalValue, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                            .addComponent(lblTaxValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblTotalValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                     .addGroup(roundPanel2Layout.createSequentialGroup()
                         .addGap(141, 141, 141)
                         .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 144, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         roundPanel2Layout.setVerticalGroup(
@@ -329,17 +331,25 @@ public class Recieved_GUI extends javax.swing.JPanel {
                 .addComponent(srcReceiveDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblTotalValue)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTaxValue)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFinalValue)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Supplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(41, 41, 41)
+                    .addComponent(lblSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNhapHang, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
@@ -417,6 +427,7 @@ public class Recieved_GUI extends javax.swing.JPanel {
                     }
                 }
 
+                lblSupplier.setText(imported.getName().replace(".xlsx", ""));
                 in.close();
                 loadReceivedProducts(listReceivedProduct);
             } catch (Exception e) {
@@ -460,6 +471,77 @@ public class Recieved_GUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Sản phẩm đã được thêm");
         }
     }//GEN-LAST:event_btnAdd1MouseClicked
+
+    private void tblReceiveDetailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblReceiveDetailFocusGained
+        boolean flag = true;
+        try {
+            for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
+                if (tblReceiveDetail.getValueAt(i, 4) == null || tblReceiveDetail.getValueAt(i, 4).toString().trim().length() == 0 || Integer.parseInt(tblReceiveDetail.getValueAt(i, 4).toString()) <= 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                btnNhapHang.setEnabled(true);
+                double total = 0, tax = 0, finalValue = 0;
+                for (int i = 0 ; i< tblReceiveDetail.getRowCount(); i++) {
+                    int price = (int) tblReceiveDetail.getValueAt(i, 3);
+                    int quantity = (int) tblReceiveDetail.getValueAt(i, 4);
+                    total += price*quantity;
+                    tax = total*0.08;
+                    finalValue = total + tax;
+                }
+                lblTotalValue.setText(total+"");
+                lblTaxValue.setText(tax+"");
+                lblFinalValue.setText(finalValue+"");
+            } else {
+                btnNhapHang.setEnabled(false);
+                lblTotalValue.setText("0");
+                lblTaxValue.setText("0");
+                lblFinalValue.setText("0");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên dương");
+        }
+    }//GEN-LAST:event_tblReceiveDetailFocusGained
+
+    private void tblReceiveDetailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblReceiveDetailFocusLost
+        boolean flag = true;
+        try {
+            for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
+                if (tblReceiveDetail.getValueAt(i, 4) == null || tblReceiveDetail.getValueAt(i, 4).toString().trim().length() == 0 || Integer.parseInt(tblReceiveDetail.getValueAt(i, 4).toString()) <= 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                btnNhapHang.setEnabled(true);
+                double total = 0, tax = 0, finalValue = 0;
+                for (int i = 0 ; i< tblReceiveDetail.getRowCount(); i++) {
+                    int price = (int) tblReceiveDetail.getValueAt(i, 3);
+                    int quantity = (int) tblReceiveDetail.getValueAt(i, 4);
+                    total += price*quantity;
+                    tax = total*0.08;
+                    finalValue = total + tax;
+                }
+                lblTotalValue.setText(total+"");
+                lblTaxValue.setText(tax+"");
+                lblFinalValue.setText(finalValue+"");
+            } else {
+                btnNhapHang.setEnabled(false);
+                lblTotalValue.setText("0");
+                lblTaxValue.setText("0");
+                lblFinalValue.setText("0");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên dương");
+        }
+    }//GEN-LAST:event_tblReceiveDetailFocusLost
+
+    private void btnNhapHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapHangActionPerformed
+        ArrayList<ReceivedNoteDetail> rndList = new ArrayList<ReceivedNoteDetail>();
+        
+    }//GEN-LAST:event_btnNhapHangActionPerformed
 
     private void loadReceivedProductsDetail(ArrayList<ReceivedProduct_DTO> list) {
         DefaultTableModel model = (DefaultTableModel) tblReceiveDetail.getModel();
@@ -513,14 +595,18 @@ public class Recieved_GUI extends javax.swing.JPanel {
     private Custom.Button btnAdd1;
     private Custom.Button btnDelete;
     private Custom.Button btnImport;
+    private Custom.Button btnNhapHang;
     private Custom.Button btnSearch;
-    private Custom.Button button4;
     private javax.swing.JComboBox<String> cbbSearchFilter;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblFinalValue;
+    private javax.swing.JLabel lblSupplier;
+    private javax.swing.JLabel lblTaxValue;
+    private javax.swing.JLabel lblTotalValue;
     private Custom.RoundPanel roundPanel1;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;
