@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,16 +19,13 @@ import java.util.logging.Logger;
  *
  * @author Bum
  */
-public class ReceivedNote_DAO extends connectDB {
-
+public class ReceivedNote_DAO {
+    private connectDB cB = new connectDB();
     public ArrayList<ReceivedNote> loadData() {
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM received_note\n"
-                    + "                    ORDER BY Date DESC ";
-
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        String sql = "SELECT * FROM received_note\n"
+                    + "ORDER BY Date DESC ";
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             while (rs.next()) {
                 ReceivedNote rn = new ReceivedNote();
                 rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
@@ -47,13 +45,10 @@ public class ReceivedNote_DAO extends connectDB {
 
     public ArrayList<ReceivedNote> loadDataByDate(String Date) {
         ArrayList<ReceivedNote> rnList = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM received_note\n"
+        String sql = "SELECT * FROM received_note\n"
                     + "WHERE DATE(Date)='" + Date + "'"
-                    + "                        ORDER BY Date DESC ";
-
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+                    + "ORDER BY Date DESC ";
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             while (rs.next()) {
                 ReceivedNote rn = new ReceivedNote();
                 rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
@@ -73,11 +68,9 @@ public class ReceivedNote_DAO extends connectDB {
 
     public double getPayValueByDate(String date) {
         double value = 0;
-        try {
-            String sql = "SELECT SUM(Final_Value) AS value FROM received_note "
+        String sql = "SELECT SUM(Final_Value) AS value FROM received_note "
                     + "WHERE DATE(Date) = '" + date + "' ";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             if (rs.next()) {
                 value = rs.getDouble("value");
             }
@@ -88,11 +81,8 @@ public class ReceivedNote_DAO extends connectDB {
 
     public int countRNByDay(String date) {
         int value = 0;
-        String sql;
-        try {
-            sql = "SELECT COUNT(Received_Note_ID) AS amount FROM received_note where DATE(Date)='" + date + "'";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        String sql = "SELECT COUNT(Received_Note_ID) AS amount FROM received_note where DATE(Date)='" + date + "'";
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){            
             if (rs.next()) {
                 value = rs.getInt("amount");
             }
@@ -103,10 +93,9 @@ public class ReceivedNote_DAO extends connectDB {
     }
     //Phat
     public boolean insert(ReceivedNote receiveNote) {
-        try {
-            String sql = "INSERT INTO received_note(Received_Note_ID, Date, Total_Value, Tax_Value, Final_Value, Supplier, Staff_ID)"
+        String sql = "INSERT INTO received_note(Received_Note_ID, Date, Total_Value, Tax_Value, Final_Value, Supplier, Staff_ID)"
                     + "VALUES ('"+receiveNote.getReceivedNoteID()+"','"+receiveNote.getDate()+"',"+receiveNote.getTotalValue()+","+receiveNote.getTaxValue()+","+receiveNote.getFinalValue()+",'"+receiveNote.getSupplier()+"','"+receiveNote.getStaffId()+"')";
-            PreparedStatement pst = conn.prepareStatement(sql);
+        try (Connection conn = cB.getConnect();PreparedStatement pst = conn.prepareStatement(sql);){
             pst.executeUpdate();
         }
         catch (Exception e) {
@@ -119,15 +108,11 @@ public class ReceivedNote_DAO extends connectDB {
     public String autoID() {
         String id = "RN";
         int counter = 1;
-        try {
-            String sql = "SELECT COUNT(Received_Note_ID) FROM received_note";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
+        String sql = "SELECT COUNT(Received_Note_ID) FROM received_note";
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){           
             while (rs.next()) {
                 counter += rs.getInt("COUNT(Received_Note_ID)");
             }
-
         } catch (SQLException ex) {
             System.out.println("Error occured at autoID from ReceivedNote_DAO class");
             System.out.println(ex);
