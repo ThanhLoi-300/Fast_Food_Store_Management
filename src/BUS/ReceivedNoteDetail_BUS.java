@@ -16,13 +16,21 @@ import java.util.ArrayList;
 public class ReceivedNoteDetail_BUS {
 
     private ReceivedNoteDetail_DAO rn_DAO = new ReceivedNoteDetail_DAO();
-    public ArrayList<ReceivedNoteDetail> load_Data(String id){
+
+    public ArrayList<ReceivedNoteDetail> load_Data(String id) {
         return rn_DAO.LoadDetail(id);
     }
-    public ArrayList<statisticalObject> countReceivedProductByDay(String date){
+
+    public ArrayList<statisticalObject> countReceivedProductByDay(String date) {
         return rn_DAO.countReceivedProductByDay(date);
     }
-    public int totalReceivedProductByDay(String Date){
+
+    public int totalReceivedProductByDay(String Date) {
         return rn_DAO.totalReceivedProductByDay(Date);
+    }
+
+    //Phat
+    public boolean insert(ReceivedNoteDetail rnd) {
+        return rn_DAO.insert(rnd);
     }
 }

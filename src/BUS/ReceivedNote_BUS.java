@@ -25,4 +25,13 @@ public class ReceivedNote_BUS {
     public int countRNByDay(String date){
          return rn_DAO.countRNByDay(date);
      }
+    
+    //Phat
+    public String autoID() {
+        return rn_DAO.autoID();
+    }
+    
+    public boolean insert(ReceivedNote rn) {
+        return rn_DAO.insert(rn);
+    }
 }

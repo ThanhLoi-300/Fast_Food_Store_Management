@@ -1,10 +1,14 @@
 package GUI;
 
 import BUS.Product_BUS;
+import BUS.ReceivedNoteDetail_BUS;
+import BUS.ReceivedNote_BUS;
+import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
 import DTO.ReceivedProduct_DTO;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JFileChooser;
@@ -19,14 +23,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Recieved_GUI extends javax.swing.JPanel {
 
-    ArrayList<ReceivedProduct_DTO> listReceivedProduct = new ArrayList<ReceivedProduct_DTO>();
-    ArrayList<ReceivedProduct_DTO> listReceivedProductDetail = new ArrayList<ReceivedProduct_DTO>();
-    ArrayList<ReceivedProduct_DTO> searchList = new ArrayList<ReceivedProduct_DTO>();
+    ArrayList<ReceivedProduct_DTO> listReceivedProduct = new ArrayList();
+    ArrayList<ReceivedProduct_DTO> listReceivedProductDetail = new ArrayList();
+    ArrayList<ReceivedProduct_DTO> searchList = new ArrayList();
     Product_BUS productBUS = new Product_BUS();
+    ReceivedNote_BUS receiveBUS = new ReceivedNote_BUS();
+    ReceivedNoteDetail_BUS receiveDetailBUS = new ReceivedNoteDetail_BUS();
     ReceivedProduct_DTO selectedProduct, selectedProductDetail;
+    String loggedInStaff;
 
-    public Recieved_GUI() {
+    public Recieved_GUI(String staffID) {
         initComponents();
+        loggedInStaff = staffID;
     }
 
     @SuppressWarnings("unchecked")
@@ -116,11 +124,17 @@ public class Recieved_GUI extends javax.swing.JPanel {
         btnAdd1.setColor(new java.awt.Color(240, 240, 240));
         btnAdd1.setColorClick(new java.awt.Color(240, 235, 235));
         btnAdd1.setColorOver(new java.awt.Color(255, 255, 255));
+        btnAdd1.setEnabled(false);
         btnAdd1.setFocusPainted(false);
         btnAdd1.setRadius(20);
         btnAdd1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAdd1MouseClicked(evt);
+            }
+        });
+        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdd1ActionPerformed(evt);
             }
         });
 
@@ -201,6 +215,7 @@ public class Recieved_GUI extends javax.swing.JPanel {
         btnDelete.setColor(new java.awt.Color(240, 240, 240));
         btnDelete.setColorClick(new java.awt.Color(255, 255, 255));
         btnDelete.setColorOver(new java.awt.Color(255, 255, 255));
+        btnDelete.setEnabled(false);
         btnDelete.setFocusPainted(false);
         btnDelete.setRadius(10);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -440,18 +455,22 @@ public class Recieved_GUI extends javax.swing.JPanel {
     private void tblProductListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductListMouseClicked
         int i = tblProductList.getSelectedRow();
         selectedProduct = listReceivedProduct.get(i);
+        btnAdd1.setEnabled(true);
     }//GEN-LAST:event_tblProductListMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         if (selectedProductDetail != null) {
             listReceivedProductDetail.remove(selectedProductDetail);
             loadReceivedProductsDetail(listReceivedProductDetail);
+            btnDelete.setEnabled(false);
+            checkDetails();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblReceiveDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReceiveDetailMouseClicked
         int i = tblReceiveDetail.getSelectedRow();
         selectedProductDetail = listReceivedProductDetail.get(i);
+        btnDelete.setEnabled(true);
     }//GEN-LAST:event_tblReceiveDetailMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -467,45 +486,22 @@ public class Recieved_GUI extends javax.swing.JPanel {
         if (!listReceivedProductDetail.contains(selectedProduct)) {
             listReceivedProductDetail.add(selectedProduct);
             loadReceivedProductsDetail(listReceivedProductDetail);
+            btnAdd1.setEnabled(false);
+            checkDetails();
         } else {
             JOptionPane.showMessageDialog(this, "Sản phẩm đã được thêm");
         }
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void tblReceiveDetailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblReceiveDetailFocusGained
-        boolean flag = true;
-        try {
-            for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
-                if (tblReceiveDetail.getValueAt(i, 4) == null || tblReceiveDetail.getValueAt(i, 4).toString().trim().length() == 0 || Integer.parseInt(tblReceiveDetail.getValueAt(i, 4).toString()) <= 0) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                btnNhapHang.setEnabled(true);
-                double total = 0, tax = 0, finalValue = 0;
-                for (int i = 0 ; i< tblReceiveDetail.getRowCount(); i++) {
-                    int price = (int) tblReceiveDetail.getValueAt(i, 3);
-                    int quantity = (int) tblReceiveDetail.getValueAt(i, 4);
-                    total += price*quantity;
-                    tax = total*0.08;
-                    finalValue = total + tax;
-                }
-                lblTotalValue.setText(total+"");
-                lblTaxValue.setText(tax+"");
-                lblFinalValue.setText(finalValue+"");
-            } else {
-                btnNhapHang.setEnabled(false);
-                lblTotalValue.setText("0");
-                lblTaxValue.setText("0");
-                lblFinalValue.setText("0");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên dương");
-        }
+        checkDetails();
     }//GEN-LAST:event_tblReceiveDetailFocusGained
 
     private void tblReceiveDetailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblReceiveDetailFocusLost
+        checkDetails();
+    }//GEN-LAST:event_tblReceiveDetailFocusLost
+
+    private void checkDetails() {
         boolean flag = true;
         try {
             for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
@@ -516,17 +512,18 @@ public class Recieved_GUI extends javax.swing.JPanel {
             }
             if (flag) {
                 btnNhapHang.setEnabled(true);
-                double total = 0, tax = 0, finalValue = 0;
-                for (int i = 0 ; i< tblReceiveDetail.getRowCount(); i++) {
+                int total = 0, tax = 0, finalValue = 0;
+                for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
                     int price = (int) tblReceiveDetail.getValueAt(i, 3);
                     int quantity = (int) tblReceiveDetail.getValueAt(i, 4);
-                    total += price*quantity;
-                    tax = total*0.08;
-                    finalValue = total + tax;
+                    total += (int) price * quantity;
+
                 }
-                lblTotalValue.setText(total+"");
-                lblTaxValue.setText(tax+"");
-                lblFinalValue.setText(finalValue+"");
+                tax = (int) (total * 0.08);
+                finalValue = tax + total;
+                lblTotalValue.setText(total + "");
+                lblTaxValue.setText(tax + "");
+                lblFinalValue.setText(finalValue + "");
             } else {
                 btnNhapHang.setEnabled(false);
                 lblTotalValue.setText("0");
@@ -536,12 +533,48 @@ public class Recieved_GUI extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên dương");
         }
-    }//GEN-LAST:event_tblReceiveDetailFocusLost
-
+    }
+    
     private void btnNhapHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapHangActionPerformed
-        ArrayList<ReceivedNoteDetail> rndList = new ArrayList<ReceivedNoteDetail>();
-        
+        ArrayList<ReceivedNoteDetail> rndList = new ArrayList();
+        ArrayList<Integer> quantityList = new ArrayList();
+        ReceivedNote rn = new ReceivedNote(receiveBUS.autoID(), LocalDateTime.now(), Double.parseDouble(lblTotalValue.getText()), Double.parseDouble(lblTaxValue.getText()), Double.parseDouble(lblFinalValue.getText()), lblSupplier.getText(), loggedInStaff);
+        boolean receivedNoteInserted = false;
+        String receivednoteID = receiveBUS.autoID();
+        if (receiveBUS.insert(rn)) {
+            receivedNoteInserted = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình thêm!");
+        }
+
+        for (int i = 0; i < tblReceiveDetail.getRowCount(); i++) {
+            if (tblReceiveDetail.getValueAt(i, 4) != null) {
+                quantityList.add((int) tblReceiveDetail.getValueAt(i, 4));
+            }
+        }
+
+        if (receivedNoteInserted) {
+            int counter = 0;
+            for (ReceivedProduct_DTO rp : listReceivedProductDetail) {
+                int totalPrice = rp.getPrice() * quantityList.get(counter);
+                ReceivedNoteDetail rnd = new ReceivedNoteDetail(receivednoteID, rp.getProductID(), rp.getSize(), quantityList.get(counter), rp.getPrice(), totalPrice);
+                if (!receiveDetailBUS.insert(rnd)) {
+                    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình thêm!");
+                    break;
+                } else {
+                    productBUS.incQuantity(rp.getProductID(), rp.getSize(), quantityList.get(counter));
+                }
+                counter++;
+            }
+            JOptionPane.showMessageDialog(this, "Nhập hàng thành công");
+            reset();
+        }
+
     }//GEN-LAST:event_btnNhapHangActionPerformed
+
+    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void loadReceivedProductsDetail(ArrayList<ReceivedProduct_DTO> list) {
         DefaultTableModel model = (DefaultTableModel) tblReceiveDetail.getModel();
@@ -588,6 +621,23 @@ public class Recieved_GUI extends javax.swing.JPanel {
                     break;
             }
         }
+    }
+
+    public void reset() {
+        DefaultTableModel model = (DefaultTableModel) tblReceiveDetail.getModel();
+        model.setRowCount(0);
+        DefaultTableModel modelDetail = (DefaultTableModel) tblProductList.getModel();
+        modelDetail.setRowCount(0);
+        listReceivedProduct.clear();
+        listReceivedProductDetail.clear();
+        searchList.clear();
+        txtSearch.setText("");
+        btnAdd1.setEnabled(false);
+        btnDelete.setEnabled(false);
+        lblTotalValue.setText("0");
+        lblTaxValue.setText("0");
+        lblFinalValue.setText("0");
+        lblSupplier.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
