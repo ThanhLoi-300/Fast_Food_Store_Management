@@ -55,11 +55,12 @@ public class Sale_GUI extends javax.swing.JPanel {
         NewJFrame1 = new NewJFrame1();
         this.StaffID = staffID;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
-        Product_Panel.setLayout( new GridLayout(3,3,15,15));
         
         list_Product = product_BUS.readProductOnBusiness();
-        for(int i = 0; i< list_Product.size();i++)
-            addItem(list_Product.get(i));
+        set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
+
+        
+        
         list_Category = category_BUS.load_Data_CategoryObBusiness();
         Vector comboBoxItems=new Vector();
         comboBoxItems.add("Tất cả");
@@ -108,6 +109,32 @@ public class Sale_GUI extends javax.swing.JPanel {
             }
         }
         return null;
+    }
+    
+    //Mở rộng panel Grid layout dựa trên list_Product.size()
+    public void set_Grid_Layout_for_Panel_And_Load_Product( ArrayList<Product_DTO> list_Product ){
+        if(list_Product.size() > 1){
+            Product_Panel.setLayout( new GridLayout( list_Product.size()/2 +1 ,2,15,15));
+            for(int i = 0; i< list_Product.size();i++)
+                addItem(list_Product.get(i));
+        }else if(list_Product.size() == 0){//list_Product k có dữ liệu set rỗng panel_Product
+            Product_Panel.removeAll();
+            Product_Panel.repaint();
+            Product_Panel.validate();
+        }else{
+            //List chỉ có 1 phần tử tạo thêm 2 Item_Product rỗng để tránh lỗi full screen
+            Product_Panel.setLayout( new GridLayout(2,2,15,15));
+            addItem(list_Product.get(0));
+            for(int i=0; i<2; i++){
+                Item_Product pd = new Item_Product();
+                pd.setPreferredSize(new java.awt.Dimension(156,189));
+                //Dòng này để test kết quả
+                //pd.setData(new Product_DTO("1","1","1","1",1,1,"1",true,true));
+                Product_Panel.add(pd);
+                Product_Panel.repaint();
+                Product_Panel.revalidate();
+            }
+        }
     }
     
     public void addItem( Product_DTO data){
@@ -505,8 +532,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 String searchString = jTextField1.getText();
                 Product_Panel.removeAll();
                 list_Product = product_BUS.readProductByName(cbbSearchFilter.getSelectedItem().toString(), searchString);
-                for(int i=0; i<list_Product.size(); i++)
-                addItem(list_Product.get(i));
+                set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
             }
         });
 
@@ -630,14 +656,11 @@ public class Sale_GUI extends javax.swing.JPanel {
         Product_Panel.removeAll();
         if(cbbSearchFilter.getSelectedItem().toString().equals("Tất cả")) {
             list_Product = product_BUS.readProductOnBusiness();
-            for(int i=0; i<list_Product.size(); i++)
-                addItem(list_Product.get(i));
-        }
-        else {
+            set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
+        }else {
             String categoryName = cbbSearchFilter.getSelectedItem().toString();
             list_Product = product_BUS.readProductByCategoryName(categoryName);
-            for(int i=0; i<list_Product.size(); i++)
-                addItem(list_Product.get(i));
+            set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
         }
     }//GEN-LAST:event_cbbSearchFilterActionPerformed
 

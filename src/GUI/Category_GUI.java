@@ -199,12 +199,14 @@ public class Category_GUI extends javax.swing.JPanel {
         lblBusinessStatusConfig.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblBusinessStatusConfig.setText("Business Status:");
 
+        rdo_On.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdo_On);
         rdo_On.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rdo_On.setSelected(true);
         rdo_On.setText("On");
         rdo_On.setFocusPainted(false);
 
+        rdo_Off.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdo_Off);
         rdo_Off.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rdo_Off.setText("Off");
@@ -445,10 +447,10 @@ public class Category_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
-        if( txtCategoryName.getText().isEmpty())
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên");
-        else if(category_BUS.check_Id(txtCategoryID.getText())){
+        if(tblCategoryList.getSelectedRow()< 0)
             JOptionPane.showMessageDialog(null, "Vui lòng chọn loại sản phẩm muốn cập nhật");
+        else if(txtCategoryName.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên");
         }
         else{ 
             if( category_BUS.check_Name(txtCategoryID.getText(), txtCategoryName.getText()) ){
@@ -519,14 +521,7 @@ public class Category_GUI extends javax.swing.JPanel {
         auto_Create_Id();
     }
     private void auto_Create_Id(){
-        String Id = "CT";
-        int num = 0;
-        String check_Id;
-        for( Category_DTO category : category_BUS.load_Data_Category()){
-            check_Id = Id + num;
-            if( check_Id.equals(category.getCategory_Id())) num++;
-        }
-        Id += num;
+        String Id = "CT" + category_BUS.get_All_Category();
         txtCategoryID.setText(Id);
     }
     

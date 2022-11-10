@@ -41,9 +41,8 @@ public class Category_BUS {
         return false;
     }
     
-    public boolean check_Id(String id){
-        if( !category_DAO.check_Id(id).equals(id)) return true;
-        return false;
+    public int get_All_Category(){
+        return category_DAO.get_All_Category().size();
     }
 
 }
