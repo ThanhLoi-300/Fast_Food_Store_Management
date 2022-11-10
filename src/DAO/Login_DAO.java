@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.Account;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,13 +16,14 @@ import java.util.logging.Logger;
  *
  * @author ADMIN
  */
-public class Login_DAO extends connectDB{
+public class Login_DAO{
+    
+    connectDB cn = new connectDB();
     
     public Account login(String username, String password) {
         String sql = "SELECT * FROM `account` WHERE `UserName`=? AND `Password`=?";
         Account acc = null;
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
+        try(Connection conn = cn.getConnect(); PreparedStatement pstm = conn.prepareStatement(sql);) {
             pstm.setString(1, username);
             pstm.setString(2, password);
             ResultSet rs = pstm.executeQuery();
@@ -43,8 +45,7 @@ public class Login_DAO extends connectDB{
     public ArrayList<String> getStaffInfo(String username, String password) {
         ArrayList<String> staffInfo = new ArrayList<String>();
         String sql = "SELECT account.Staff_ID ,`Full_Name`, `UserType` FROM account JOIN staff ON account.Staff_id = staff.Staff_id WHERE account.UserName=? AND account.Password=?";
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
+        try(Connection conn = cn.getConnect(); PreparedStatement pstm = conn.prepareStatement(sql);) {
             pstm.setString(1, username);
             pstm.setString(2, password);
             ResultSet rs = pstm.executeQuery();
