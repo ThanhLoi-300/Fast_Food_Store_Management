@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.Bill;
 import DTO.statisticalObject;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,14 +20,12 @@ import java.util.logging.Logger;
  * @author Bum
  */
 public class Bill_DAO extends connectDB{
-
+    private connectDB cB = new connectDB();
     public ArrayList<Bill> LoadData()
         {
             ArrayList<Bill> bL = new ArrayList<>();
-            try{
-                String sql ="SELECT * FROM bill ORDER BY Date DESC";
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery(sql);
+            String sql ="SELECT * FROM bill ORDER BY Date DESC";
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
                 while(rs.next()){
                     Bill b = new Bill();
                     b.setBill_ID(rs.getString("Bill_ID"));
@@ -49,9 +48,7 @@ public class Bill_DAO extends connectDB{
     // code của Thái
     public String countGenerateId() {
         String sql  ="SELECT COUNT(Bill_ID) FROM `bill`";
-        try {
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             if(rs.next()) {
                 return rs.getString(1);
             }
@@ -65,8 +62,7 @@ public class Bill_DAO extends connectDB{
     public Boolean insert(Bill bill) {
         int rowAffected  = 0;
         String sql = "INSERT INTO `bill`(`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMoney`, `Staff_id`, `Customer_id`) VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
+        try (Connection conn = cB.getConnect();PreparedStatement pstm = conn.prepareStatement(sql);){
             pstm.setString(1, bill.getBill_ID());
             pstm.setString(2, bill.getDate());
             pstm.setDouble(3, bill.getTotalValue());
@@ -83,12 +79,10 @@ public class Bill_DAO extends connectDB{
              public ArrayList<Bill> loadDataByDate(String date)
     {
         ArrayList<Bill> bL = new ArrayList<>();
-        try{
-            String sql ="SELECT * FROM bill \n" 
+        String sql ="SELECT * FROM bill \n" 
                     +   "WHERE DATE(Date)='"+date+"'"
                     +   "ORDER BY Date DESC";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             while(rs.next()){
                 Bill b = new Bill();
                 b.setBill_ID(rs.getString("Bill_ID"));
@@ -106,11 +100,9 @@ public class Bill_DAO extends connectDB{
          
         public double getEarnedValueByDate(String date){
              double value=0;
-        try{
-            String sql ="SELECT SUM(TotalValue) AS value FROM bill  "
+             String sql ="SELECT SUM(TotalValue) AS value FROM bill  "
                     +   "WHERE DATE(Date) = '"+date+"' ";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+        try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             if(rs.next()) value = rs.getDouble("value");
         }catch(SQLException e){}
         return value;
@@ -118,13 +110,11 @@ public class Bill_DAO extends connectDB{
         public ArrayList<statisticalObject> countPurchaseTimeByDay(String date)
         {
             ArrayList<statisticalObject> soL= new ArrayList<>();
-            try{
-                String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
+            String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
                           +  "WHERE customer.Customer_id=bill.Customer_id\n" +
                              "AND DATE(Date)='"+date+"' " +
                              "GROUP BY Customer_id";
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery(sql);
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
                 while(rs.next()){
                     statisticalObject so = new statisticalObject();
                     so.setId(rs.getString("Customer_id"));
@@ -136,22 +126,16 @@ public class Bill_DAO extends connectDB{
         }   
         public int countCustomerByDay(String date){
             int value=0;
-            try{
-                String sql="SELECT COUNT(Customer_id) AS amount FROM bill where DATE(Date)='"+date+"'";
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery(sql);
+            String sql="SELECT COUNT(Customer_id) AS amount FROM bill where DATE(Date)='"+date+"'";
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
                 if(rs.next()) value = rs.getInt("amount");
             }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
             return value;
         }
          public int countBillByDay(String date){
             int value=0;
-            String sql;
-            try{
-
-                sql="SELECT COUNT(Bill_ID) AS amount FROM bill where DATE(Date)='"+date+"'";                
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery(sql);
+            String sql="SELECT COUNT(Bill_ID) AS amount FROM bill where DATE(Date)='"+date+"'";;
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){                
                 if(rs.next()) value = rs.getInt("amount");
             }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
             return value;
