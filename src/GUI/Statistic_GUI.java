@@ -53,9 +53,9 @@ public class Statistic_GUI extends javax.swing.JPanel {
         customerCount.setText(String.valueOf(bBUS.countCustomerByDay(date)));
         CustomerCount1.setText(customerCount.getText());
         rnCount.setText(String.valueOf(rnBUS.countRNByDay(date)));
-        rnCount1.setText(rnCount.getText());
+        rnpCount.setText(String.valueOf(rndBUS.totalReceivedProductByDay(date)));
         bCount.setText(String.valueOf(bBUS.countBillByDay(date)));
-        bCount1.setText(bCount.getText());
+        bpCount.setText(String.valueOf(bdBUS.totalSoldProductByDay(date)));
         loadTable(date);
     }
     public void loadTable(String date){
@@ -130,14 +130,14 @@ public class Statistic_GUI extends javax.swing.JPanel {
         roundPanel5 = new Custom.RoundPanel();
         jLabel20 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        rnCount1 = new javax.swing.JLabel();
+        rnpCount = new javax.swing.JLabel();
         imageAvatar13 = new Custom.ImageAvatar();
         jScrollPane4 = new javax.swing.JScrollPane();
         nhTable = new javax.swing.JTable();
         roundPanel6 = new Custom.RoundPanel();
         jLabel22 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        bCount1 = new javax.swing.JLabel();
+        bpCount = new javax.swing.JLabel();
         imageAvatar14 = new Custom.ImageAvatar();
         jScrollPane2 = new javax.swing.JScrollPane();
         bhTable = new javax.swing.JTable();
@@ -464,13 +464,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addComponent(imageAvatar12, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(imageAvatar12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -509,7 +509,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -520,7 +520,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -538,10 +538,10 @@ public class Statistic_GUI extends javax.swing.JPanel {
         jPanel8.setMaximumSize(new java.awt.Dimension(183, 118));
         jPanel8.setPreferredSize(new java.awt.Dimension(183, 118));
 
-        rnCount1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        rnCount1.setForeground(new java.awt.Color(255, 255, 255));
-        rnCount1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rnCount1.setText("123");
+        rnpCount.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        rnpCount.setForeground(new java.awt.Color(255, 255, 255));
+        rnpCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rnpCount.setText("123");
 
         imageAvatar13.setForeground(new java.awt.Color(255, 255, 255));
         imageAvatar13.setBorderSize(2);
@@ -554,13 +554,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addComponent(imageAvatar13, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rnCount1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(rnpCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rnCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addComponent(rnpCount, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(imageAvatar13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -599,7 +599,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -610,7 +610,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -628,10 +628,10 @@ public class Statistic_GUI extends javax.swing.JPanel {
         jPanel9.setMaximumSize(new java.awt.Dimension(183, 118));
         jPanel9.setPreferredSize(new java.awt.Dimension(183, 118));
 
-        bCount1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        bCount1.setForeground(new java.awt.Color(255, 255, 255));
-        bCount1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bCount1.setText("123");
+        bpCount.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        bpCount.setForeground(new java.awt.Color(255, 255, 255));
+        bpCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bpCount.setText("123");
 
         imageAvatar14.setForeground(new java.awt.Color(255, 255, 255));
         imageAvatar14.setBorderSize(2);
@@ -644,13 +644,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addComponent(imageAvatar14, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                .addComponent(bpCount, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addComponent(bpCount, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(imageAvatar14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -689,7 +689,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -700,7 +700,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -742,8 +742,8 @@ public class Statistic_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CustomerCount1;
     private javax.swing.JLabel bCount;
-    private javax.swing.JLabel bCount1;
     private javax.swing.JTable bhTable;
+    private javax.swing.JLabel bpCount;
     private de.wannawork.jcalendar.JCalendarComboBox calendar;
     private javax.swing.JLabel customerCount;
     private javax.swing.JLabel earnedValue;
@@ -784,7 +784,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JTable nhTable;
     private javax.swing.JLabel payValue;
     private javax.swing.JLabel rnCount;
-    private javax.swing.JLabel rnCount1;
+    private javax.swing.JLabel rnpCount;
     private Custom.RoundPanel roundPanel1;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;

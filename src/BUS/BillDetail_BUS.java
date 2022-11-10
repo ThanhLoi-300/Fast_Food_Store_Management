@@ -26,4 +26,8 @@ public class BillDetail_BUS {
     public ArrayList<statisticalObject> countSoldProductByDay(String date){
         return bd_DAO.countSoldProductByDay(date);
     }
+    public int totalSoldProductByDay(String Date){
+        return bd_DAO.totalSoldProductByDay(Date);
+    }
+
 }

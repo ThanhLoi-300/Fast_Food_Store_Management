@@ -19,7 +19,10 @@ public class ReceivedNoteDetail_BUS {
     public ArrayList<ReceivedNoteDetail> load_Data(String id){
         return rn_DAO.LoadDetail(id);
     }
-        public ArrayList<statisticalObject> countReceivedProductByDay(String date){
+    public ArrayList<statisticalObject> countReceivedProductByDay(String date){
         return rn_DAO.countReceivedProductByDay(date);
+    }
+    public int totalReceivedProductByDay(String Date){
+        return rn_DAO.totalReceivedProductByDay(Date);
     }
 }
