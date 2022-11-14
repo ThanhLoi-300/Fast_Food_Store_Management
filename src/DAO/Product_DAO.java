@@ -77,9 +77,9 @@ public class Product_DAO {
         return true;
     }
 
-    public boolean updateProduct(Product_DTO product) {
+    public boolean updateProduct(Product_DTO product, String size) {
         String sql = "UPDATE product SET Size = '" + product.getSize() + "', Product_Name = '" + product.getProductName() + "', Quantity = " + product.getQuantity() + ", UnitPrice = " + product.getPrice() + ", Category_ID = '" + product.getCategoryID() + "', Image = '" + product.getImage() + "'" + ",BusinessStatus = " + product.isBusinessStatus()
-                    + " WHERE Product_ID = '" + product.getProductID() + "'";
+                    + " WHERE Product_ID = '" + product.getProductID() + "' AND Size = '"+size+"'";
         try (Connection conn = cB.getConnect();PreparedStatement pst = conn.prepareStatement(sql); ){
             pst.executeUpdate();
         } catch (Exception e) {

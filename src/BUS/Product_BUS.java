@@ -39,8 +39,8 @@ public class Product_BUS {
         return false;
     }
 
-    public boolean updateProduct(Product_DTO product) {
-        if (productDAO.updateProduct(product)) {
+    public boolean updateProduct(Product_DTO product, String size) {
+        if (productDAO.updateProduct(product,size)) {
             return true;
         }
         return false;

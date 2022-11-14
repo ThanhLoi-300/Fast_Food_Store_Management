@@ -671,7 +671,7 @@ public class Product_GUI extends javax.swing.JPanel {
             int i = tblProductList1.getSelectedRow();
             Product_DTO selectedProduct = listProduct.get(i);
             Product_DTO product = new Product_DTO(selectedProduct.getProductID(), txtSizeID1.getText(), txtProductName1.getText(), cbbCategoryID1.getSelectedItem() + "", Integer.parseInt(txtPrice1.getText()), Integer.parseInt(txtQuantity1.getText()), chosenImg, false, selectedBusinessStatus());
-            if (productBUS.updateProduct(product)) {
+            if (productBUS.updateProduct(product,selectedProduct.getSize())) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thông tin sản phẩm thành công!");
                 listProduct = productBUS.loadDataProduct();
                 loadProductList(listProduct);
