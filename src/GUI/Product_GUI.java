@@ -670,7 +670,8 @@ public class Product_GUI extends javax.swing.JPanel {
         } else {
             int i = tblProductList1.getSelectedRow();
             Product_DTO selectedProduct = listProduct.get(i);
-            Product_DTO product = new Product_DTO(selectedProduct.getProductID(), txtSizeID1.getText(), txtProductName1.getText(), cbbCategoryID1.getSelectedItem() + "", Integer.parseInt(txtPrice1.getText()), Integer.parseInt(txtQuantity1.getText()), chosenImg, false, selectedBusinessStatus());
+            Product_DTO product = new Product_DTO(selectedProduct.getProductID(), txtSizeID1.getText(), txtProductName1.getText(), cbbCategoryID1.getSelectedItem() + "", Double.parseDouble(txtPrice1.getText()), Integer.parseInt(txtQuantity1.getText()), chosenImg, false, selectedBusinessStatus());
+            chosenImg = chosenImg.replace("\\", "/");
             if (productBUS.updateProduct(product,selectedProduct.getSize())) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thông tin sản phẩm thành công!");
                 listProduct = productBUS.loadDataProduct();
