@@ -1,7 +1,10 @@
 package BUS;
 
 import DAO.Category_DAO;
+import DTO.Bill;
+import DTO.BillDetail;
 import DTO.Category_DTO;
+import DTO.Product_DTO;
 import java.util.ArrayList;
 
 public class Category_BUS {
@@ -44,5 +47,30 @@ public class Category_BUS {
     public int get_All_Category(){
         return category_DAO.get_All_Category().size();
     }
+    
+    public Bill get_Bill_From_Id(String id){
+        return category_DAO.get_Bill_From_Id(id);
+    }
+    
+    public String get_Staff_Name_From_Id(String id){
+        return category_DAO.get_Staff_Name_From_Id(id);
+    }
+    
+    public String get_Customer_Name_From_Id(String id){
+        return category_DAO.get_Customer_Name_From_Id(id);
+    }
+
+    public Product_DTO get_Product_In_Detail_Bill(String id){
+        return category_DAO.get_Product_In_Detail_Bill(id);
+    }
+    
+    public int count_Product_Belong_Category( String id){
+        return category_DAO.count_Product_Belong_Category(id);
+    }
+    
+    public boolean delete_Product_From_Category(String id){
+        return category_DAO.delete_Product_From_Category(id);
+    }
+            
 
 }

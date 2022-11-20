@@ -479,14 +479,26 @@ public class Category_GUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn loại sản phẩm muốn xóa");
         else{
             //Xác nhận
-            if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                if(category_BUS.delete_Category(txtCategoryID.getText())){
-                    refresh();
-                    category_List = category_BUS.load_Data_Category();
-                    load_Data_Category(category_List);
-                    JOptionPane.showMessageDialog(null, "Xóa thành công");
+            if(category_BUS.count_Product_Belong_Category(txtCategoryID.getText()) !=0){
+                if(JOptionPane.showConfirmDialog(null, "Thể loại này đang có "+category_BUS.count_Product_Belong_Category(txtCategoryID.getText())+" sản phẩm!\n Bạn có chắc muốn xóa tất cả sản phẩm?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                    if(category_BUS.delete_Category(txtCategoryID.getText())){
+                        category_BUS.delete_Product_From_Category(txtCategoryID.getText());
+                        refresh();
+                        category_List = category_BUS.load_Data_Category();
+                        load_Data_Category(category_List);
+                        JOptionPane.showMessageDialog(null, "Xóa thành công");
+                    }
                 }
-            }
+            }else{
+                if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                    if(category_BUS.delete_Category(txtCategoryID.getText())){
+                        refresh();
+                        category_List = category_BUS.load_Data_Category();
+                        load_Data_Category(category_List);
+                        JOptionPane.showMessageDialog(null, "Xóa thành công");
+                    }
+                }
+            }  
         }    
     }//GEN-LAST:event_btnDeleteMouseClicked
 

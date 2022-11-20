@@ -1,6 +1,9 @@
 package DAO;
 
+import DTO.Bill;
+import DTO.BillDetail;
 import DTO.Category_DTO;
+import DTO.Product_DTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -129,6 +132,100 @@ public class Category_DAO{
             System.err.println(e);
         }
         return list_Category;
+    }
+    
+    public Bill get_Bill_From_Id(String id){
+        String sql = "SELECT * FROM bill WHERE Bill_ID = '"+ id +"'";
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            if(rs.next()){
+                Bill b = new Bill();
+                b.setBill_ID(rs.getString("Bill_ID"));
+                b.setDate(rs.getString("Date"));
+                b.setTotalValue(rs.getInt("TotalValue"));
+                b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
+                b.setExcessMoney(rs.getDouble("ExcessMoney"));
+                b.setStaffID(rs.getString("Staff_id"));
+                b.setCustomerID(rs.getString("Customer_id"));
+                return b;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  get_Bill_From_Id() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return null;
+    }
+    
+    public String get_Staff_Name_From_Id(String id){
+        String sql = "SELECT * FROM staff WHERE Staff_id  = '"+ id +"'";
+        
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            if(rs.next()){
+                return rs.getString("Full_Name");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  get_Bill_From_Id() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return null;
+    }
+    
+    public String get_Customer_Name_From_Id(String id){
+        String sql = "SELECT * FROM customer WHERE Customer_id   = '"+ id +"'";
+        
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            if(rs.next()){
+                return rs.getString("Customer_name");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  get_Bill_From_Id() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return null;
+    }
+    
+    public Product_DTO get_Product_In_Detail_Bill(String id){
+        String sql = "SELECT * FROM product WHERE Product_ID = '"+ id +"' AND IsDeleted <> 1";
+
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            if(rs.next()){
+              return new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));  
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  get_Bill_From_Id() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return null;
+    }
+    
+    public int count_Product_Belong_Category( String id){
+        String sql = "SELECT COUNT(Category_ID) as count FROM product WHERE IsDeleted <> 1 AND Category_ID ='"+id+"'";
+        
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            if(rs.next()){
+               return rs.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error at  get_Bill_From_Id() method from CategoryDAO class!");
+            System.err.println(e);
+        }
+        return 0;
+    }
+    
+    public boolean delete_Product_From_Category(String id){
+        String sql = "UPDATE product SET IsDeleted = 1 WHERE Category_ID = '"+ id +"'";
+        try(Connection conn = cB.getConnect();PreparedStatement pstm = conn.prepareStatement(sql); ){
+            pstm.executeUpdate();               
+        } catch (SQLException e) {
+            System.err.println("Error at  delete_Product_From_Category() method from CategoryDAO class!");
+            System.err.println(e);
+            return false;
+        }
+        return true;
     }
     
 }
