@@ -17,20 +17,31 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private Sale_GUI sale_GUI ;
     private Product_DTO product;
     private Product_BUS product_BUS;
+    private double price_Discount = 0;
     public NewJFrame1(){
         this.setVisible(false);
     }
-    public NewJFrame1( Product_DTO product, String size, Sale_GUI sale_GUI, String title) {
+    public NewJFrame1( Product_DTO product, String size, Sale_GUI sale_GUI, String title, int discount) {
         initComponents();
         this.setTitle(title);
         this.sale_GUI= sale_GUI;
+        
+        if(discount >0){
+            int percent = discount;
+            price_Discount = product.getPrice() - (percent* product.getPrice())/100;
+            jLabel4.setText("-"+ discount +"%");
+        }else {
+            price_Discount = product.getPrice();
+            jLabel4.setText("");
+        }
         this.product = product;
-        jLabel1.setText(product.getProductName());
+        
+        jLabel1.setText(this.product.getProductName());
         //Định dạng tiền tệ
         Locale locale = new Locale("vi","VN");
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
         format.setRoundingMode(RoundingMode.HALF_UP);
-        jLabel2.setText(format.format(product.getPrice()));
+        jLabel2.setText(format.format(price_Discount));
         
         if(this.getTitle().equals("Add new Product to Bill"))
             jLabel3.setText(1+"");
@@ -46,6 +57,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
             comboBoxItems.add(productSizes.get(i));
         jComboBox1.setModel(new DefaultComboBoxModel(comboBoxItems));
         jComboBox1.setSelectedItem(size);
+        
+        
         setVisible(true);
     }
     
@@ -70,6 +83,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         jButton1 = new Custom.Button();
         button1 = new Custom.Button();
         button2 = new Custom.Button();
+        jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 204, 204));
 
@@ -129,6 +143,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel4.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,6 +168,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
                             .addGap(35, 35, 35)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 60, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +180,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,7 +198,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         int quantity = Integer.parseInt(jLabel3.getText());
-        if(quantity >= product.getQuantity())
+        if(quantity > product.getQuantity())
             JOptionPane.showMessageDialog(this, "Số lượng không đủ (Còn lại:"+product.getQuantity()+")", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         else if(checkOrderExits(this.product)!=null){
             System.out.println("updating");
@@ -183,6 +206,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
             int index = sale_GUI.getList_Detail_Bill().indexOf(checkOrderExits(this.product));
             sale_GUI.getList_Quantity_Choice().set(index, quantity);
         }else{
+            this.product.setPrice( (int) this.price_Discount);
             System.out.println("add new");
             sale_GUI.getList_Detail_Bill().add(this.product);
             sale_GUI.getList_Quantity_Choice().add(quantity);
@@ -244,5 +268,6 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,7 @@
 
 package Custom;
 
+import BUS.Discount_BUS;
 import DTO.Product_DTO;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,31 +13,40 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class Item_Product extends javax.swing.JPanel {
     
     private Product_DTO data;
-
+    private Discount_BUS discount_BUS = new Discount_BUS();
+    private int percent = 0;
     public Product_DTO getData() {
         return data;
     }
     public void setData( Product_DTO data){
         this.data = data;
-        name.setText("<html>"+data.getProductName()+" ("+data.getSize()+")</html>");
-        //Định dạng tiền tệ
-        Locale locale = new Locale("vi","VN");
-        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
-        format.setRoundingMode(RoundingMode.HALF_UP);
-        price.setText(format.format(data.getPrice()));
+        name.setText(data.getProductName());
         
-//        ImageIcon icon = new ImageIcon("src\\IMG\\"+ data.getImage());
         ImageIcon icon = new ImageIcon(data.getImage());
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(156, 104, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
         Img.setIcon(icon);
+        
+        if(discount_BUS.check_Product_Discount(data.getProductID()) != -1){
+            discount.setText("-"+ discount_BUS.check_Product_Discount(data.getProductID())+"%" );
+            this.percent = discount_BUS.check_Product_Discount(data.getProductID());
+        }else discount.setText("");
     }
-    
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
     public Item_Product() {
         initComponents();
         setOpaque(false);
@@ -48,7 +58,7 @@ public class Item_Product extends javax.swing.JPanel {
 
         Img = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
-        price = new javax.swing.JLabel();
+        discount = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(176, 190));
@@ -57,8 +67,9 @@ public class Item_Product extends javax.swing.JPanel {
 
         name.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
-        price.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        price.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        discount.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        discount.setForeground(new java.awt.Color(255, 0, 51));
+        discount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -68,19 +79,21 @@ public class Item_Product extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                    .addComponent(price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -88,7 +101,7 @@ public class Item_Product extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Img;
+    private javax.swing.JLabel discount;
     private javax.swing.JLabel name;
-    private javax.swing.JLabel price;
     // End of variables declaration//GEN-END:variables
 }

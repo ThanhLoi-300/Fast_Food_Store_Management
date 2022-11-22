@@ -1,8 +1,11 @@
 
 package GUI;
 
+import BUS.Discount_BUS;
+import DTO.Discount_DTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,18 +16,19 @@ import javax.swing.JPanel;
 public class Home_GUI extends javax.swing.JFrame {
     
     ArrayList<String> staffInfo;
+    private Discount_BUS discount_BUS = new Discount_BUS();
     
-    public Home_GUI(ArrayList<String> staffInfo) {
+    public Home_GUI(ArrayList<String> staffInfo) throws ParseException {
         initComponents();
+        set_Time();
         setBackground(new Color(0,0,0,0));
         this.staffInfo = staffInfo;
         jLabel2.setText(this.staffInfo.get(1));
         jLabel1.setText(this.staffInfo.get(2));
         Active(roundPanel7);
-        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));
-        set_Time();
-        System.out.println(jPanel1.getWidth());
-        System.out.println(jPanel1.getHeight());
+        Auto_Update_Discount();
+        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));   
+        //Auto_Update_Discount();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -843,6 +847,7 @@ public class Home_GUI extends javax.swing.JFrame {
         String day = dateArray[2];
         String month = dateArray[1];
         String year = dateArray[0];
+        lb_Time.setText(day+"-"+month+"-"+year+" : ");
         Thread a = new Thread(){
             public void run(){
                 try{
@@ -861,15 +866,24 @@ public class Home_GUI extends javax.swing.JFrame {
         a.start();
     }
     
+    private void Auto_Update_Discount() throws ParseException{
+        String[] time = lb_Time.getText().split(" : ");
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(time[0]);
+        
+        for(Discount_DTO discount : list_Discount){
+            
+            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
+            }
+            
+            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
+            }
+        }
+        
+    }
     
-    
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Home_GUI().setVisible(true);
-//            }
-//        });
-//    }
     
     private JPanel currentBtn;
     // Variables declaration - do not modify//GEN-BEGIN:variables

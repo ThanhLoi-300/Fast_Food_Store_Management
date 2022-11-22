@@ -5,6 +5,7 @@ import BUS.BillDetail_BUS;
 import BUS.Bill_BUS;
 import BUS.Category_BUS;
 import BUS.Customer_BUS;
+import BUS.Discount_BUS;
 import BUS.Product_BUS;
 import Custom.Detail_Bill;
 import Custom.Item_Product;
@@ -64,6 +65,7 @@ public class Sale_GUI extends javax.swing.JPanel {
     private Customer_BUS customer_BUS = new Customer_BUS();
     private Bill_BUS bill_BUS = new Bill_BUS();
     private BillDetail_BUS bd_BUS = new BillDetail_BUS();
+    private Discount_BUS discount_BUS = new Discount_BUS();
     private NewJFrame1 NewJFrame1;
     
     public Sale_GUI(String staffID) {
@@ -74,8 +76,6 @@ public class Sale_GUI extends javax.swing.JPanel {
         
         list_Product = product_BUS.readProductOnBusiness();
         set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
-
-        
         
         list_Category = category_BUS.load_Data_CategoryObBusiness();
         Vector comboBoxItems=new Vector();
@@ -162,18 +162,18 @@ public class Sale_GUI extends javax.swing.JPanel {
             public void mousePressed(MouseEvent e) {
                 if( checkOrderExits(data) != null){
                     if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     else {
                         NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     }
                 }
                 else
                     if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     else {
                         NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     }
             }
 
@@ -206,7 +206,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             detail_Bill.getDetail_Panel().addMouseListener(new MouseAdapter(){
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    new NewJFrame1(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                    new NewJFrame1(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill", discount_BUS.check_Product_Discount(product.getProductID()));
                 }     
             });
             
@@ -596,7 +596,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 582, 557));
+        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 582, 550));
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -612,13 +612,10 @@ public class Sale_GUI extends javax.swing.JPanel {
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE))
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+                    .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -631,8 +628,8 @@ public class Sale_GUI extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -687,19 +684,22 @@ public class Sale_GUI extends javax.swing.JPanel {
     }
     
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        Locale locale = new Locale("vi","VN");
+        double totalCash = 0;
+        double excessCash = 0;
+        try {
+            totalCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel7.getText()).doubleValue();
+            excessCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel9.getText()).doubleValue();
+        } catch (ParseException ex) {
+            Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if(list_Detail_Bill.isEmpty()) {} //do nothing
         else if(jTextField3.getText().isBlank()|| !(jTextField3.getText().matches("-?\\d+")) || Integer.parseInt(jTextField3.getText())<= 0)
                     JOptionPane.showMessageDialog(this, "Vui lòng điền số tiền khách đưa!", "Warning", JOptionPane.WARNING_MESSAGE);
-        else {
-            Locale locale = new Locale("vi","VN");
-            double totalCash = 0;
-            double excessCash = 0;
-            try {
-                totalCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel7.getText()).doubleValue();
-                excessCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel9.getText()).doubleValue();
-            } catch (ParseException ex) {
-                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        else if( Double.parseDouble(jTextField3.getText()) < totalCash)
+                    JOptionPane.showMessageDialog(this, "Chưa nhận đủ số tiền", "Warning", JOptionPane.WARNING_MESSAGE);
+        else {        
             double receiveCash = Double.parseDouble(jTextField3.getText());
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
@@ -714,8 +714,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 b.setCustomerID("C0");
             else
                 b.setCustomerID(this.customer.getCustomerId());
-            
-            if(bill_BUS.Insert(b)) {
+            if(bill_BUS.Insert(b)) {                
                 if(!b.getCustomerID().equals("C0"))
                     customer_BUS.updatePurchaseTime(this.customer.getCustomerId(), this.customer.getPurchaseTimes()+1);
                 for(int i=0; i<list_Detail_Bill.size(); i++) {
@@ -735,20 +734,29 @@ public class Sale_GUI extends javax.swing.JPanel {
                     Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(this, "Thanh toán bill thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                refresh();
             }
         }
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         if(JOptionPane.showConfirmDialog(this, "Xóa hóa đơn hiện tại?", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            list_Detail_Bill.clear();
-            list_Quantity_Choice.clear();
-            Detail_Bill_Panel.removeAll();
-            Detail_Bill_Panel.repaint();
-            Detail_Bill_Panel.revalidate();
+            refresh();
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
+    private void refresh(){
+        list_Detail_Bill.clear();
+        list_Quantity_Choice.clear();
+        Detail_Bill_Panel.removeAll();
+        Detail_Bill_Panel.repaint();
+        Detail_Bill_Panel.revalidate();
+        jLabel7.setText("0");
+        jLabel9.setText("0");
+        jTextField3.setText("");
+        jTextField1.setText("");
+    }
+    
     public void Export_Excel(String bill_Id) throws FileNotFoundException, IOException{
         Bill bill = category_BUS.get_Bill_From_Id(bill_Id);
         
@@ -905,7 +913,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 cell.setCellValue(i+1);
                 cell.setCellStyle(style_Common);
                    
-                range = new CellRangeAddress(10+i, 10+i, 1, 3);
+                range = new CellRangeAddress(10+i, 10+i, 1, 4);
                 sheet.addMergedRegion(range);
                 cell = row.createCell(1, CellType.STRING);
                 cell.setCellValue(product.getProductName()+ " ("+ product.getSize()+")");
@@ -996,7 +1004,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         }
         
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.RoundPanel Detail_Bill_Panel;
     private Custom.RoundPanel Product_Panel;
