@@ -471,6 +471,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="txt_Search.getDocument().addDocumentListener(new DocumentListener() {&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    protected void updateFieldState() {&#xa;        if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){&#xa;            list_Discount = discount_BUS.load_Discount(txt_Search.getText(), jComboBox2.getSelectedItem().toString());&#xa;            load_Discount(list_Discount);&#xa;        }&#xa;        else {&#xa;            list_Discount = discount_BUS.load_Discount(txt_Search.getText(),jComboBox2.getSelectedItem().toString());&#xa;            load_Discount(list_Discount);&#xa;        }&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
             <Component class="Custom.Button" name="button1">
               <Properties>
@@ -512,6 +515,9 @@
                 <Property name="debugGraphicsOptions" type="int" value="-1"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox2ActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -664,6 +670,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="txt_Search1.getDocument().addDocumentListener(new DocumentListener() {&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    protected void updateFieldState() {&#xa;        if(discount_BUS.check_Discount_Id(txt_Discount_Id.getText())){            &#xa;            DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();&#xa;            model.setRowCount(0);&#xa;            list_Choose_Product.clear();&#xa;            load_Product_Remaining();&#xa;        }else{&#xa;            list_Product_From_Discount = discount_BUS.load_Detail_Discount(txt_Discount_Id.getText());&#xa;            load_Product_From_Discount(list_Product_From_Discount); &#xa;        }  &#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
             <Component class="Custom.Button" name="button2">
               <Properties>
@@ -703,6 +712,9 @@
                 <Property name="debugGraphicsOptions" type="int" value="-1"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox3ActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>

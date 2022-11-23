@@ -6,6 +6,8 @@ import DTO.Category_DTO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Category_GUI extends javax.swing.JPanel {
@@ -55,13 +57,6 @@ public class Category_GUI extends javax.swing.JPanel {
 
         txt_Search.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txt_Search.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        txt_Search.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txt_SearchInputMethodTextChanged(evt);
-            }
-        });
 
         button1.setBackground(new java.awt.Color(240, 240, 240));
         button1.setBorder(null);
@@ -178,6 +173,35 @@ public class Category_GUI extends javax.swing.JPanel {
                 .addComponent(scrCategoryList, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        txt_Search.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            protected void updateFieldState() {
+                if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){
+                    category_List = category_BUS.load_Data_Category();
+                    load_Data_Category(category_List);
+                }
+                else {
+                    category_List = category_BUS.search_Category(txt_Search.getText());
+                    load_Data_Category(category_List);
+                }
+            }
+        });
 
         roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -501,17 +525,6 @@ public class Category_GUI extends javax.swing.JPanel {
             }  
         }    
     }//GEN-LAST:event_btnDeleteMouseClicked
-
-    private void txt_SearchInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txt_SearchInputMethodTextChanged
-        if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){
-            category_List = category_BUS.load_Data_Category();
-            load_Data_Category(category_List);
-        }
-        else {
-            category_List = category_BUS.search_Category(txt_Search.getText());
-            load_Data_Category(category_List);
-        }
-    }//GEN-LAST:event_txt_SearchInputMethodTextChanged
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
         if( txt_Search.getText().isEmpty() ){

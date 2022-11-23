@@ -131,9 +131,9 @@
                   </Border>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="txt_SearchInputMethodTextChanged"/>
-              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="txt_Search.getDocument().addDocumentListener(new DocumentListener() {&#xa;&#xa;    @Override&#xa;    public void insertUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void removeUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    @Override&#xa;    public void changedUpdate(DocumentEvent e) {&#xa;        updateFieldState();&#xa;    }&#xa;&#xa;    protected void updateFieldState() {&#xa;        if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){&#xa;            category_List = category_BUS.load_Data_Category();&#xa;            load_Data_Category(category_List);&#xa;        }&#xa;        else {&#xa;            category_List = category_BUS.search_Category(txt_Search.getText());&#xa;            load_Data_Category(category_List);&#xa;        }&#xa;    }&#xa;});"/>
+              </AuxValues>
             </Component>
             <Component class="Custom.Button" name="button1">
               <Properties>

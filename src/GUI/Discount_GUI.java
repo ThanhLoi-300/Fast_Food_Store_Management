@@ -1,8 +1,10 @@
 
 package GUI;
 
+import BUS.Category_BUS;
 import BUS.Discount_BUS;
 import BUS.Product_BUS;
+import DTO.Category_DTO;
 import DTO.Discount_DTO;
 import DTO.Discount_Detail_DTO;
 import DTO.Product_DTO;
@@ -11,11 +13,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Discount_GUI extends javax.swing.JPanel {
@@ -23,14 +29,22 @@ public class Discount_GUI extends javax.swing.JPanel {
     Discount_BUS discount_BUS = new Discount_BUS();
     Product_BUS product_BUS = new Product_BUS();
     
-    private ArrayList<Discount_DTO> list_Discount = discount_BUS.load_Discount();
+    private ArrayList<Discount_DTO> list_Discount = new ArrayList<Discount_DTO>();
     private ArrayList<Discount_Detail_DTO> list_Product_From_Discount;
     private ArrayList<Product_DTO> list_Product = new ArrayList<Product_DTO>();
     private ArrayList<String> list_Choose_Product = new ArrayList<>();
+    private ArrayList<Category_DTO> list_Category = new ArrayList<Category_DTO>();
+    private Category_BUS category_BUS = new Category_BUS();
     SimpleDateFormat fmt = new SimpleDateFormat("MM dd,yyyy");
     
     public Discount_GUI() {
         initComponents();
+        list_Category = category_BUS.load_Data_CategoryObBusiness();
+        Vector comboBoxItems=new Vector();
+        comboBoxItems.add("Tất cả");
+        for(int i = 0; i< list_Category.size();i++)
+            comboBoxItems.add(list_Category.get(i).getCategory_Name());
+        jComboBox3.setModel(new DefaultComboBoxModel(comboBoxItems));
         refresh();
     }
 
@@ -265,6 +279,11 @@ public class Discount_GUI extends javax.swing.JPanel {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đang áp dụng", "Ngừng áp dụng" }));
         jComboBox2.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         jComboBox2.setFocusable(false);
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         tbl_Discount.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tbl_Discount.setModel(new javax.swing.table.DefaultTableModel(
@@ -393,6 +412,11 @@ public class Discount_GUI extends javax.swing.JPanel {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loại sản phẩm" }));
         jComboBox3.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         jComboBox3.setFocusable(false);
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
         roundPanel3.setLayout(roundPanel3Layout);
@@ -441,6 +465,64 @@ public class Discount_GUI extends javax.swing.JPanel {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        txt_Search.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            protected void updateFieldState() {
+                if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){
+                    list_Discount = discount_BUS.load_Discount(txt_Search.getText(), jComboBox2.getSelectedItem().toString());
+                    load_Discount(list_Discount);
+                }
+                else {
+                    list_Discount = discount_BUS.load_Discount(txt_Search.getText(),jComboBox2.getSelectedItem().toString());
+                    load_Discount(list_Discount);
+                }
+            }
+        });
+        txt_Search1.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateFieldState();
+            }
+
+            protected void updateFieldState() {
+                if(discount_BUS.check_Discount_Id(txt_Discount_Id.getText())){
+                    DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
+                    model.setRowCount(0);
+                    list_Choose_Product.clear();
+                    load_Product_Remaining();
+                }else{
+                    list_Product_From_Discount = discount_BUS.load_Detail_Discount(txt_Discount_Id.getText());
+                    load_Product_From_Discount(list_Product_From_Discount);
+                }
+            }
+        });
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -531,7 +613,7 @@ public class Discount_GUI extends javax.swing.JPanel {
 
     private void tbl_DiscountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DiscountMouseClicked
         int i = tbl_Discount.getSelectedRow();
-        list_Discount = discount_BUS.load_Discount();
+        list_Discount = discount_BUS.load_Discount(txt_Search.getText(),jComboBox2.getSelectedItem().toString());
         
         Discount_DTO discount_DTO = list_Discount.get(i);
         txt_Discount_Id.setText(discount_DTO.getDiscount_Id());
@@ -613,6 +695,29 @@ public class Discount_GUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tbl_ProductMouseClicked
 
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        if( txt_Search.getText().isEmpty() || txt_Search.getText() == null){
+            list_Discount = discount_BUS.load_Discount(txt_Search.getText(), jComboBox2.getSelectedItem().toString());
+            load_Discount(list_Discount);
+        }
+        else {
+            list_Discount = discount_BUS.load_Discount(txt_Search.getText(),jComboBox2.getSelectedItem().toString());
+            load_Discount(list_Discount);
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        if(discount_BUS.check_Discount_Id(txt_Discount_Id.getText())){            
+            DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
+            model.setRowCount(0);
+            list_Choose_Product.clear();
+            load_Product_Remaining();
+        }else{
+            list_Product_From_Discount = discount_BUS.load_Detail_Discount(txt_Discount_Id.getText());
+            load_Product_From_Discount(list_Product_From_Discount); 
+        }  
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
     private void auto_Create_Id(){
         String Id = "KM" + discount_BUS.get_All_Discount();
         txt_Discount_Id.setText(Id);
@@ -624,7 +729,7 @@ public class Discount_GUI extends javax.swing.JPanel {
         txt_Percent.setText("");
         start_Time.setDate(null);
         end_Time.setDate(null);
-        list_Discount = discount_BUS.load_Discount();
+        list_Discount = discount_BUS.load_Discount(txt_Search.getText(),jComboBox2.getSelectedItem().toString());
         load_Discount(list_Discount);
         list_Product.clear();
         DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
@@ -657,11 +762,10 @@ public class Discount_GUI extends javax.swing.JPanel {
             model.addRow( new Object[] { detail.getProduct_Id(), product.getProductName(), product.getPrice(), newPrice, true});
         }
         load_Product_Remaining();
- 
     }
     
     private void load_Product_Remaining(){
-        ArrayList<Product_DTO> product_NotIn_Discount_Detail = discount_BUS.load_Product_Remaining();
+        ArrayList<Product_DTO> product_NotIn_Discount_Detail = discount_BUS.load_Product_Remaining(txt_Search1.getText(),jComboBox3.getSelectedItem().toString());
             
         DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
         for(Product_DTO product : product_NotIn_Discount_Detail){

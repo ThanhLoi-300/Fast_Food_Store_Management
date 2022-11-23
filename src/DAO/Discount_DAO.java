@@ -60,8 +60,18 @@ public class Discount_DAO {
         return true;
     }
     
-    public ArrayList<Discount_DTO> load_Discount(){
-        String sql = "SELECT * FROM discount WHERE isDeleted = 0";
+    public ArrayList<Discount_DTO> load_Discount( String search, String cbb){
+        String sql = "";
+        if(  search.isEmpty() && cbb.equals("Tất cả") )
+            sql = "SELECT * FROM discount WHERE isDeleted = 0";
+        else if(!search.isEmpty() && cbb.equals("Tất cả"))
+            sql = "SELECT * FROM discount WHERE isDeleted = 0 AND discount_Percent LIKE '%"+search+"%'";
+        else{
+            if(cbb.equals("Đang áp dụng"))
+                sql = "SELECT * FROM discount WHERE isDeleted = 0 AND discount_Percent LIKE '%"+search+"%' AND status = 1";
+            else sql = "SELECT * FROM discount WHERE isDeleted = 0 AND discount_Percent LIKE '%"+search+"%' AND status = 0";
+        }
+            
         ArrayList<Discount_DTO> list_Discount = new ArrayList<>();
         
         try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql);){
@@ -195,20 +205,7 @@ public class Discount_DAO {
         return null;
     }
     
-     public ArrayList<Product_DTO> loadDataProductRemaining(String s) {
-        ArrayList<Product_DTO> listProduct = new ArrayList<Product_DTO>();
-        String sql = "SELECT * FROM product WHERE IsDeleted <> 1 AND Product_ID not in "+ s +" GROUP BY Product_Name";
-        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
-            while (rs.next()) {
-                Product_DTO product = new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));
-                listProduct.add(product);
-            }
-        } catch (Exception e) {
-            System.out.println("Error occured at loadDataProductRemaining method from Product_DAO class.");
-            System.out.println(e);
-        }
-        return listProduct;
-    }
+
      
     public ArrayList<Discount_Detail_DTO> check_Discount_Id(String id){
         String sql = "SELECT * FROM discount_detail WHERE discount_Id = '"+ id +"'";
@@ -227,8 +224,15 @@ public class Discount_DAO {
         return list_Discount;
      }
     
-    public ArrayList<Product_DTO> load_Product_Remaining(){
-        String sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) GROUP BY Product_Name";
+    public ArrayList<Product_DTO> load_Product_Remaining(String search, String cbb){
+        
+        String sql = "";
+        if(search.isEmpty() && cbb.equals("Tất cả"))
+            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) GROUP BY Product_Name";
+        else if(!search.isEmpty() && cbb.equals("Tất cả"))
+            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' GROUP BY Product_Name";
+        else
+            sql = "SELECT * FROM product, category WHERE category.Category_Id = product.Category_ID AND product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' AND category.Category_Name = '"+cbb+"' GROUP BY Product_Name";
         ArrayList<Product_DTO> list = new ArrayList<>();
         
         try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql);){

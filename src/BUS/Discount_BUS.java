@@ -22,8 +22,8 @@ public class Discount_BUS {
         return false;
     }
     
-    public ArrayList<Discount_DTO> load_Discount(){
-        return discount_DAO.load_Discount();
+    public ArrayList<Discount_DTO> load_Discount(String search, String cbb){
+        return discount_DAO.load_Discount(search, cbb);
     }
     
     public boolean delete_Discount(String id){
@@ -60,17 +60,13 @@ public class Discount_BUS {
         return discount_DAO.get_Discount_By_Id(id);
     }
     
-    public ArrayList<Product_DTO> loadDataProductRemaining(String s){
-        return discount_DAO.loadDataProductRemaining(s);
-    }
-    
     public boolean check_Discount_Id(String id){
         if(discount_DAO.check_Discount_Id(id).size() == 0) return true;
         else return false;
     }
     
-    public ArrayList<Product_DTO> load_Product_Remaining(){
-        return discount_DAO.load_Product_Remaining();
+    public ArrayList<Product_DTO> load_Product_Remaining(String search, String cbb){
+        return discount_DAO.load_Product_Remaining(search,cbb);
     }
     
     public int check_Product_Discount(String id){

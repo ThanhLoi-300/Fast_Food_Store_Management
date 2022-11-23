@@ -4,7 +4,10 @@ package GUI;
 import BUS.Login_BUS;
 import DTO.Account;
 import java.awt.Color;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Login_GUI extends javax.swing.JFrame {
@@ -275,7 +278,11 @@ public class Login_GUI extends javax.swing.JFrame {
             else {
                 ArrayList<String> staffInfo = loginBUS.loginGetStaffInfo(jTextField6.getText(), jPasswordField1.getText());
                 this.dispose();
-                new Home_GUI(staffInfo);
+                try {
+                    new Home_GUI(staffInfo);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Login_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_button3MouseClicked

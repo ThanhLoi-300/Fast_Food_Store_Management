@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -847,7 +849,7 @@ public class Home_GUI extends javax.swing.JFrame {
         String day = dateArray[2];
         String month = dateArray[1];
         String year = dateArray[0];
-        lb_Time.setText(day+"-"+month+"-"+year+" : ");
+        //lb_Time.setText(day+"-"+month+"-"+year+" : ");
         Thread a = new Thread(){
             public void run(){
                 try{
@@ -867,17 +869,21 @@ public class Home_GUI extends javax.swing.JFrame {
     }
     
     private void Auto_Update_Discount() throws ParseException{
-        String[] time = lb_Time.getText().split(" : ");
-        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(time[0]);
+        LocalDateTime localDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy : HH:mm:ss");
+        String date = localDate.format(formatter);
         
-        for(Discount_DTO discount : list_Discount){
-            
-            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+        String[] time = date.toString().split(" : ");
+        
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        Date date_Now = new SimpleDateFormat("dd-MM-yyyy").parse(time[0]);
+        
+        for(Discount_DTO discount : list_Discount){            
+            if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
                 discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
             }
             
-            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+            if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
                 discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
             }
         }
