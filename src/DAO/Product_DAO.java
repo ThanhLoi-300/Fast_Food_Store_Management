@@ -77,13 +77,25 @@ public class Product_DAO {
         return true;
     }
 
-    public boolean updateProduct(Product_DTO product) {
+    public boolean updateProduct(Product_DTO product, String size) {
         String sql = "UPDATE product SET Size = '" + product.getSize() + "', Product_Name = '" + product.getProductName() + "', Quantity = " + product.getQuantity() + ", UnitPrice = " + product.getPrice() + ", Category_ID = '" + product.getCategoryID() + "', Image = '" + product.getImage() + "'" + ",BusinessStatus = " + product.isBusinessStatus()
-                    + " WHERE Product_ID = '" + product.getProductID() + "'";
+                    + " WHERE Product_ID = '" + product.getProductID() + "' AND Size = '"+size+"'";
         try (Connection conn = cB.getConnect();PreparedStatement pst = conn.prepareStatement(sql); ){
             pst.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error occured at updateProduct from Product_DAO class");
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean update_Status_Of_All_Product(Product_DTO product) {
+        String sql = "UPDATE product SET  BusinessStatus = " + product.isBusinessStatus() + " WHERE Product_ID = '" + product.getProductID() +"'";
+        try (Connection conn = cB.getConnect();PreparedStatement pst = conn.prepareStatement(sql); ){
+            pst.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error occured at update_Status_Of_All_Product from Product_DAO class");
             System.out.println(e);
             return false;
         }

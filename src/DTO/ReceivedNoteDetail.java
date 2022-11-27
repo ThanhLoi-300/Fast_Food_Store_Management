@@ -13,13 +13,13 @@ public class ReceivedNoteDetail {
     private String productId;
     private String size;
     private int quantity;
-    private int unitPrice;
-    private int price;
+    private double unitPrice;
+    private double price;
 
     public ReceivedNoteDetail() {
     }
 
-    public ReceivedNoteDetail(String receivedNoteID, String productId, String size, int quantity, int unitPrice, int price) {
+    public ReceivedNoteDetail(String receivedNoteID, String productId, String size, int quantity, double unitPrice, double price) {
         this.receivedNoteID = receivedNoteID;
         this.productId = productId;
         this.size = size;
@@ -60,19 +60,19 @@ public class ReceivedNoteDetail {
         this.quantity = quantity;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

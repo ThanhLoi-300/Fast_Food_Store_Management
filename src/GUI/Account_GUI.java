@@ -4,6 +4,12 @@
  */
 package GUI;
 
+import BUS.Account_BUS;
+import DTO.Account;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Josie
@@ -13,8 +19,12 @@ public class Account_GUI extends javax.swing.JPanel {
     /**
      * Creates new form Account_GUI
      */
+    Account_BUS accountBUS = new Account_BUS();
+    ArrayList<Account> listAccount;
     public Account_GUI() {
+        listAccount = accountBUS.loadDataAccount();
         initComponents();
+        loadAccountList(listAccount);
     }
 
     /**
@@ -35,7 +45,7 @@ public class Account_GUI extends javax.swing.JPanel {
         lblPasswordConfig = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
         lblTypeConfig = new javax.swing.JLabel();
-        txtType = new javax.swing.JTextField();
+        txtUserType = new javax.swing.JTextField();
         txtStaffID = new javax.swing.JTextField();
         lblStaffIDConfig = new javax.swing.JLabel();
         btnAdd = new Custom.Button();
@@ -80,7 +90,7 @@ public class Account_GUI extends javax.swing.JPanel {
         lblTypeConfig.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTypeConfig.setText("Loại:");
 
-        txtType.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txtUserType.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         txtStaffID.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
@@ -101,6 +111,11 @@ public class Account_GUI extends javax.swing.JPanel {
                 btnAddMouseClicked(evt);
             }
         });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setBackground(new java.awt.Color(240, 240, 240));
         btnUpdate.setBorder(null);
@@ -111,9 +126,9 @@ public class Account_GUI extends javax.swing.JPanel {
         btnUpdate.setColorOver(new java.awt.Color(255, 255, 255));
         btnUpdate.setFocusPainted(false);
         btnUpdate.setRadius(20);
-        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUpdateMouseClicked(evt);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -126,9 +141,9 @@ public class Account_GUI extends javax.swing.JPanel {
         btnRefresh.setColorOver(new java.awt.Color(255, 255, 255));
         btnRefresh.setFocusPainted(false);
         btnRefresh.setRadius(20);
-        btnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRefreshMouseClicked(evt);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
             }
         });
 
@@ -141,9 +156,9 @@ public class Account_GUI extends javax.swing.JPanel {
         btnDelete.setColorOver(new java.awt.Color(255, 255, 255));
         btnDelete.setFocusPainted(false);
         btnDelete.setRadius(20);
-        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDeleteMouseClicked(evt);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -164,7 +179,7 @@ public class Account_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtStaffID)
-                            .addComponent(txtType)
+                            .addComponent(txtUserType)
                             .addComponent(txtPassword)
                             .addComponent(txtUserName)
                             .addComponent(txtAccountID, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -198,12 +213,12 @@ public class Account_GUI extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTypeConfig)
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUserType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStaffIDConfig)
                     .addComponent(txtStaffID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -219,6 +234,11 @@ public class Account_GUI extends javax.swing.JPanel {
         cbbSearchFilter.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbbSearchFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tài khoản", "Tên tài khoản", "Loại", "Mã nhân viên" }));
         cbbSearchFilter.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cbbSearchFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbSearchFilterActionPerformed(evt);
+            }
+        });
 
         txtSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -235,7 +255,7 @@ public class Account_GUI extends javax.swing.JPanel {
         });
 
         scrAccountList.setBackground(new java.awt.Color(242, 242, 242));
-        scrAccountList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrAccountList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách tài khoản", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
         scrAccountList.setName(""); // NOI18N
         scrAccountList.setPreferredSize(new java.awt.Dimension(470, 423));
 
@@ -286,6 +306,11 @@ public class Account_GUI extends javax.swing.JPanel {
             }
         });
         tblAccountList.setRowHeight(30);
+        tblAccountList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAccountListMouseClicked(evt);
+            }
+        });
         scrAccountList.setViewportView(tblAccountList);
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
@@ -314,7 +339,7 @@ public class Account_GUI extends javax.swing.JPanel {
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrAccountList, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                .addComponent(scrAccountList, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -352,7 +377,15 @@ public class Account_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
+        if(!txtSearch.getText().isEmpty()) {
+            ArrayList<Account> resultList = accountBUS.searchAccount(txtSearch.getText(), cbbSearchFilter.getSelectedItem() + "");
+            loadAccountList(resultList);
+            refresh();
+        }
+        else {
+            loadAccountList(listAccount);
+            refresh();
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtAccountIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAccountIDActionPerformed
@@ -363,19 +396,108 @@ public class Account_GUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btnAddMouseClicked
 
-    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
-        
-    }//GEN-LAST:event_btnUpdateMouseClicked
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        refresh();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
-
-    }//GEN-LAST:event_btnRefreshMouseClicked
-
-    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+    private void tblAccountListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAccountListMouseClicked
+       int i = tblAccountList.getSelectedRow();
+       Account selectedAccount = listAccount.get(i);
        
-    }//GEN-LAST:event_btnDeleteMouseClicked
+       txtAccountID.setText(selectedAccount.getAccountId());
+       txtUserName.setText(selectedAccount.getUsername());
+       txtPassword.setText(selectedAccount.getPassword());
+       txtUserType.setText(selectedAccount.getUserType());
+       txtStaffID.setText(selectedAccount.getStaffId());
+    }//GEN-LAST:event_tblAccountListMouseClicked
 
+    private void cbbSearchFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSearchFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbSearchFilterActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+            String newID;
+            newID = accountBUS.autoID();
+            if (isInputEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không được để trống thông tin tài khoản!");
+            }
+            else if(accountBUS.accountNameExisted(newID, txtUserName.getText()))
+                JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại!");
+            else {
+                Account acc = new Account(newID, txtUserName.getText(), txtPassword.getText(),
+                        txtUserType.getText(), txtStaffID.getText(), false);
+                if(accountBUS.inserAccount(acc)) {
+                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!");
+                    listAccount = accountBUS.loadDataAccount();
+                    loadAccountList(listAccount);
+                    refresh();
+                }
+                
+            }
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if(isInputEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống thông tin!");
+        }
+        else {
+            int i = tblAccountList.getSelectedRow();
+            Account selectedAccount = listAccount.get(i);
+            Account acc = new Account(selectedAccount.getAccountId(),txtUserName.getText(), txtPassword.getText(),
+            txtUserType.getText(), txtStaffID.getText(), false);
+            if(accountBUS.updateAccount(acc)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thông tin tài khoản thành công!");
+                listAccount = accountBUS.loadDataAccount();
+                loadAccountList(listAccount);
+                refresh();
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(txtAccountID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa!");
+        }
+        else {
+            if(JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa tài khoản?","Warning",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                int i = tblAccountList.getSelectedRow();
+                Account selectedAccount = listAccount.get(i);
+                if(accountBUS.deleteAccount(selectedAccount.getAccountId())) {
+                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!");
+                    listAccount = accountBUS.loadDataAccount();
+                    loadAccountList(listAccount);
+                    refresh();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    
+    private void loadAccountList(ArrayList<Account> listAccount) {
+        DefaultTableModel model = (DefaultTableModel) tblAccountList.getModel();
+        model.setRowCount(0);
+        for(Account acc : listAccount) {
+            model.addRow(new Object[]{acc.getAccountId(), acc.getUsername(), acc.getPassword(), acc.getUserType(), acc.getStaffId()});
+            
+        }
+    }
+    
+    private void refresh() {
+        txtAccountID.setText("");
+        txtUserName.setText("");
+        txtUserType.setText("");
+        txtPassword.setText("");
+        txtStaffID.setText("");
+    }
+    
+    private boolean isInputEmpty() {
+        return txtUserName.getText().isEmpty()
+                || txtPassword.getText().isEmpty()
+                || txtUserType.getText().isEmpty()
+                || txtStaffID.getText().isEmpty();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAdd;
     private Custom.Button btnDelete;
@@ -397,7 +519,7 @@ public class Account_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtStaffID;
-    private javax.swing.JTextField txtType;
     private javax.swing.JTextField txtUserName;
+    private javax.swing.JTextField txtUserType;
     // End of variables declaration//GEN-END:variables
 }

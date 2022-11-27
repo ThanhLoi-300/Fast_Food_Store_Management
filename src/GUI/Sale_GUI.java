@@ -5,6 +5,7 @@ import BUS.BillDetail_BUS;
 import BUS.Bill_BUS;
 import BUS.Category_BUS;
 import BUS.Customer_BUS;
+import BUS.Discount_BUS;
 import BUS.Product_BUS;
 import Custom.Detail_Bill;
 import Custom.Item_Product;
@@ -14,17 +15,24 @@ import DTO.Bill;
 import DTO.BillDetail;
 import DTO.Category_DTO;
 import DTO.Customer;
+import DTO.Discount_DTO;
 import DTO.Product_DTO;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -34,6 +42,18 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Sale_GUI extends javax.swing.JPanel {
     
@@ -48,18 +68,18 @@ public class Sale_GUI extends javax.swing.JPanel {
     private Customer_BUS customer_BUS = new Customer_BUS();
     private Bill_BUS bill_BUS = new Bill_BUS();
     private BillDetail_BUS bd_BUS = new BillDetail_BUS();
+    private Discount_BUS discount_BUS = new Discount_BUS();
     private NewJFrame1 NewJFrame1;
     
-    public Sale_GUI(String staffID) {
+    public Sale_GUI(String staffID){
         initComponents();
+        Auto_Update_Discount();
         NewJFrame1 = new NewJFrame1();
         this.StaffID = staffID;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
         
         list_Product = product_BUS.readProductOnBusiness();
         set_Grid_Layout_for_Panel_And_Load_Product(list_Product);
-
-        
         
         list_Category = category_BUS.load_Data_CategoryObBusiness();
         Vector comboBoxItems=new Vector();
@@ -113,7 +133,7 @@ public class Sale_GUI extends javax.swing.JPanel {
     
     //Mở rộng panel Grid layout dựa trên list_Product.size()
     public void set_Grid_Layout_for_Panel_And_Load_Product( ArrayList<Product_DTO> list_Product ){
-        if(list_Product.size() > 1){
+        if(list_Product.size() > 1 && list_Product.size()%2 == 1){
             Product_Panel.setLayout( new GridLayout( list_Product.size()/2 +1 ,2,15,15));
             for(int i = 0; i< list_Product.size();i++)
                 addItem(list_Product.get(i));
@@ -121,7 +141,25 @@ public class Sale_GUI extends javax.swing.JPanel {
             Product_Panel.removeAll();
             Product_Panel.repaint();
             Product_Panel.validate();
-        }else{
+        }else if(list_Product.size() > 2 && list_Product.size()%2 == 0){
+            Product_Panel.setLayout( new GridLayout( list_Product.size()/2 ,2,15,15));
+            for(int i = 0; i< list_Product.size();i++)
+                addItem(list_Product.get(i));
+        }else if(list_Product.size() == 2){
+            Product_Panel.setLayout( new GridLayout( list_Product.size()/2 +1  ,2,15,15));
+            for(int i = 0; i< list_Product.size();i++)
+                addItem(list_Product.get(i));
+            for(int i=0; i<2; i++){
+                Item_Product pd = new Item_Product();
+                pd.setPreferredSize(new java.awt.Dimension(156,189));
+                //Dòng này để test kết quả
+                //pd.setData(new Product_DTO("1","1","1","1",1,1,"1",true,true));
+                Product_Panel.add(pd);
+                Product_Panel.repaint();
+                Product_Panel.revalidate();
+            }
+        }
+        else{
             //List chỉ có 1 phần tử tạo thêm 2 Item_Product rỗng để tránh lỗi full screen
             Product_Panel.setLayout( new GridLayout(2,2,15,15));
             addItem(list_Product.get(0));
@@ -146,18 +184,18 @@ public class Sale_GUI extends javax.swing.JPanel {
             public void mousePressed(MouseEvent e) {
                 if( checkOrderExits(data) != null){
                     if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     else {
                         NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     }
                 }
                 else
                     if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     else {
                         NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill");
+                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     }
             }
 
@@ -190,7 +228,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             detail_Bill.getDetail_Panel().addMouseListener(new MouseAdapter(){
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    new NewJFrame1(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill");
+                    new NewJFrame1(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill", discount_BUS.check_Product_Discount(product.getProductID()));
                 }     
             });
             
@@ -580,7 +618,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 582, 557));
+        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 582, 550));
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -596,13 +634,10 @@ public class Sale_GUI extends javax.swing.JPanel {
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE))
-                    .addGroup(roundPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+                    .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -615,8 +650,8 @@ public class Sale_GUI extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -671,19 +706,22 @@ public class Sale_GUI extends javax.swing.JPanel {
     }
     
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        Locale locale = new Locale("vi","VN");
+        double totalCash = 0;
+        double excessCash = 0;
+        try {
+            totalCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel7.getText()).doubleValue();
+            excessCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel9.getText()).doubleValue();
+        } catch (ParseException ex) {
+            Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if(list_Detail_Bill.isEmpty()) {} //do nothing
         else if(jTextField3.getText().isBlank()|| !(jTextField3.getText().matches("-?\\d+")) || Integer.parseInt(jTextField3.getText())<= 0)
                     JOptionPane.showMessageDialog(this, "Vui lòng điền số tiền khách đưa!", "Warning", JOptionPane.WARNING_MESSAGE);
-        else {
-            Locale locale = new Locale("vi","VN");
-            double totalCash = 0;
-            double excessCash = 0;
-            try {
-                totalCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel7.getText()).doubleValue();
-                excessCash = NumberFormat.getCurrencyInstance(locale).parse(jLabel9.getText()).doubleValue();
-            } catch (ParseException ex) {
-                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        else if( Double.parseDouble(jTextField3.getText()) < totalCash)
+                    JOptionPane.showMessageDialog(this, "Chưa nhận đủ số tiền", "Warning", JOptionPane.WARNING_MESSAGE);
+        else {        
             double receiveCash = Double.parseDouble(jTextField3.getText());
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
@@ -698,8 +736,9 @@ public class Sale_GUI extends javax.swing.JPanel {
                 b.setCustomerID("C0");
             else
                 b.setCustomerID(this.customer.getCustomerId());
-            if(bill_BUS.Insert(b)) {
-                customer_BUS.updatePurchaseTime(this.customer.getCustomerId(), this.customer.getPurchaseTimes()+1);
+            if(bill_BUS.Insert(b)) {                
+                if(!b.getCustomerID().equals("C0"))
+                    customer_BUS.updatePurchaseTime(this.customer.getCustomerId(), this.customer.getPurchaseTimes()+1);
                 for(int i=0; i<list_Detail_Bill.size(); i++) {
                     BillDetail bd = new BillDetail();
                     bd.setBillId(b.getBill_ID());
@@ -711,21 +750,319 @@ public class Sale_GUI extends javax.swing.JPanel {
                     bd_BUS.insert(bd);
                     product_BUS.updateProductQuantity(list_Detail_Bill.get(i), newQuantity);
                 } 
+                try {
+                    Export_Excel(b.getBill_ID());
+                } catch (IOException ex) {
+                    Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(this, "Thanh toán bill thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                refresh();
             }
         }
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         if(JOptionPane.showConfirmDialog(this, "Xóa hóa đơn hiện tại?", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            list_Detail_Bill.clear();
-            list_Quantity_Choice.clear();
-            Detail_Bill_Panel.removeAll();
-            Detail_Bill_Panel.repaint();
-            Detail_Bill_Panel.revalidate();
+            refresh();
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
+    private void refresh(){
+        list_Detail_Bill.clear();
+        list_Quantity_Choice.clear();
+        Detail_Bill_Panel.removeAll();
+        Detail_Bill_Panel.repaint();
+        Detail_Bill_Panel.revalidate();
+        jLabel7.setText("0");
+        jLabel9.setText("0");
+        jTextField3.setText("");
+        jTextField1.setText("");
+    }
+    
+    public void Export_Excel(String bill_Id) throws FileNotFoundException, IOException{
+        Bill bill = category_BUS.get_Bill_From_Id(bill_Id);
+        
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        
+        XSSFWorkbook workBook = new XSSFWorkbook();
+        XSSFSheet sheet = workBook.createSheet("Hóa đơn");
+        
+        XSSFRow row = null;
+        Cell cell = null;
+        
+        CellRangeAddress range = new CellRangeAddress(1, 1, 0, 10);
+        sheet.addMergedRegion(range);
+        
+        //cell style
+        CellStyle styleId = workBook.createCellStyle();
+        styleId.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font1 = workBook.createFont();
+        font1.setFontHeight(16);
+        font1.setBold(true);
+        font1.setColor(IndexedColors.BLACK1.getIndex());
+        styleId.setFont(font1);
+        
+        //Bold
+        CellStyle style_Bold = workBook.createCellStyle();
+        style_Bold.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Bold = workBook.createFont();
+        font_Bold.setFontHeight(13);
+        font_Bold.setBold(true);
+        font_Bold.setColor(IndexedColors.BLACK1.getIndex());
+        style_Bold.setFont(font_Bold);
+        
+        //common
+        CellStyle style_Common = workBook.createCellStyle();
+        style_Common.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Common = workBook.createFont();
+        font_Common.setFontHeight(12);
+        style_Common.setFont(font_Common);
+        
+        //Title
+        row = sheet.createRow(1);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("HÓA ĐƠN");
+        cell.setCellStyle(styleId);
+        
+        //Bill_Id
+        row = sheet.createRow(3);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Mã:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(bill_Id);
+        cell.setCellStyle(style_Common);
+        
+        //Ngày
+        cell = row.createCell(6, CellType.STRING);
+        cell.setCellValue("Ngày:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 7, 10);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(7, CellType.STRING);
+        cell.setCellValue(bill.getDate());
+        cell.setCellStyle(style_Common);
+        
+        //Staff
+        row = sheet.createRow(4);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Staff:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(4, 4, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        String staff_Name = category_BUS.get_Staff_Name_From_Id(bill.getStaffID());
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(staff_Name);
+        cell.setCellStyle(style_Common);
+        
+        //Khách hàng    
+        if( !bill.getCustomerID().equals("C0") ){
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Khách:");
+            cell.setCellStyle(style_Bold);
+        
+            range = new CellRangeAddress(4, 4, 7, 10);
+            sheet.addMergedRegion(range);
+            
+            String customer_Name = category_BUS.get_Customer_Name_From_Id(bill.getCustomerID());
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue(customer_Name);
+            cell.setCellStyle(style_Common);
+        }
+        
+        range = new CellRangeAddress(6, 6, 1, 9);
+        sheet.addMergedRegion(range);
+        
+        row = sheet.createRow(6);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
+        cell.setCellStyle(style_Bold);
+            
+        //middle
+        row = sheet.createRow(8);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("STT");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 1, 4);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Sản phẩm");
+        cell.setCellStyle(style_Bold);
+        
+        
+        cell = row.createCell(5, CellType.STRING);
+        cell.setCellValue("SL");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 6, 7);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(6, CellType.STRING);
+        cell.setCellValue("Giá");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 8, 9);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue("Thành tiền");
+        cell.setCellStyle(style_Bold);
+        
+        ArrayList<BillDetail> detail_Bill = bd_BUS.LoadDetail(bill_Id);
+        int i = 0;
+        if(detail_Bill != null){
+            for( i = 0 ; i< detail_Bill.size(); i++){
+                BillDetail bd = detail_Bill.get(i);
+                Product_DTO product = category_BUS.get_Product_In_Detail_Bill(bd.getProductId());
+                
+                row = sheet.createRow(10+i);
+                
+                cell = row.createCell(0, CellType.NUMERIC);
+                cell.setCellValue(i+1);
+                cell.setCellStyle(style_Common);
+                   
+                range = new CellRangeAddress(10+i, 10+i, 1, 4);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue(product.getProductName()+ " ("+ product.getSize()+")");
+                cell.setCellStyle(style_Common);
+                
+                cell = row.createCell(5, CellType.NUMERIC);
+                cell.setCellValue(bd.getQuantity());
+                cell.setCellStyle(style_Common);
+                
+                range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(6, CellType.NUMERIC);
+                cell.setCellValue(format.format(product.getPrice()));
+                cell.setCellStyle(style_Common);
+                
+                range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(8, CellType.NUMERIC);
+                cell.setCellValue(format.format(bd.getTotalValue()));
+                cell.setCellStyle(style_Common);
+            }
+            
+            range = new CellRangeAddress(11+i, 11+i, 1, 9);
+            sheet.addMergedRegion(range);
+        
+            row = sheet.createRow(11+i);
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            cell.setCellStyle(style_Bold);
+            //footer
+            //Total
+            row = sheet.createRow(13+i);
+            range = new CellRangeAddress(13+i, 13+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tổng:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(13+i, 13+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getTotalValue()));
+            cell.setCellStyle(style_Common);
+            
+            //Recieved
+            row = sheet.createRow(14+i);
+            range = new CellRangeAddress(14+i, 14+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tiền nhận:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(14+i, 14+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getReceivedMoney()));
+            cell.setCellStyle(style_Common);
+            
+            //Excess
+            row = sheet.createRow(15+i);
+            range = new CellRangeAddress(15+i, 15+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tiền thối:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(15+i, 15+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getExcessMoney()));
+            cell.setCellStyle(style_Common);
+            
+            //Border
+            CellRangeAddress rangeBig = new CellRangeAddress(0, 16+i, 0, 10);
+            RegionUtil.setBorderRight(BorderStyle.THIN, rangeBig, sheet);
+            RegionUtil.setBorderLeft(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderTop(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderBottom(BorderStyle.THIN, rangeBig, sheet);
+            
+            
+            File f = new File("src\\Excel\\Bill_Excel\\"+bill.getBill_ID()+".xlsx");
+            FileOutputStream fos = new FileOutputStream(f);
+            workBook.write(fos);
+            fos.close();
+        }
+        
+        
+        
+    }
+    
+    private void Auto_Update_Discount(){
+        int day = LocalDateTime.now().getDayOfMonth();
+        int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
+        
+        String now = day + "-" + month + "-" + year;
+        Date date_Now = null;
+        try {
+            date_Now = new SimpleDateFormat("dd-MM-yyyy").parse(now);
+        } catch (ParseException ex) {
+            Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        
+        for(Discount_DTO discount : list_Discount){      
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.RoundPanel Detail_Bill_Panel;

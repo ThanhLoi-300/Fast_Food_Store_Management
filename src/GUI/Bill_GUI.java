@@ -10,10 +10,12 @@ import BUS.Customer_BUS;
 import BUS.Product_BUS;
 import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
+import Custom.Detail_BillWithoutX;
 import DTO.Bill;
 import DTO.BillDetail;
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
+import java.awt.GridLayout;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -69,9 +71,6 @@ public class Bill_GUI extends javax.swing.JPanel {
         billTitle = new javax.swing.JLabel();
         staffOutput = new javax.swing.JLabel();
         timeOutput = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        detailTable = new javax.swing.JTable();
         jLabel14 = new javax.swing.JLabel();
         value2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -89,8 +88,8 @@ public class Bill_GUI extends javax.swing.JPanel {
         value1 = new javax.swing.JLabel();
         value2Label = new javax.swing.JLabel();
         value3Label = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        button1 = new Custom.Button();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Detail_Bill_Panel = new javax.swing.JPanel();
         nhapBtn = new Custom.Button();
         banBtn = new Custom.Button();
         roundPanel1 = new Custom.RoundPanel();
@@ -127,48 +126,6 @@ public class Bill_GUI extends javax.swing.JPanel {
 
         timeOutput.setToolTipText("");
         roundPanel2.add(timeOutput, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, -1, -1));
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel13.setText("------------------------------------");
-        roundPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 221, 262, -1));
-
-        detailTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "TÊN HÀNG", "SIZE", "Đ.GIÁ", "SL", "T.TIỀN"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(detailTable);
-        if (detailTable.getColumnModel().getColumnCount() > 0) {
-            detailTable.getColumnModel().getColumn(0).setPreferredWidth(120);
-            detailTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-            detailTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-            detailTable.getColumnModel().getColumn(3).setPreferredWidth(5);
-        }
-
-        roundPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 252, 398, 228));
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         roundPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 490, 10, 12));
@@ -224,22 +181,23 @@ public class Bill_GUI extends javax.swing.JPanel {
         value3Label.setText("Thành tiền:");
         roundPanel2.add(value3Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 530, 80, -1));
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jScrollPane3.setBorder(null);
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(355, 400));
 
-        button1.setBackground(new java.awt.Color(255, 255, 255));
-        button1.setBorder(null);
-        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        button1.setColor(new java.awt.Color(255, 255, 255));
-        button1.setColorClick(new java.awt.Color(228, 228, 228));
-        button1.setColorOver(new java.awt.Color(255, 255, 255));
-        button1.setFocusable(false);
-        button1.setRadius(5);
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout Detail_Bill_PanelLayout = new javax.swing.GroupLayout(Detail_Bill_Panel);
+        Detail_Bill_Panel.setLayout(Detail_Bill_PanelLayout);
+        Detail_Bill_PanelLayout.setHorizontalGroup(
+            Detail_Bill_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 355, Short.MAX_VALUE)
+        );
+        Detail_Bill_PanelLayout.setVerticalGroup(
+            Detail_Bill_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 290, Short.MAX_VALUE)
+        );
+
+        jScrollPane3.setViewportView(Detail_Bill_Panel);
+
+        roundPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, 290));
 
         nhapBtn.setBorder(null);
         nhapBtn.setForeground(new java.awt.Color(51, 51, 51));
@@ -331,14 +289,14 @@ public class Bill_GUI extends javax.swing.JPanel {
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                 .addContainerGap())
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -363,10 +321,7 @@ public class Bill_GUI extends javax.swing.JPanel {
                                 .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
                                 .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(30, 30, 30)
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
@@ -381,10 +336,8 @@ public class Bill_GUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                    .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -394,14 +347,8 @@ public class Bill_GUI extends javax.swing.JPanel {
         add(roundPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1035, 650));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button1ActionPerformed
-
     private void banBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banBtnMouseClicked
         if(!nhapBtn.isEnabled()){
-            model = (DefaultTableModel)detailTable.getModel();
-            model.setRowCount(0);
             nhapBtn.setEnabled(true);
             banBtn.setEnabled(false);
             listTitle.setText("Danh sách hóa đơn bán hàng");
@@ -416,8 +363,6 @@ public class Bill_GUI extends javax.swing.JPanel {
 
     private void nhapBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhapBtnMouseClicked
         if(nhapBtn.isEnabled()){
-            model = (DefaultTableModel)detailTable.getModel();
-            model.setRowCount(0);
             nhapBtn.setEnabled(false);
             banBtn.setEnabled(true);
             listTitle.setText("Danh sách phiếu nhập hàng");
@@ -464,6 +409,9 @@ public class Bill_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_blTableMouseClicked
 
         public void refresh(){
+        Detail_Bill_Panel.removeAll();
+        Detail_Bill_Panel.repaint();
+        Detail_Bill_Panel.validate();
         idOutput.setText("");
         timeOutput.setText("");
         staffOutput.setText("");
@@ -498,45 +446,39 @@ public class Bill_GUI extends javax.swing.JPanel {
     }
     
     public void loadrnDetail(ArrayList<ReceivedNoteDetail> rnd){
-        model = (DefaultTableModel)detailTable.getModel();
-        model.setRowCount(0);
+        Detail_Bill_Panel.removeAll();
+        Detail_Bill_Panel.setLayout(new GridLayout(rnd.size()+3,1,0,0));
         for(ReceivedNoteDetail rnd1 : rnd){
-            String productName = pBUS.getNameById(rnd1.getProductId());
-            String productSize = rnd1.getSize();
-            String productUnitPrice = String.valueOf(rnd1.getUnitPrice());
-            String productQuantity = String.valueOf(rnd1.getQuantity());
-            String productValue = String.valueOf(rnd1.getPrice())+"đ";
-            Object[] row = new Object[]{productName,productSize,productUnitPrice,productQuantity,productValue};
-            model.addRow(row);
+            Detail_BillWithoutX Detail_item = new Detail_BillWithoutX();
+            Detail_item.setData(pBUS.getNameById(rnd1.getProductId()), rnd1.getSize(), rnd1.getQuantity(), rnd1.getUnitPrice());
+            Detail_Bill_Panel.add(Detail_item);
+            Detail_Bill_Panel.repaint();
+            Detail_Bill_Panel.validate();
         }
     }
     public void loadbDetail(ArrayList<BillDetail> bd){
-        model = (DefaultTableModel)detailTable.getModel();
-        model.setRowCount(0);
+        Detail_Bill_Panel.removeAll();
+        Detail_Bill_Panel.setLayout(new GridLayout(bd.size()+3,1,0,0));
         for(BillDetail bd1 : bd){
-            String productName = pBUS.getNameById(bd1.getProductId());
-            String productSize = bd1.getSize();
-            String productUnitPrice = String.valueOf(pBUS.getUnitPriceByID_Size(bd1.getProductId(), bd1.getSize()));
-            String productQuantity = String.valueOf(bd1.getQuantity());
-            String productValue = String.valueOf(bd1.getTotalValue())+"đ";
-            Object[] row = new Object[]{productName,productSize,productUnitPrice,productQuantity,productValue};
-            model.addRow(row);
+            Detail_BillWithoutX Detail_item = new Detail_BillWithoutX();
+            Detail_item.setData(pBUS.getNameById(bd1.getProductId()),bd1.getSize(),bd1.getQuantity(),pBUS.getUnitPriceByID_Size(bd1.getProductId(), bd1.getSize()));
+            Detail_Bill_Panel.add(Detail_item);
+            Detail_Bill_Panel.repaint();
+            Detail_Bill_Panel.validate();
         }
         
     }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Detail_Bill_Panel;
     private javax.swing.JLabel P_CLabel;
     private javax.swing.JLabel P_COutput;
     private Custom.Button banBtn;
     private javax.swing.JLabel billTitle;
     private javax.swing.JTable blTable;
-    private Custom.Button button1;
-    private javax.swing.JTable detailTable;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel idOutput;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
@@ -545,8 +487,7 @@ public class Bill_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel listTitle;
     private Custom.Button nhapBtn;
     private Custom.RoundPanel roundPanel1;

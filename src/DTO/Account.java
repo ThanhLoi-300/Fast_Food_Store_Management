@@ -14,10 +14,29 @@ public class Account {
     private String password;
     private String userType;
     private String staffId;
+    private boolean isDeleted;
 
+    public Account(String accountId, String username, String password, String userType, String staffId, boolean isDeleted) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+        this.staffId = staffId;
+        this.isDeleted = isDeleted;
+    }
+    
     public Account() {
     }
 
+    public boolean IsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+     
     public String getAccountId() {
         return accountId;
     }
@@ -57,5 +76,6 @@ public class Account {
     public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
+    
     
 }
