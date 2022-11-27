@@ -11,6 +11,7 @@ import DTO.Product_DTO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
@@ -37,8 +38,9 @@ public class Discount_GUI extends javax.swing.JPanel {
     private Category_BUS category_BUS = new Category_BUS();
     SimpleDateFormat fmt = new SimpleDateFormat("MM dd,yyyy");
     
-    public Discount_GUI() {
+    public Discount_GUI(){
         initComponents();
+        Auto_Update_Discount();
         list_Category = category_BUS.load_Data_CategoryObBusiness();
         Vector comboBoxItems=new Vector();
         comboBoxItems.add("Tất cả");
@@ -675,8 +677,9 @@ public class Discount_GUI extends javax.swing.JPanel {
                         discount_BUS.delete_Detail_Discount(txt_Discount_Id.getText());
                         for(String id : list_Choose_Product)
                             discount_BUS.inser_Detail_Discount(txt_Discount_Id.getText(), id);
-                        refresh();
+                        
                         list_Choose_Product.clear();
+                        refresh();
                     }else JOptionPane.showMessageDialog(null, "Cập nhật không thành công");
                 }
             }
@@ -724,6 +727,7 @@ public class Discount_GUI extends javax.swing.JPanel {
     }
     
     private void refresh(){
+        Auto_Update_Discount();
         txt_Search.setText("");
         txt_Search1.setText("");
         txt_Percent.setText("");
@@ -771,6 +775,41 @@ public class Discount_GUI extends javax.swing.JPanel {
         for(Product_DTO product : product_NotIn_Discount_Detail){
             model.addRow( new Object[] { product.getProductID(), product.getProductName(), product.getPrice(), null, false});
         }
+    }
+    
+    private void Auto_Update_Discount(){
+        int day = LocalDateTime.now().getDayOfMonth();
+        int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
+        
+        String now = day + "-" + month + "-" + year;
+        Date date_Now = null ;
+        try {
+            date_Now = new SimpleDateFormat("dd-MM-yyyy").parse(now);
+        } catch (ParseException ex) {
+            Logger.getLogger(Discount_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        
+        for(Discount_DTO discount : list_Discount){      
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Discount_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Discount_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

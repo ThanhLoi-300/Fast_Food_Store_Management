@@ -134,7 +134,7 @@ public class Discount_DAO {
         try (Connection conn = cB.getConnect();PreparedStatement pstm = conn.prepareStatement(sql); ){
             pstm.executeUpdate();               
         } catch (SQLException e) {
-            System.err.println("Error at  insert_Discount() method from DiscountDAO class!");
+            System.err.println("Error at  insert_Detail_Discount() method from DiscountDAO class!");
             System.err.println(e);
             return false;
         }
@@ -228,11 +228,11 @@ public class Discount_DAO {
         
         String sql = "";
         if(search.isEmpty() && cbb.equals("Tất cả"))
-            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) GROUP BY Product_Name";
+            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND IsDeleted = 0 GROUP BY Product_Name";
         else if(!search.isEmpty() && cbb.equals("Tất cả"))
-            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' GROUP BY Product_Name";
+            sql = "SELECT * FROM product WHERE product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' AND IsDeleted = 0 GROUP BY Product_Name";
         else
-            sql = "SELECT * FROM product, category WHERE category.Category_Id = product.Category_ID AND product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' AND category.Category_Name = '"+cbb+"' GROUP BY Product_Name";
+            sql = "SELECT * FROM product, category WHERE category.Category_Id = product.Category_ID AND product_Id NOT IN ( SELECT product_Id FROM discount_detail) AND product.Product_Name LIKE N'%"+search+"%' AND category.Category_Name = '"+cbb+"' AND product.IsDeleted = 0 GROUP BY Product_Name";
         ArrayList<Product_DTO> list = new ArrayList<>();
         
         try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql);){

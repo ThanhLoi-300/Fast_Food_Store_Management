@@ -28,9 +28,7 @@ public class Home_GUI extends javax.swing.JFrame {
         jLabel2.setText(this.staffInfo.get(1));
         jLabel1.setText(this.staffInfo.get(2));
         Active(roundPanel7);
-        Auto_Update_Discount();
         OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));   
-        //Auto_Update_Discount();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -866,28 +864,6 @@ public class Home_GUI extends javax.swing.JFrame {
             }
         };
         a.start();
-    }
-    
-    private void Auto_Update_Discount() throws ParseException{
-        LocalDateTime localDate = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy : HH:mm:ss");
-        String date = localDate.format(formatter);
-        
-        String[] time = date.toString().split(" : ");
-        
-        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
-        Date date_Now = new SimpleDateFormat("dd-MM-yyyy").parse(time[0]);
-        
-        for(Discount_DTO discount : list_Discount){            
-            if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
-                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
-            }
-            
-            if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
-                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
-            }
-        }
-        
     }
     
     

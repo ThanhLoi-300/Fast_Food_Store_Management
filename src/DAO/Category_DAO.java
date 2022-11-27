@@ -227,5 +227,20 @@ public class Category_DAO{
         }
         return true;
     }
+    public boolean update_Status_Category_And_Product(String id, int status){
+        String sql = "";
+        if(status == 1)
+            sql = "UPDATE product SET BusinessStatus = 1 WHERE Category_ID = '"+ id +"'";
+        else sql = "UPDATE product SET BusinessStatus = 0 WHERE Category_ID = '"+ id +"'";
+        try(Connection conn = cB.getConnect();PreparedStatement pstm = conn.prepareStatement(sql); ){
+            pstm.executeUpdate();               
+        } catch (SQLException e) {
+            System.err.println("Error at  delete_Product_From_Category() method from CategoryDAO class!");
+            System.err.println(e);
+            return false;
+        }
+        return true;
+    }
+    
     
 }

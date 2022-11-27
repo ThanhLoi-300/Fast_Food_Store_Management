@@ -15,6 +15,7 @@ import DTO.Bill;
 import DTO.BillDetail;
 import DTO.Category_DTO;
 import DTO.Customer;
+import DTO.Discount_DTO;
 import DTO.Product_DTO;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -27,9 +28,11 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -68,8 +71,9 @@ public class Sale_GUI extends javax.swing.JPanel {
     private Discount_BUS discount_BUS = new Discount_BUS();
     private NewJFrame1 NewJFrame1;
     
-    public Sale_GUI(String staffID) {
+    public Sale_GUI(String staffID){
         initComponents();
+        Auto_Update_Discount();
         NewJFrame1 = new NewJFrame1();
         this.StaffID = staffID;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
@@ -129,7 +133,7 @@ public class Sale_GUI extends javax.swing.JPanel {
     
     //Mở rộng panel Grid layout dựa trên list_Product.size()
     public void set_Grid_Layout_for_Panel_And_Load_Product( ArrayList<Product_DTO> list_Product ){
-        if(list_Product.size() > 1){
+        if(list_Product.size() > 1 && list_Product.size()%2 == 1){
             Product_Panel.setLayout( new GridLayout( list_Product.size()/2 +1 ,2,15,15));
             for(int i = 0; i< list_Product.size();i++)
                 addItem(list_Product.get(i));
@@ -137,7 +141,25 @@ public class Sale_GUI extends javax.swing.JPanel {
             Product_Panel.removeAll();
             Product_Panel.repaint();
             Product_Panel.validate();
-        }else{
+        }else if(list_Product.size() > 2 && list_Product.size()%2 == 0){
+            Product_Panel.setLayout( new GridLayout( list_Product.size()/2 ,2,15,15));
+            for(int i = 0; i< list_Product.size();i++)
+                addItem(list_Product.get(i));
+        }else if(list_Product.size() == 2){
+            Product_Panel.setLayout( new GridLayout( list_Product.size()/2 +1  ,2,15,15));
+            for(int i = 0; i< list_Product.size();i++)
+                addItem(list_Product.get(i));
+            for(int i=0; i<2; i++){
+                Item_Product pd = new Item_Product();
+                pd.setPreferredSize(new java.awt.Dimension(156,189));
+                //Dòng này để test kết quả
+                //pd.setData(new Product_DTO("1","1","1","1",1,1,"1",true,true));
+                Product_Panel.add(pd);
+                Product_Panel.repaint();
+                Product_Panel.revalidate();
+            }
+        }
+        else{
             //List chỉ có 1 phần tử tạo thêm 2 Item_Product rỗng để tránh lỗi full screen
             Product_Panel.setLayout( new GridLayout(2,2,15,15));
             addItem(list_Product.get(0));
@@ -1001,6 +1023,43 @@ public class Sale_GUI extends javax.swing.JPanel {
             FileOutputStream fos = new FileOutputStream(f);
             workBook.write(fos);
             fos.close();
+        }
+        
+        
+        
+    }
+    
+    private void Auto_Update_Discount(){
+        int day = LocalDateTime.now().getDayOfMonth();
+        int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
+        
+        String now = day + "-" + month + "-" + year;
+        Date date_Now = null;
+        try {
+            date_Now = new SimpleDateFormat("dd-MM-yyyy").parse(now);
+        } catch (ParseException ex) {
+            Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        
+        for(Discount_DTO discount : list_Discount){      
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            try {
+                if( date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date_Now.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+                    discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Sale_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }

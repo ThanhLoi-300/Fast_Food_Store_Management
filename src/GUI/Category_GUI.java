@@ -479,15 +479,23 @@ public class Category_GUI extends javax.swing.JPanel {
         else{ 
             if( category_BUS.check_Name(txtCategoryID.getText(), txtCategoryName.getText()) ){
                 //Xác nhận
-                if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn cập nhật loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn cập nhật loại sản phẩm này, trạng thái của các sản phẩm có thể bị thay đổi?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                     String status = "";
+                    int state = -1;
 
-                    if( rdo_On.isSelected()) status = rdo_On.getText();
-                    else status = rdo_Off.getText();
+                    if( rdo_On.isSelected()) {
+                        status = rdo_On.getText();
+                        state = 1;
+                    }
+                    else {
+                        status = rdo_Off.getText();
+                        state = 0;
+                    }
 
                     Category_DTO category = new Category_DTO( txtCategoryID.getText(), txtCategoryName.getText(), status);
                     if(category_BUS.update_Category(category)) 
                     {
+                        category_BUS.update_Status_Category_And_Product(txtCategoryID.getText(),state);
                         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
                         category_List = category_BUS.load_Data_Category();
                         load_Data_Category(category_List);

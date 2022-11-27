@@ -71,6 +71,9 @@ public class Category_BUS {
     public boolean delete_Product_From_Category(String id){
         return category_DAO.delete_Product_From_Category(id);
     }
-            
+       
+    public boolean update_Status_Category_And_Product(String id, int status){
+        return category_DAO.update_Status_Category_And_Product(id,status);
+    }
 
 }
