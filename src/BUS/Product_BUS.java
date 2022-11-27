@@ -45,6 +45,13 @@ public class Product_BUS {
         }
         return false;
     }
+    
+     public boolean update_Status_Of_All_Product(Product_DTO product) {
+        if (productDAO.update_Status_Of_All_Product(product)) {
+            return true;
+        }
+        return false;
+    }
 
     public boolean incQuantity(String productID, String size, int quantity) {
         return productDAO.incQuantity(productID, size, quantity);

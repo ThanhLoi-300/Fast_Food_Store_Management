@@ -89,6 +89,18 @@ public class Product_DAO {
         }
         return true;
     }
+    
+    public boolean update_Status_Of_All_Product(Product_DTO product) {
+        String sql = "UPDATE product SET  BusinessStatus = " + product.isBusinessStatus() + " WHERE Product_ID = '" + product.getProductID() +"'";
+        try (Connection conn = cB.getConnect();PreparedStatement pst = conn.prepareStatement(sql); ){
+            pst.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error occured at update_Status_Of_All_Product from Product_DAO class");
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
 
     //code của Thái
     public Boolean updateProductQuantity(Product_DTO product, int quantity) {
