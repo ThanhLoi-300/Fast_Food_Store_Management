@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 22, 2022 at 01:48 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 28, 2022 lúc 04:37 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,36 +18,38 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `fast_food_store`
+-- Cơ sở dữ liệu: `fast_food_store`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Cấu trúc bảng cho bảng `account`
 --
 
 CREATE TABLE `account` (
   `Account_ID` char(8) NOT NULL,
   `UserName` char(30) NOT NULL,
   `Password` char(20) NOT NULL,
-  `UserType` char(50) NOT NULL,
-  `Staff_ID` char(8) NOT NULL
+  `decentralize_id` char(50) DEFAULT NULL,
+  `Staff_ID` char(8) NOT NULL,
+  `IsDeleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `account`
+-- Đang đổ dữ liệu cho bảng `account`
 --
 
-INSERT INTO `account` (`Account_ID`, `UserName`, `Password`, `UserType`, `Staff_ID`) VALUES
-('1', '1', '1', '1', 'AA01'),
-('AC01', 'nhamgiaphat', '123456', 'Admin', 'AA02'),
-('AC02', 'staff1', 'pass1', 'staff', 'AA03');
+INSERT INTO `account` (`Account_ID`, `UserName`, `Password`, `decentralize_id`, `Staff_ID`, `IsDeleted`) VALUES
+('AC01', 'nhamgiaphat', '123456', 'DC04', 'AA02', 0),
+('AC02', 'staff1', 'pass1', 'DC03', 'AA03', 0),
+('AC03', 'chinh', 'chinh', 'DC01', 'AA01', 0),
+('AC04', 'staff2', 'pass2', 'DC02', 'AA04', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bill`
+-- Cấu trúc bảng cho bảng `bill`
 --
 
 CREATE TABLE `bill` (
@@ -61,7 +63,7 @@ CREATE TABLE `bill` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `bill`
+-- Đang đổ dữ liệu cho bảng `bill`
 --
 
 INSERT INTO `bill` (`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMoney`, `Staff_id`, `Customer_id`) VALUES
@@ -164,7 +166,7 @@ INSERT INTO `bill` (`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMon
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bill_detail`
+-- Cấu trúc bảng cho bảng `bill_detail`
 --
 
 CREATE TABLE `bill_detail` (
@@ -176,7 +178,7 @@ CREATE TABLE `bill_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `bill_detail`
+-- Đang đổ dữ liệu cho bảng `bill_detail`
 --
 
 INSERT INTO `bill_detail` (`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`) VALUES
@@ -265,7 +267,7 @@ INSERT INTO `bill_detail` (`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalVa
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Cấu trúc bảng cho bảng `category`
 --
 
 CREATE TABLE `category` (
@@ -276,7 +278,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `category`
+-- Đang đổ dữ liệu cho bảng `category`
 --
 
 INSERT INTO `category` (`Category_ID`, `Category_Name`, `Business_Status`, `IsDeleted`) VALUES
@@ -291,7 +293,7 @@ INSERT INTO `category` (`Category_ID`, `Category_Name`, `Business_Status`, `IsDe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Cấu trúc bảng cho bảng `customer`
 --
 
 CREATE TABLE `customer` (
@@ -304,7 +306,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `customer`
+-- Đang đổ dữ liệu cho bảng `customer`
 --
 
 INSERT INTO `customer` (`Customer_id`, `Customer_name`, `YearOfBirth`, `phoneNum`, `Purchase_Time`, `IsDeleted`) VALUES
@@ -317,7 +319,58 @@ INSERT INTO `customer` (`Customer_id`, `Customer_name`, `YearOfBirth`, `phoneNum
 -- --------------------------------------------------------
 
 --
--- Table structure for table `discount`
+-- Cấu trúc bảng cho bảng `decentralization`
+--
+
+CREATE TABLE `decentralization` (
+  `decentralize_id` varchar(10) NOT NULL,
+  `decentralize_name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `decentralization`
+--
+
+INSERT INTO `decentralization` (`decentralize_id`, `decentralize_name`) VALUES
+('DC01', 'manager'),
+('DC02', 'staffSale'),
+('DC03', 'staffProduct'),
+('DC04', 'staffCustomerService');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `decentralization_detail`
+--
+
+CREATE TABLE `decentralization_detail` (
+  `decentralize_id` varchar(10) NOT NULL,
+  `isSale` int(11) NOT NULL,
+  `isRecept` int(11) NOT NULL,
+  `isProduct` int(11) NOT NULL,
+  `isCategory` int(11) NOT NULL,
+  `isBill` int(11) NOT NULL,
+  `isDiscount` int(11) NOT NULL,
+  `isCustomer` int(11) NOT NULL,
+  `isStaff` int(11) NOT NULL,
+  `isAccount` int(11) NOT NULL,
+  `isDecentralize` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `decentralization_detail`
+--
+
+INSERT INTO `decentralization_detail` (`decentralize_id`, `isSale`, `isRecept`, `isProduct`, `isCategory`, `isBill`, `isDiscount`, `isCustomer`, `isStaff`, `isAccount`, `isDecentralize`) VALUES
+('DC01', 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+('DC02', 2, 1, 2, 1, 1, 2, 1, 0, 0, 0),
+('DC03', 1, 2, 2, 2, 0, 0, 0, 0, 0, 0),
+('DC04', 0, 0, 0, 0, 0, 2, 2, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `discount`
 --
 
 CREATE TABLE `discount` (
@@ -330,7 +383,7 @@ CREATE TABLE `discount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `discount`
+-- Đang đổ dữ liệu cho bảng `discount`
 --
 
 INSERT INTO `discount` (`discount_Id`, `discount_Percent`, `start_Time`, `end_Time`, `status`, `isDeleted`) VALUES
@@ -341,7 +394,7 @@ INSERT INTO `discount` (`discount_Id`, `discount_Percent`, `start_Time`, `end_Ti
 -- --------------------------------------------------------
 
 --
--- Table structure for table `discount_detail`
+-- Cấu trúc bảng cho bảng `discount_detail`
 --
 
 CREATE TABLE `discount_detail` (
@@ -350,7 +403,7 @@ CREATE TABLE `discount_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `discount_detail`
+-- Đang đổ dữ liệu cho bảng `discount_detail`
 --
 
 INSERT INTO `discount_detail` (`discount_Id`, `product_Id`) VALUES
@@ -362,7 +415,7 @@ INSERT INTO `discount_detail` (`discount_Id`, `product_Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Cấu trúc bảng cho bảng `product`
 --
 
 CREATE TABLE `product` (
@@ -378,7 +431,7 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `product`
+-- Đang đổ dữ liệu cho bảng `product`
 --
 
 INSERT INTO `product` (`Product_ID`, `Size`, `Product_Name`, `UnitPrice`, `Quantity`, `Image`, `Category_ID`, `IsDeleted`, `BusinessStatus`) VALUES
@@ -394,7 +447,7 @@ INSERT INTO `product` (`Product_ID`, `Size`, `Product_Name`, `UnitPrice`, `Quant
 -- --------------------------------------------------------
 
 --
--- Table structure for table `received_note`
+-- Cấu trúc bảng cho bảng `received_note`
 --
 
 CREATE TABLE `received_note` (
@@ -408,7 +461,7 @@ CREATE TABLE `received_note` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `received_note`
+-- Đang đổ dữ liệu cho bảng `received_note`
 --
 
 INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Tax_Value`, `Final_Value`, `Supplier`, `Staff_ID`) VALUES
@@ -417,7 +470,7 @@ INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Tax_Val
 -- --------------------------------------------------------
 
 --
--- Table structure for table `received_note_detail`
+-- Cấu trúc bảng cho bảng `received_note_detail`
 --
 
 CREATE TABLE `received_note_detail` (
@@ -430,7 +483,7 @@ CREATE TABLE `received_note_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `received_note_detail`
+-- Đang đổ dữ liệu cho bảng `received_note_detail`
 --
 
 INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `UnitPrice`, `Quantity`, `Price`) VALUES
@@ -440,7 +493,7 @@ INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `U
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Cấu trúc bảng cho bảng `staff`
 --
 
 CREATE TABLE `staff` (
@@ -455,27 +508,29 @@ CREATE TABLE `staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `staff`
+-- Đang đổ dữ liệu cho bảng `staff`
 --
 
 INSERT INTO `staff` (`Staff_id`, `Full_Name`, `Year_Of_Birth`, `Gender`, `HomeTown`, `Phone_Num`, `Salary`, `IsDeleted`) VALUES
 ('AA01', 'Nguyễn Ngọc Trường Chinh', 2001, 'Nam', 'TP.HCM', '0862863753', 30000000, 0),
 ('AA02', 'Nhâm Gia Phát', 2002, 'Nam', 'TP. Hồ Chí Minh', '0762991979', 40000000, 0),
-('AA03', 'Trần Nguyễn V. Thái', 2002, 'Nam', 'VietNam', '033951xxxx', 7500000, 0);
+('AA03', 'Trần Nguyễn V. Thái', 2002, 'Nam', 'VietNam', '033951xxxx', 7500000, 0),
+('AA04', 'Tổng Giám Đốc Thái', 1985, 'Male', 'Somewhere', '19008198', 1000000, 0);
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `account`
+-- Chỉ mục cho bảng `account`
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`Account_ID`),
-  ADD KEY `Account_FK_1` (`Staff_ID`);
+  ADD KEY `Account_FK_1` (`Staff_ID`),
+  ADD KEY `Account_FK_2` (`decentralize_id`);
 
 --
--- Indexes for table `bill`
+-- Chỉ mục cho bảng `bill`
 --
 ALTER TABLE `bill`
   ADD PRIMARY KEY (`Bill_ID`),
@@ -483,109 +538,129 @@ ALTER TABLE `bill`
   ADD KEY `Bill_FK_2` (`Customer_id`);
 
 --
--- Indexes for table `bill_detail`
+-- Chỉ mục cho bảng `bill_detail`
 --
 ALTER TABLE `bill_detail`
   ADD PRIMARY KEY (`Bill_id`,`Product_id`,`Size`),
   ADD KEY `BillDetail_FK_2` (`Product_id`,`Size`);
 
 --
--- Indexes for table `category`
+-- Chỉ mục cho bảng `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`Category_ID`);
 
 --
--- Indexes for table `customer`
+-- Chỉ mục cho bảng `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`Customer_id`);
 
 --
--- Indexes for table `discount`
+-- Chỉ mục cho bảng `decentralization`
+--
+ALTER TABLE `decentralization`
+  ADD PRIMARY KEY (`decentralize_id`);
+
+--
+-- Chỉ mục cho bảng `decentralization_detail`
+--
+ALTER TABLE `decentralization_detail`
+  ADD PRIMARY KEY (`decentralize_id`),
+  ADD KEY `decentralize_id` (`decentralize_id`);
+
+--
+-- Chỉ mục cho bảng `discount`
 --
 ALTER TABLE `discount`
   ADD PRIMARY KEY (`discount_Id`);
 
 --
--- Indexes for table `discount_detail`
+-- Chỉ mục cho bảng `discount_detail`
 --
 ALTER TABLE `discount_detail`
   ADD PRIMARY KEY (`discount_Id`,`product_Id`),
   ADD KEY `product_Id` (`product_Id`);
 
 --
--- Indexes for table `product`
+-- Chỉ mục cho bảng `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`Product_ID`,`Size`),
   ADD KEY `Catagory_FK_1` (`Category_ID`);
 
 --
--- Indexes for table `received_note`
+-- Chỉ mục cho bảng `received_note`
 --
 ALTER TABLE `received_note`
   ADD PRIMARY KEY (`Received_Note_ID`),
   ADD KEY `Staff_ID` (`Staff_ID`);
 
 --
--- Indexes for table `received_note_detail`
+-- Chỉ mục cho bảng `received_note_detail`
 --
 ALTER TABLE `received_note_detail`
   ADD PRIMARY KEY (`Received_Note_ID`,`Product_ID`,`Size`),
   ADD KEY `ReceivedNote_Detail_FK_2` (`Product_ID`,`Size`);
 
 --
--- Indexes for table `staff`
+-- Chỉ mục cho bảng `staff`
 --
 ALTER TABLE `staff`
   ADD PRIMARY KEY (`Staff_id`);
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `account`
+-- Các ràng buộc cho bảng `account`
 --
 ALTER TABLE `account`
-  ADD CONSTRAINT `Account_FK_1` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_id`);
+  ADD CONSTRAINT `Account_FK_1` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_id`),
+  ADD CONSTRAINT `Account_FK_2` FOREIGN KEY (`decentralize_id`) REFERENCES `decentralization` (`decentralize_id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
--- Constraints for table `bill`
+-- Các ràng buộc cho bảng `bill`
 --
 ALTER TABLE `bill`
   ADD CONSTRAINT `Bill_FK_1` FOREIGN KEY (`Staff_id`) REFERENCES `staff` (`Staff_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Bill_FK_2` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Customer_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `bill_detail`
+-- Các ràng buộc cho bảng `bill_detail`
 --
 ALTER TABLE `bill_detail`
   ADD CONSTRAINT `BillDetail_FK_1` FOREIGN KEY (`Bill_id`) REFERENCES `bill` (`Bill_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `BillDetail_FK_2` FOREIGN KEY (`Product_id`,`Size`) REFERENCES `product` (`Product_ID`, `Size`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `discount_detail`
+-- Các ràng buộc cho bảng `decentralization_detail`
+--
+ALTER TABLE `decentralization_detail`
+  ADD CONSTRAINT `decentralize_FK_1` FOREIGN KEY (`decentralize_id`) REFERENCES `decentralization` (`decentralize_id`);
+
+--
+-- Các ràng buộc cho bảng `discount_detail`
 --
 ALTER TABLE `discount_detail`
   ADD CONSTRAINT `discount_detail_ibfk_1` FOREIGN KEY (`discount_Id`) REFERENCES `discount` (`discount_Id`),
   ADD CONSTRAINT `discount_detail_ibfk_2` FOREIGN KEY (`product_Id`) REFERENCES `product` (`Product_ID`);
 
 --
--- Constraints for table `product`
+-- Các ràng buộc cho bảng `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `Catagory_FK_1` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `received_note`
+-- Các ràng buộc cho bảng `received_note`
 --
 ALTER TABLE `received_note`
   ADD CONSTRAINT `Product_FK_1` FOREIGN KEY (`Staff_ID`) REFERENCES `staff` (`Staff_id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `received_note_detail`
+-- Các ràng buộc cho bảng `received_note_detail`
 --
 ALTER TABLE `received_note_detail`
   ADD CONSTRAINT `ReceivedNote_Detail_FK_2` FOREIGN KEY (`Product_ID`,`Size`) REFERENCES `product` (`Product_ID`, `Size`) ON DELETE CASCADE ON UPDATE CASCADE,
