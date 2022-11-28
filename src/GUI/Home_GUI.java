@@ -2,33 +2,43 @@
 package GUI;
 
 import BUS.Discount_BUS;
+import DTO.DecentralizationDetail;
 import DTO.Discount_DTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Home_GUI extends javax.swing.JFrame {
+public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     
-    ArrayList<String> staffInfo;
+    private ArrayList<String> staffInfo;
     private Discount_BUS discount_BUS = new Discount_BUS();
+    private DecentralizationDetail dcdt = new DecentralizationDetail();
     
-    public Home_GUI(ArrayList<String> staffInfo) throws ParseException {
+    public Home_GUI(ArrayList<String> staffInfo, DecentralizationDetail dcdt) throws ParseException {
         initComponents();
         set_Time();
         setBackground(new Color(0,0,0,0));
         this.staffInfo = staffInfo;
+        this.dcdt = dcdt;
         jLabel2.setText(this.staffInfo.get(1));
         jLabel1.setText(this.staffInfo.get(2));
-        Active(roundPanel7);
-        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));   
+        if(this.dcdt.getIsSale()==0){
+            Active(roundPanel10);
+            OpenChildForm( new Statistic_GUI());
+        }
+        else {
+            Active(roundPanel7);
+            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale()));
+        }
+        Auto_Update_Discount();
+        DisableTabsForDecentralize();
+        //Auto_Update_Discount();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -744,13 +754,19 @@ public class Home_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void roundPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel13MouseClicked
-        Active(roundPanel13);
-        OpenChildForm( new Recieved_GUI(this.staffInfo.get(0)));
+        if(this.dcdt.getIsRecept()!=0){
+            Active(roundPanel13);
+            OpenChildForm( new Recieved_GUI(this.staffInfo.get(0), this.dcdt.getIsRecept()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel13MouseClicked
 
     private void roundPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel12MouseClicked
-        Active(roundPanel12);
-        OpenChildForm(new Account_GUI());
+        if(this.dcdt.getIsAccount()!=0){
+            Active(roundPanel12);
+            OpenChildForm(new Account_GUI(this.dcdt.getIsAccount()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel12MouseClicked
 
     private void roundPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel10MouseClicked
@@ -759,23 +775,35 @@ public class Home_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_roundPanel10MouseClicked
 
     private void roundPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel8MouseClicked
-        Active(roundPanel8);
-        OpenChildForm( new Bill_GUI());
+        if(this.dcdt.getIsBill()!=0){
+            Active(roundPanel8);
+            OpenChildForm( new Bill_GUI());
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel8MouseClicked
 
     private void roundPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel11MouseClicked
-        Active(roundPanel11);
-        OpenChildForm( new Category_GUI());
+        if(this.dcdt.getIsCategory()!=0){
+            Active(roundPanel11);
+            OpenChildForm( new Category_GUI(this.dcdt.getIsCategory()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel11MouseClicked
 
     private void roundPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel9MouseClicked
-        Active(roundPanel9);
-        OpenChildForm( new Product_GUI());
+        if(this.dcdt.getIsProduct()!=0){
+            Active(roundPanel9);
+            OpenChildForm( new Product_GUI(this.dcdt.getIsProduct()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel9MouseClicked
 
     private void roundPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel7MouseClicked
-        Active(roundPanel7);
-        OpenChildForm( new Sale_GUI(this.staffInfo.get(0)));
+        if(this.dcdt.getIsSale()!=0){
+            Active(roundPanel7);
+            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel7MouseClicked
 
     private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked
@@ -801,24 +829,49 @@ public class Home_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_header2MouseDragged
 
     private void roundPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel14MouseClicked
-        Active(roundPanel14);
-        OpenChildForm(new Customer_GUI());
+        if(this.dcdt.getIsCustomer()!=0){
+            Active(roundPanel14);
+            OpenChildForm(new Customer_GUI(this.dcdt.getIsCustomer()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel14MouseClicked
 
     private void roundPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel15MouseClicked
-        Active(roundPanel15);
-        OpenChildForm(new Discount_GUI());
+        if(this.dcdt.getIsDiscount()!=0){
+            Active(roundPanel15);
+            OpenChildForm(new Discount_GUI(this.dcdt.getIsDiscount()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel15MouseClicked
 
     private void roundPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel16MouseClicked
-        Active(roundPanel16);
-        OpenChildForm(new Staff_GUI());
+        if(this.dcdt.getIsStaff()!=0){
+            Active(roundPanel16);
+            OpenChildForm(new Staff_GUI(this.dcdt.getIsStaff()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel16MouseClicked
 
     private void roundPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel17MouseClicked
-        Active(roundPanel17);
-        OpenChildForm(new Decentralization_GUI());
+        if(this.dcdt.getIsDecentralize()!=0){
+            Active(roundPanel17);
+            OpenChildForm(new Decentralization_GUI(this.dcdt.getIsDecentralize()));
+        }
+        else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel17MouseClicked
+    
+    private void DisableTabsForDecentralize(){
+        if(dcdt.getIsSale()==0) roundPanel7.setBackground(Color.red);
+        if(dcdt.getIsProduct()==0) roundPanel9.setBackground(Color.red);
+        if(dcdt.getIsCategory()==0) roundPanel11.setBackground(Color.red);
+        if(dcdt.getIsRecept()==0) roundPanel13.setBackground(Color.red);
+        if(dcdt.getIsBill()==0) roundPanel8.setBackground(Color.red);
+        if(dcdt.getIsAccount()==0) roundPanel12.setBackground(Color.red);
+        if(dcdt.getIsStaff()==0) roundPanel16.setBackground(Color.red);
+        if(dcdt.getIsCustomer()==0) roundPanel14.setBackground(Color.red);
+        if(dcdt.getIsDiscount()==0) roundPanel15.setBackground(Color.red);
+        if(dcdt.getIsDecentralize()==0) roundPanel17.setBackground(Color.red);
+    }
     
     private void Active( JPanel btn) {     
         Disable();
@@ -847,7 +900,7 @@ public class Home_GUI extends javax.swing.JFrame {
         String day = dateArray[2];
         String month = dateArray[1];
         String year = dateArray[0];
-        //lb_Time.setText(day+"-"+month+"-"+year+" : ");
+        lb_Time.setText(day+"-"+month+"-"+year+" : ");
         Thread a = new Thread(){
             public void run(){
                 try{
@@ -864,6 +917,24 @@ public class Home_GUI extends javax.swing.JFrame {
             }
         };
         a.start();
+    }
+    
+    private void Auto_Update_Discount() throws ParseException{
+        String[] time = lb_Time.getText().split(" : ");
+        ArrayList<Discount_DTO> list_Discount = discount_BUS.get_Discount();
+        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(time[0]);
+        
+        for(Discount_DTO discount : list_Discount){
+            
+            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) >= 0 && date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) <= 0 && discount.getStatus() == 0 ){
+                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),1);
+            }
+            
+            if( date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getStart_Time())) < 0 && discount.getStatus() == 1 || date.compareTo(new SimpleDateFormat("dd-MM-yyyy").parse(discount.getEnd_Time())) > 0 && discount.getStatus() == 1 ){
+                discount_BUS.Auto_Update_Discount(discount.getDiscount_Id(),0);
+            }
+        }
+        
     }
     
     

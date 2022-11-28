@@ -25,7 +25,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
-public class Discount_GUI extends javax.swing.JPanel {
+public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
 
     Discount_BUS discount_BUS = new Discount_BUS();
     Product_BUS product_BUS = new Product_BUS();
@@ -37,8 +37,9 @@ public class Discount_GUI extends javax.swing.JPanel {
     private ArrayList<Category_DTO> list_Category = new ArrayList<Category_DTO>();
     private Category_BUS category_BUS = new Category_BUS();
     SimpleDateFormat fmt = new SimpleDateFormat("MM dd,yyyy");
+    private int permissionType;
     
-    public Discount_GUI(){
+    public Discount_GUI(int permissionType){
         initComponents();
         Auto_Update_Discount();
         list_Category = category_BUS.load_Data_CategoryObBusiness();
@@ -48,6 +49,7 @@ public class Discount_GUI extends javax.swing.JPanel {
             comboBoxItems.add(list_Category.get(i).getCategory_Name());
         jComboBox3.setModel(new DefaultComboBoxModel(comboBoxItems));
         refresh();
+        this.permissionType = permissionType;
     }
 
     @SuppressWarnings("unchecked")
@@ -560,7 +562,11 @@ public class Discount_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
-       if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
            if(discount_BUS.delete_Discount(txt_Discount_Id.getText())){
                JOptionPane.showMessageDialog(null, "Xóa thành công");
                refresh();
@@ -569,6 +575,10 @@ public class Discount_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if( txt_Percent.getText().isEmpty() || ((JTextField)start_Time.getDateEditor().getUiComponent()).getText().isEmpty() || ((JTextField)end_Time.getDateEditor().getUiComponent()).getText().isEmpty())
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đủ dữ liệu");
         else{
@@ -654,6 +664,10 @@ public class Discount_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_tbl_DiscountMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if(tbl_Discount.getSelectedRow()< 0)
             JOptionPane.showMessageDialog(null, "Vui lòng chọn loại giảm giá muốn cập nhật");
         else if( txt_Percent.getText().isEmpty() || ((JTextField)start_Time.getDateEditor().getUiComponent()).getText().isEmpty() || ((JTextField)end_Time.getDateEditor().getUiComponent()).getText().isEmpty()){

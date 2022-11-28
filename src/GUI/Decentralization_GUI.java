@@ -4,17 +4,55 @@
  */
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
+import BUS.Decentralization_BUS;
+import DTO.Decentralization;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Josie
  */
-public class Decentralization_GUI extends javax.swing.JPanel {
-
+public class Decentralization_GUI extends javax.swing.JPanel implements checkPermission{
+    
+    private ArrayList<Decentralization> decList = new ArrayList<Decentralization>();
+    private Decentralization_BUS decBUS = new Decentralization_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    private DecentralizationDetails_GUI dcdtGUI;
+    private int permissionType;
     /**
      * Creates new form Decentralization_GUI
      */
-    public Decentralization_GUI() {
+    public Decentralization_GUI(int permissionType) {
         initComponents();
+        dcdtGUI = new DecentralizationDetails_GUI();
+        renderTable();
+        this.permissionType = permissionType;
+    }
+    
+    public void renderTable() {
+        decList = decBUS.read();
+        DefaultTableModel tm = (DefaultTableModel)tblDanhSachQuyen3.getModel();
+        tm.setRowCount(0);
+        int stt = 1;
+        for(Decentralization dc: decList) {
+            String dcID = dc.getDecentralizeID();
+            String dcName = dc.getDecentralizeName();
+            String dcDetails = "Xem chi tiet";
+            Object row[] = new Object[]{stt, dcID, dcName, dcDetails};
+            tm.addRow(row);
+            stt++;
+        }
+    }
+    
+    public void refesh() {
+        txtSearch3.setText("");
+        ListSelectionModel model = tblDanhSachQuyen3.getSelectionModel();
+        model.removeSelectionInterval(tblDanhSachQuyen3.getRowCount(),0);
+        renderTable();
     }
 
     /**
@@ -29,6 +67,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnGroupChiTietQuyen = new javax.swing.ButtonGroup();
         roundPanel1 = new Custom.RoundPanel();
         roundPanel7 = new Custom.RoundPanel();
+        btnRefesh = new Custom.Button();
         txtSearch3 = new javax.swing.JTextField();
         scrDanhSachQuyen3 = new javax.swing.JScrollPane();
         tblDanhSachQuyen3 = new javax.swing.JTable();
@@ -45,6 +84,21 @@ public class Decentralization_GUI extends javax.swing.JPanel {
 
         roundPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
+        btnRefesh.setBackground(new java.awt.Color(240, 240, 240));
+        btnRefesh.setBorder(null);
+        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/refresh.png"))); // NOI18N
+        btnRefesh.setText("Làm tươi");
+        btnRefesh.setColor(new java.awt.Color(240, 240, 240));
+        btnRefesh.setColorClick(new java.awt.Color(240, 235, 235));
+        btnRefesh.setColorOver(new java.awt.Color(255, 255, 255));
+        btnRefesh.setFocusPainted(false);
+        btnRefesh.setRadius(20);
+        btnRefesh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefeshMouseClicked(evt);
+            }
+        });
+
         txtSearch3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtSearch3.setPreferredSize(new java.awt.Dimension(64, 19));
         txtSearch3.addActionListener(new java.awt.event.ActionListener() {
@@ -54,7 +108,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         });
 
         scrDanhSachQuyen3.setBackground(new java.awt.Color(255, 255, 255));
-        scrDanhSachQuyen3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrDanhSachQuyen3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
         scrDanhSachQuyen3.setPreferredSize(new java.awt.Dimension(470, 423));
 
         tblDanhSachQuyen3.setModel(new javax.swing.table.DefaultTableModel(
@@ -82,6 +136,9 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         });
         tblDanhSachQuyen3.setRowHeight(30);
         scrDanhSachQuyen3.setViewportView(tblDanhSachQuyen3);
+        if (tblDanhSachQuyen3.getColumnModel().getColumnCount() > 0) {
+            tblDanhSachQuyen3.getColumnModel().getColumn(3).setHeaderValue("Chi Tiết Quyền");
+        }
 
         button1.setBackground(new java.awt.Color(240, 240, 240));
         button1.setBorder(null);
@@ -111,16 +168,22 @@ public class Decentralization_GUI extends javax.swing.JPanel {
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
+            .addGroup(roundPanel7Layout.createSequentialGroup()
+                .addGap(418, 418, 418)
+                .addComponent(btnRefesh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundPanel7Layout.setVerticalGroup(
             roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel7Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(11, 11, 11)
                 .addGroup(roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
+                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnRefesh, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -129,7 +192,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnAdd.setBackground(new java.awt.Color(240, 240, 240));
         btnAdd.setBorder(null);
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/plus.png"))); // NOI18N
-        btnAdd.setText("  Add    ");
+        btnAdd.setText("Tạo");
         btnAdd.setColor(new java.awt.Color(240, 240, 240));
         btnAdd.setColorClick(new java.awt.Color(240, 235, 235));
         btnAdd.setColorOver(new java.awt.Color(255, 255, 255));
@@ -144,7 +207,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnDelete.setBackground(new java.awt.Color(240, 240, 240));
         btnDelete.setBorder(null);
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/delete.png"))); // NOI18N
-        btnDelete.setText("  Delete");
+        btnDelete.setText("Xóa");
         btnDelete.setColor(new java.awt.Color(240, 240, 240));
         btnDelete.setColorClick(new java.awt.Color(240, 235, 235));
         btnDelete.setColorOver(new java.awt.Color(255, 255, 255));
@@ -159,7 +222,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
         btnUpdate.setBackground(new java.awt.Color(240, 240, 240));
         btnUpdate.setBorder(null);
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/wrench.png"))); // NOI18N
-        btnUpdate.setText("  Update");
+        btnUpdate.setText("Cập nhật");
         btnUpdate.setColor(new java.awt.Color(240, 240, 240));
         btnUpdate.setColorClick(new java.awt.Color(240, 235, 235));
         btnUpdate.setColorOver(new java.awt.Color(255, 255, 255));
@@ -182,7 +245,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +255,7 @@ public class Decentralization_GUI extends javax.swing.JPanel {
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
@@ -233,27 +296,74 @@ public class Decentralization_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-
+        if(this.permissionType!=2) {
+            this.hienThiErrorMess();
+            return;
+        }
+        if(!dcdtGUI.isShowing())
+            dcdtGUI = new DecentralizationDetails_GUI(null);
+        else{
+            dcdtGUI.dispose();
+            dcdtGUI = new DecentralizationDetails_GUI(null);
+        }
+        refesh();
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
-
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        int row = tblDanhSachQuyen3.getSelectedRow();
+        if(row>0) {
+            String decenId = tblDanhSachQuyen3.getModel().getValueAt(row, 1).toString();
+            if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                if(dcdtBUS.delete(decenId) && decBUS.delete(decenId)){
+                    JOptionPane.showMessageDialog(this, "Đã xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    refesh();
+                }
+                else
+                    JOptionPane.showMessageDialog(this, "Đã có lỗi xảy ra!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn bản cần xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
-
- 
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        int row = tblDanhSachQuyen3.getSelectedRow();
+        if(row >= 0) {
+            String decentralizeId = tblDanhSachQuyen3.getModel().getValueAt(row, 1).toString();
+            if(!dcdtGUI.isShowing())
+                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId);
+            else{
+                dcdtGUI.dispose();
+                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId);
+            }
+            refesh();
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một bản ghi!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
 
     }//GEN-LAST:event_button1MouseClicked
 
+    private void btnRefeshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefeshMouseClicked
+        refesh();
+    }//GEN-LAST:event_btnRefeshMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAdd;
     private Custom.Button btnDelete;
     private javax.swing.ButtonGroup btnGroupChiTietQuyen;
+    private Custom.Button btnRefesh;
     private Custom.Button btnUpdate;
     private Custom.Button button1;
     private Custom.RoundPanel roundPanel1;

@@ -16,8 +16,7 @@ public class Customer_DAO{
     
     connectDB cn = new connectDB();
     
-    public Customer_DAO() {
-    }
+    public Customer_DAO() {}
     
     public ArrayList<Customer> read() {
         ArrayList<Customer> customerList = new ArrayList<Customer>();

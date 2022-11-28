@@ -40,7 +40,7 @@ public class Product_DAO {
     // code của Thái
     public ArrayList<Product_DTO> readProductOnBusiness() {
         ArrayList<Product_DTO> listProduct = new ArrayList<Product_DTO>();
-        String sql = "SELECT product.* FROM product JOIN category ON product.Category_ID = category.Category_ID WHERE product.BusinessStatus!=0 AND product.IsDeleted!=1 AND category.Business_Status LIKE 'ON' GROUP BY Product_ID";
+        String sql = "SELECT product.* FROM product JOIN category ON product.Category_ID = category.Category_ID WHERE product.BusinessStatus!=0 AND product.IsDeleted!=1 AND category.Business_Status LIKE 'ON' AND category.IsDeleted!=1 GROUP BY Product_ID";
         try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             while (rs.next()) {
                 Product_DTO pd = new Product_DTO(rs.getString("Product_ID"), rs.getString("size"), rs.getString("Product_Name"), rs.getString("Category_ID"), rs.getInt("UnitPrice"), rs.getInt("Quantity"), rs.getString("Image"), rs.getBoolean("IsDeleted"), rs.getBoolean("BusinessStatus"));

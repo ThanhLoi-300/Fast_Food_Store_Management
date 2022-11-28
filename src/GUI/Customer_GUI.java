@@ -17,12 +17,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADMIN
  */
-public class Customer_GUI extends javax.swing.JPanel {
+public class Customer_GUI extends javax.swing.JPanel implements checkPermission{
     private ArrayList<Customer> userList = new ArrayList<Customer>();
-    /**
-     * Creates new form Customer_GUI
-     */
-    public Customer_GUI() {
+    private int permissionType;
+    
+    public Customer_GUI(int permissionType) {
         initComponents();
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(176);
@@ -31,6 +30,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
         renderTable();
         autoGenerateId();
+        this.permissionType = permissionType;
     }
 
     /**
@@ -398,7 +398,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         button5.setColor(new java.awt.Color(240, 240, 240));
         button5.setColorClick(new java.awt.Color(255, 255, 255));
         button5.setColorOver(new java.awt.Color(255, 255, 255));
-        button5.setEnabled(false);
         button5.setFocusable(false);
         button5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button5.setRadius(10);
@@ -520,6 +519,10 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1FocusLost
 
     private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Customer_BUS cusBUS = new Customer_BUS();
         if(jTextField3.getText().equals("") || jTextField6.getText().equals("")
            || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
@@ -549,6 +552,10 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button3MouseClicked
 
     private void button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button4MouseClicked
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Customer_BUS cusBUS = new Customer_BUS();
         if(jTextField3.getText().equals("") || jTextField4.getText().equals("") 
                 || jTextField5.getText().equals("") || jTextField6.getText().equals("")) {
@@ -579,7 +586,6 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button4MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        button5.setEnabled(true);
         int row = jTable1.getSelectedRow();
         if(row >= 0) {
             jTextField2.setText(jTable1.getModel().getValueAt(row, 0).toString());
@@ -603,30 +609,32 @@ public class Customer_GUI extends javax.swing.JPanel {
         clearText();
         ListSelectionModel model = jTable1.getSelectionModel();
         model.removeSelectionInterval(jTable1.getRowCount(),0);
-        button5.setEnabled(false);
     }//GEN-LAST:event_button6MouseClicked
 
     private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked
-        if(button5.isEnabled()) {
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        if(jTable1.getSelectedRow()>0) {
             int reply = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             int row = jTable1.getSelectedRow();
             if(reply == JOptionPane.YES_OPTION) {
                 Customer_BUS cusBUS = new Customer_BUS();
                 row = jTable1.getSelectedRow();
-                if(row >= 0) {
-                    String customerId = jTable1.getModel().getValueAt(row, 0).toString();
-                    JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
+                String customerId = jTable1.getModel().getValueAt(row, 0).toString();
+                JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 renderTable();
                 jComboBox1.setSelectedIndex(0);
                 clearText();
-                button5.setEnabled(false);
             }
             else {
                 ListSelectionModel model = jTable1.getSelectionModel();
                 model.removeSelectionInterval(row,0);
             }
         }
+        else
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn bản ghi cần xóa!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_button5MouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
@@ -653,7 +661,6 @@ public class Customer_GUI extends javax.swing.JPanel {
                         model.setSelectionInterval(i,i);
                 }
                 jComboBox1.setSelectedIndex(0);
-                button5.setEnabled(true);
             }
         }
     }//GEN-LAST:event_button1MouseClicked

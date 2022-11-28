@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.Login_DAO;
 import DTO.Account;
+import DTO.DecentralizationDetail;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +34,10 @@ public class Login_BUS {
             return staffInfo;
         }
         else return null;
+    }
+    
+    public DecentralizationDetail getDecentralizationDetail(String decentralize_id) {
+        return loginDAO.getDecentralizationDetail(decentralize_id);
     }
 }
 

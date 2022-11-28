@@ -12,7 +12,7 @@ public class Account {
     private String accountId;
     private String username;
     private String password;
-    private String userType;
+    private String decentralizeId;
     private String staffId;
     private boolean isDeleted;
 
@@ -20,7 +20,7 @@ public class Account {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.userType = userType;
+        this.decentralizeId = userType;
         this.staffId = staffId;
         this.isDeleted = isDeleted;
     }
@@ -49,8 +49,8 @@ public class Account {
         return password;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getDecetralizeId() {
+        return decentralizeId;
     }
 
     public String getStaffId() {
@@ -69,13 +69,11 @@ public class Account {
         this.password = password;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setDecentralizeId(String userType) {
+        this.decentralizeId = userType;
     }
 
     public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
-    
-    
 }

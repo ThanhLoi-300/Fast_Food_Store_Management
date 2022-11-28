@@ -8,13 +8,13 @@ package GUI;
  *
  * @author Josie
  */
-public class Staff_GUI extends javax.swing.JPanel {
+public class Staff_GUI extends javax.swing.JPanel implements checkPermission{
 
-    /**
-     * Creates new form Staff_GUI
-     */
-    public Staff_GUI() {
+    private int permissionType;
+    
+    public Staff_GUI(int permissionType) {
         initComponents();
+        this.permissionType = permissionType;
     }
 
     /**
@@ -394,15 +394,25 @@ public class Staff_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
-        
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        // code button them nhu bth o day
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnUpdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseClicked
-
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
     }//GEN-LAST:event_btnUpdate1MouseClicked
 
     private void btnDelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseClicked
-
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
     }//GEN-LAST:event_btnDelete1MouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked

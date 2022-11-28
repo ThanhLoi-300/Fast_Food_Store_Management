@@ -4,17 +4,124 @@
  */
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
+import BUS.Decentralization_BUS;
+import DTO.Decentralization;
+import DTO.DecentralizationDetail;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Josie
  */
 public class DecentralizationDetails_GUI extends javax.swing.JFrame {
 
+    private Decentralization_BUS dcBUS = new Decentralization_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    private DecentralizationDetail dcdt = new DecentralizationDetail();
+    private Decentralization dc;
+    private String decenId;
+    private String action;
+    
     /**
      * Creates new form DecentralizationDetails_GUI
      */
-    public DecentralizationDetails_GUI() {
+    public DecentralizationDetails_GUI(String decenId) {
         initComponents();
+        setVisible(true);
+        if(decenId!=null){
+           this.decenId = decenId;
+           this.action = "update";
+           dcdt = dcdtBUS.readById(this.decenId);
+           renderContents(); 
+        }
+        else{
+            this.action = "create";
+            autoGenerateId();
+        }
+    }
+
+    public DecentralizationDetails_GUI() {
+        setVisible(false);
+    }
+    
+    public void autoGenerateId() {
+        String id = "DC0";
+        int num = 1;
+        String check_id;
+        ArrayList<String> idList = dcBUS.readAllId();
+        for(String item : idList) {
+            check_id = id + num;
+            if(idList.contains(check_id)) num++;
+        }
+        id += num;
+        txtDecentralizationID.setText(id);
+    }
+    
+    public void renderContents(){
+        txtDecentralizationID.setText(dcdt.getDecentralizeID());
+        txtDecentralizationName.setText(dcdtBUS.getNameById(decenId));
+        if(dcdt.getIsSale()!=0){
+            cbxSale.setSelected(true);
+            combbxSale.setEnabled(true);
+            if(dcdt.getIsSale()==1) combbxSale.setSelectedIndex(0);
+            else combbxSale.setSelectedIndex(1);
+        }
+        if(dcdt.getIsRecept()!=0){
+            cbxRecieved.setSelected(true);
+            combbxReceived.setEnabled(true);
+            if(dcdt.getIsRecept()==1) combbxReceived.setSelectedIndex(0);
+            else combbxReceived.setSelectedIndex(1);
+        }
+        if(dcdt.getIsProduct()!=0){
+            cbxProduct.setSelected(true);
+            combbxProduct.setEnabled(true);
+            if(dcdt.getIsProduct()==1) combbxProduct.setSelectedIndex(0);
+            else combbxProduct.setSelectedIndex(1);
+        }
+        if(dcdt.getIsCategory()!=0){
+            cbxCategory.setSelected(true);
+            combbxCategory.setEnabled(true);
+            if(dcdt.getIsCategory()==1) combbxCategory.setSelectedIndex(0);
+            else combbxCategory.setSelectedIndex(1);
+        }
+        if(dcdt.getIsBill()!=0){
+            cbxBill.setSelected(true);
+            combbxBill.setEnabled(true);
+            if(dcdt.getIsBill()==1) combbxBill.setSelectedIndex(0);
+            else combbxBill.setSelectedIndex(1);
+        }
+        if(dcdt.getIsDiscount()!=0){
+            cbxDiscount.setSelected(true);
+            combbxDiscount.setEnabled(true);
+            if(dcdt.getIsDiscount()==1) combbxDiscount.setSelectedIndex(0);
+            else combbxDiscount.setSelectedIndex(1);
+        }
+        if(dcdt.getIsCustomer()!=0){
+            cbxCustomer.setSelected(true);
+            combbxCustomer.setEnabled(true);
+            if(dcdt.getIsCustomer()==1) combbxCustomer.setSelectedIndex(0);
+            else combbxCustomer.setSelectedIndex(1);
+        }
+        if(dcdt.getIsStaff()!=0){
+            cbxStaff.setSelected(true);
+            combbxStaff.setEnabled(true);
+            if(dcdt.getIsStaff()==1) combbxStaff.setSelectedIndex(0);
+            else combbxStaff.setSelectedIndex(1);
+        }
+        if(dcdt.getIsAccount()!=0){
+            cbxAccount.setSelected(true);
+            combbxAccount.setEnabled(true);
+            if(dcdt.getIsAccount()==1) combbxAccount.setSelectedIndex(0);
+            else combbxAccount.setSelectedIndex(1);
+        }
+        if(dcdt.getIsDecentralize()!=0){
+            cbxDecentralize.setSelected(true);
+            combbxDecentralize.setEnabled(true);
+            if(dcdt.getIsDecentralize()==1) combbxDecentralize.setSelectedIndex(0);
+            else combbxDecentralize.setSelectedIndex(1);
+        }
     }
 
     /**
@@ -52,19 +159,26 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
         cbxStaff = new javax.swing.JCheckBox();
         combbxAccount = new javax.swing.JComboBox<>();
         cbxAccount = new javax.swing.JCheckBox();
+        cbxDecentralize = new javax.swing.JCheckBox();
+        combbxDecentralize = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         roundPanel1.setPreferredSize(new java.awt.Dimension(380, 538));
 
         btnAdd.setBackground(new java.awt.Color(240, 240, 240));
         btnAdd.setBorder(null);
-        btnAdd.setText("Thêm");
+        btnAdd.setText("Lưu");
         btnAdd.setColor(new java.awt.Color(240, 240, 240));
         btnAdd.setColorClick(new java.awt.Color(255, 255, 255));
         btnAdd.setColorOver(new java.awt.Color(255, 255, 255));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setRadius(20);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+        });
 
         btnCancel.setBackground(new java.awt.Color(240, 240, 240));
         btnCancel.setBorder(null);
@@ -74,26 +188,21 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
         btnCancel.setColorOver(new java.awt.Color(255, 255, 255));
         btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancel.setRadius(20);
+        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelMouseClicked(evt);
+            }
+        });
 
         roundPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtDecentralizationID.setEditable(false);
         txtDecentralizationID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtDecentralizationID.setText("Q1");
         txtDecentralizationID.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã Quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
-        txtDecentralizationID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDecentralizationIDActionPerformed(evt);
-            }
-        });
 
         txtDecentralizationName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtDecentralizationName.setText("Quản lý");
         txtDecentralizationName.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tên Quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
-        txtDecentralizationName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDecentralizationNameActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
         roundPanel2.setLayout(roundPanel2Layout);
@@ -122,102 +231,123 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
 
         cbxSale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxSale.setText("Bán Hàng");
+        cbxSale.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxSaleItemStateChanged(evt);
+            }
+        });
 
         combbxSale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxSale.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxSale.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxSaleActionPerformed(evt);
-            }
-        });
+        combbxSale.setEnabled(false);
 
         cbxRecieved.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxRecieved.setText("Nhập Hàng");
+        cbxRecieved.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxRecievedItemStateChanged(evt);
+            }
+        });
 
         combbxReceived.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxReceived.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxReceived.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxReceivedActionPerformed(evt);
-            }
-        });
+        combbxReceived.setEnabled(false);
 
         cbxProduct.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxProduct.setText("Sản phẩm");
+        cbxProduct.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxProductItemStateChanged(evt);
+            }
+        });
 
         combbxProduct.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxProductActionPerformed(evt);
-            }
-        });
+        combbxProduct.setEnabled(false);
 
         combbxCategory.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxCategoryActionPerformed(evt);
-            }
-        });
+        combbxCategory.setEnabled(false);
 
         cbxCategory.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxCategory.setText("Loại sản phẩm");
+        cbxCategory.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCategoryItemStateChanged(evt);
+            }
+        });
 
         combbxBill.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxBill.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxBill.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxBillActionPerformed(evt);
-            }
-        });
+        combbxBill.setEnabled(false);
 
         cbxBill.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxBill.setText("Hóa đơn");
+        cbxBill.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxBillItemStateChanged(evt);
+            }
+        });
 
         cbxDiscount.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxDiscount.setText("Khuyến Mãi");
+        cbxDiscount.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxDiscountItemStateChanged(evt);
+            }
+        });
 
         combbxDiscount.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxDiscount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxDiscount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxDiscountActionPerformed(evt);
-            }
-        });
+        combbxDiscount.setEnabled(false);
 
         combbxCustomer.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxCustomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxCustomerActionPerformed(evt);
-            }
-        });
+        combbxCustomer.setEnabled(false);
 
         cbxCustomer.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxCustomer.setText("Khách Hàng");
+        cbxCustomer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCustomerItemStateChanged(evt);
+            }
+        });
 
         combbxStaff.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         combbxStaff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxStaff.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxStaffActionPerformed(evt);
-            }
-        });
+        combbxStaff.setEnabled(false);
 
         cbxStaff.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxStaff.setText("Nhân Viên");
-
-        combbxAccount.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        combbxAccount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
-        combbxAccount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combbxAccountActionPerformed(evt);
+        cbxStaff.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxStaffItemStateChanged(evt);
             }
         });
 
+        combbxAccount.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        combbxAccount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
+        combbxAccount.setEnabled(false);
+
         cbxAccount.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cbxAccount.setText("Tài Khoản");
+        cbxAccount.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxAccountItemStateChanged(evt);
+            }
+        });
+
+        cbxDecentralize.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        cbxDecentralize.setText("Phân Quyền");
+        cbxDecentralize.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxDecentralizeItemStateChanged(evt);
+            }
+        });
+
+        combbxDecentralize.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        combbxDecentralize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chỉ xem", "Quản lý" }));
+        combbxDecentralize.setEnabled(false);
 
         javax.swing.GroupLayout pnlDecentralizationDetailsLayout = new javax.swing.GroupLayout(pnlDecentralizationDetails);
         pnlDecentralizationDetails.setLayout(pnlDecentralizationDetailsLayout);
@@ -227,42 +357,47 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(pnlDecentralizationDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxSale, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxDecentralize, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxSale, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxRecieved, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxBill, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxBill, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
-                        .addComponent(cbxAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combbxAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addComponent(combbxDecentralize, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDecentralizationDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxSale, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxSale, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxRecieved, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxBill, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxBill, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlDecentralizationDetailsLayout.createSequentialGroup()
+                            .addComponent(cbxAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combbxAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         pnlDecentralizationDetailsLayout.setVerticalGroup(
             pnlDecentralizationDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,7 +438,11 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
                 .addGroup(pnlDecentralizationDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxAccount)
                     .addComponent(combbxAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlDecentralizationDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxDecentralize)
+                    .addComponent(combbxDecentralize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         scrDecentralizationDetails.setViewportView(pnlDecentralizationDetails);
@@ -312,18 +451,18 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
         roundPanel1.setLayout(roundPanel1Layout);
         roundPanel1Layout.setHorizontalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrDecentralizationDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .addComponent(scrDecentralizationDetails)
                     .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(roundPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,12 +470,12 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrDecentralizationDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrDecentralizationDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -352,91 +491,163 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, Short.MAX_VALUE)
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDecentralizationIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDecentralizationIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDecentralizationIDActionPerformed
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        dc = new Decentralization();
+        dc.setDecentralizeID(txtDecentralizationID.getText());
+        dc.setDecentralizeName(txtDecentralizationName.getText());
+        dcdt.setDecentralizeID(txtDecentralizationID.getText());
+        dcdt.setIsSale(0); dcdt.setIsDecentralize(0);
+        dcdt.setIsAccount(0);dcdt.setIsBill(0);
+        dcdt.setIsCategory(0);dcdt.setIsCustomer(0);
+        dcdt.setIsDiscount(0);dcdt.setIsProduct(0);
+        dcdt.setIsStaff(0);dcdt.setIsRecept(0);
+        if(cbxSale.isSelected()){
+            if(combbxSale.getSelectedIndex()==0) dcdt.setIsSale(1);
+            else dcdt.setIsSale(2);
+        }
+        if(cbxRecieved.isSelected()){
+            if(combbxReceived.getSelectedIndex()==0) dcdt.setIsRecept(1);
+            else dcdt.setIsRecept(2);
+        }
+        if(cbxProduct.isSelected()){
+            if(combbxProduct.getSelectedIndex()==0) dcdt.setIsProduct(1);
+            else dcdt.setIsProduct(2);
+        }
+        if(cbxCategory.isSelected()){
+            if(combbxCategory.getSelectedIndex()==0) dcdt.setIsCategory(1);
+            else dcdt.setIsCategory(2);
+        }
+        if(cbxBill.isSelected()){
+            if(combbxBill.getSelectedIndex()==0) dcdt.setIsBill(1);
+            else dcdt.setIsBill(2);
+        }
+        if(cbxDiscount.isSelected()){
+            if(combbxDiscount.getSelectedIndex()==0) dcdt.setIsDiscount(1);
+            else dcdt.setIsDiscount(2);
+        }
+        if(cbxCustomer.isSelected()){
+            if(combbxCustomer.getSelectedIndex()==0) dcdt.setIsCustomer(1);
+            else dcdt.setIsCustomer(2);
+        }
+        if(cbxStaff.isSelected()){
+            if(combbxStaff.getSelectedIndex()==0) dcdt.setIsStaff(1);
+            else dcdt.setIsStaff(2);
+        }
+        if(cbxAccount.isSelected()){
+            if(combbxAccount.getSelectedIndex()==0) dcdt.setIsAccount(1);
+            else dcdt.setIsAccount(2);
+        }
+        if(cbxDecentralize.isSelected()){
+            if(combbxDecentralize.getSelectedIndex()==0) dcdt.setIsDecentralize(1);
+            else dcdt.setIsDecentralize(2);
+        }
+        switch(this.action) {
+            case "create":
+                    if(dcBUS.create(dc) && dcdtBUS.create(dcdt)){
+                        JOptionPane.showMessageDialog(this, "Tạo thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    }
+                    else 
+                        JOptionPane.showMessageDialog(this, "Đã có lỗi xảy ra!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+            case "update":
+                    if(dcBUS.update(dc) && dcdtBUS.update(dcdt)){
+                        JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    }  
+                    else 
+                        JOptionPane.showMessageDialog(this, "Đã có lỗi xảy ra!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+            default:
+                    break;
+        }
+    }//GEN-LAST:event_btnAddMouseClicked
 
-    private void txtDecentralizationNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDecentralizationNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDecentralizationNameActionPerformed
+    private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnCancelMouseClicked
 
-    private void combbxSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxSaleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxSaleActionPerformed
+    private void cbxSaleItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSaleItemStateChanged
+        combbxSale.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxSaleItemStateChanged
 
-    private void combbxReceivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxReceivedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxReceivedActionPerformed
+    private void cbxRecievedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxRecievedItemStateChanged
+        combbxReceived.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxRecievedItemStateChanged
 
-    private void combbxProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxProductActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxProductActionPerformed
+    private void cbxProductItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxProductItemStateChanged
+        combbxProduct.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxProductItemStateChanged
 
-    private void combbxCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxCategoryActionPerformed
+    private void cbxCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCategoryItemStateChanged
+        combbxCategory.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxCategoryItemStateChanged
 
-    private void combbxBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxBillActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxBillActionPerformed
+    private void cbxBillItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxBillItemStateChanged
+        combbxBill.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxBillItemStateChanged
 
-    private void combbxDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxDiscountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxDiscountActionPerformed
+    private void cbxDiscountItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxDiscountItemStateChanged
+        combbxDiscount.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxDiscountItemStateChanged
 
-    private void combbxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxCustomerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxCustomerActionPerformed
+    private void cbxCustomerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCustomerItemStateChanged
+        combbxCustomer.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxCustomerItemStateChanged
 
-    private void combbxStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxStaffActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxStaffActionPerformed
+    private void cbxStaffItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxStaffItemStateChanged
+        combbxStaff.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxStaffItemStateChanged
 
-    private void combbxAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combbxAccountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_combbxAccountActionPerformed
+    private void cbxAccountItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAccountItemStateChanged
+        combbxAccount.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxAccountItemStateChanged
+
+    private void cbxDecentralizeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxDecentralizeItemStateChanged
+        combbxDecentralize.setEnabled(evt.getStateChange()==1 ? true:false);
+    }//GEN-LAST:event_cbxDecentralizeItemStateChanged
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DecentralizationDetails_GUI().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(DecentralizationDetails_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new DecentralizationDetails_GUI().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAdd;
@@ -445,6 +656,7 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbxBill;
     private javax.swing.JCheckBox cbxCategory;
     private javax.swing.JCheckBox cbxCustomer;
+    private javax.swing.JCheckBox cbxDecentralize;
     private javax.swing.JCheckBox cbxDiscount;
     private javax.swing.JCheckBox cbxProduct;
     private javax.swing.JCheckBox cbxRecieved;
@@ -454,6 +666,7 @@ public class DecentralizationDetails_GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combbxBill;
     private javax.swing.JComboBox<String> combbxCategory;
     private javax.swing.JComboBox<String> combbxCustomer;
+    private javax.swing.JComboBox<String> combbxDecentralize;
     private javax.swing.JComboBox<String> combbxDiscount;
     private javax.swing.JComboBox<String> combbxProduct;
     private javax.swing.JComboBox<String> combbxReceived;

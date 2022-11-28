@@ -3,6 +3,7 @@ package GUI;
 
 import BUS.Login_BUS;
 import DTO.Account;
+import DTO.DecentralizationDetail;
 import java.awt.Color;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -276,10 +277,17 @@ public class Login_GUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
+                DecentralizationDetail dcdt;
                 ArrayList<String> staffInfo = loginBUS.loginGetStaffInfo(jTextField6.getText(), jPasswordField1.getText());
+                if(staffInfo.get(3)==null) {
+                    dcdt = new DecentralizationDetail("DC0",1,0,0,0,0,0,0,0,0,0);
+                    staffInfo.set(2, "Chưa xác định");
+                }
+                else 
+                    dcdt = loginBUS.getDecentralizationDetail(staffInfo.get(3));
                 this.dispose();
                 try {
-                    new Home_GUI(staffInfo);
+                    new Home_GUI(staffInfo, dcdt);
                 } catch (ParseException ex) {
                     Logger.getLogger(Login_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }

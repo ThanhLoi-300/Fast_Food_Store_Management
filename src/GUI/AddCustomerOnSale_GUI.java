@@ -20,7 +20,6 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
 
     public AddCustomerOnSale_GUI() {
         initComponents();
-        
         this.setTitle("Khách hàng mới");
         setVisible(true);
         autoGenerateId();

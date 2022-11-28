@@ -64,7 +64,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="roundPanel3" pref="628" max="32767" attributes="0"/>
+                      <Component id="roundPanel3" pref="630" max="32767" attributes="0"/>
                       <Component id="roundPanel2" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>

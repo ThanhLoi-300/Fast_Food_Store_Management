@@ -55,7 +55,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class Sale_GUI extends javax.swing.JPanel {
+public class Sale_GUI extends javax.swing.JPanel implements checkPermission{
     
     private ArrayList<Product_DTO> list_Product = new ArrayList<Product_DTO>();
     private ArrayList<Product_DTO> list_Detail_Bill = new ArrayList<Product_DTO>();
@@ -70,12 +70,14 @@ public class Sale_GUI extends javax.swing.JPanel {
     private BillDetail_BUS bd_BUS = new BillDetail_BUS();
     private Discount_BUS discount_BUS = new Discount_BUS();
     private NewJFrame1 NewJFrame1;
+    private int permissionType;
     
-    public Sale_GUI(String staffID){
+    public Sale_GUI(String staffID, int permissionType){
         initComponents();
         Auto_Update_Discount();
         NewJFrame1 = new NewJFrame1();
         this.StaffID = staffID;
+        this.permissionType = permissionType;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
         
         list_Product = product_BUS.readProductOnBusiness();
@@ -182,6 +184,10 @@ public class Sale_GUI extends javax.swing.JPanel {
         pd.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
+                if(permissionType!=2){
+                    hienThiErrorMess();
+                    return;
+                }
                 if( checkOrderExits(data) != null){
                     if(!NewJFrame1.isShowing())
                         NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
@@ -670,6 +676,10 @@ public class Sale_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2FocusLost
 
     private void button2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button2MouseClicked
+        if(this.permissionType!=2) {
+            this.hienThiErrorMess();
+            return;
+        }
         String phoneNum = jTextField2.getText();
         if(phoneNum.isBlank() || phoneNum.equals("Số điện thoại")) {
             // do nothing
@@ -706,6 +716,10 @@ public class Sale_GUI extends javax.swing.JPanel {
     }
     
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Locale locale = new Locale("vi","VN");
         double totalCash = 0;
         double excessCash = 0;
