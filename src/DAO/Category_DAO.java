@@ -186,8 +186,8 @@ public class Category_DAO{
         return null;
     }
     
-    public Product_DTO get_Product_In_Detail_Bill(String id){
-        String sql = "SELECT * FROM product WHERE Product_ID = '"+ id +"' AND IsDeleted <> 1";
+    public Product_DTO get_Product_In_Detail_Bill(String id, String size){
+        String sql = "SELECT * FROM product WHERE Product_ID = '"+ id +"' AND Size = '"+ size +"' AND IsDeleted <> 1";
 
         try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             if(rs.next()){

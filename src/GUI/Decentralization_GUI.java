@@ -23,14 +23,18 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
     private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     private DecentralizationDetails_GUI dcdtGUI;
     private int permissionType;
+    private Home_GUI home_GUI;
+    String dcdt = "";
     /**
      * Creates new form Decentralization_GUI
      */
-    public Decentralization_GUI(int permissionType) {
+    public Decentralization_GUI(int permissionType, Home_GUI home, String dcdt_Id) {
         initComponents();
         dcdtGUI = new DecentralizationDetails_GUI();
+        this.home_GUI = home;
         renderTable();
         this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
     
     public void renderTable() {
@@ -67,7 +71,6 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
         btnGroupChiTietQuyen = new javax.swing.ButtonGroup();
         roundPanel1 = new Custom.RoundPanel();
         roundPanel7 = new Custom.RoundPanel();
-        btnRefesh = new Custom.Button();
         txtSearch3 = new javax.swing.JTextField();
         scrDanhSachQuyen3 = new javax.swing.JScrollPane();
         tblDanhSachQuyen3 = new javax.swing.JTable();
@@ -84,21 +87,6 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
 
         roundPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnRefesh.setBackground(new java.awt.Color(240, 240, 240));
-        btnRefesh.setBorder(null);
-        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/refresh.png"))); // NOI18N
-        btnRefesh.setText("Làm tươi");
-        btnRefesh.setColor(new java.awt.Color(240, 240, 240));
-        btnRefesh.setColorClick(new java.awt.Color(240, 235, 235));
-        btnRefesh.setColorOver(new java.awt.Color(255, 255, 255));
-        btnRefesh.setFocusPainted(false);
-        btnRefesh.setRadius(20);
-        btnRefesh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRefeshMouseClicked(evt);
-            }
-        });
-
         txtSearch3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtSearch3.setPreferredSize(new java.awt.Dimension(64, 19));
         txtSearch3.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +96,8 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
         });
 
         scrDanhSachQuyen3.setBackground(new java.awt.Color(255, 255, 255));
-        scrDanhSachQuyen3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 10), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrDanhSachQuyen3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách quyền", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrDanhSachQuyen3.setFont(new java.awt.Font("Times New Roman", 0, 11)); // NOI18N
         scrDanhSachQuyen3.setPreferredSize(new java.awt.Dimension(470, 423));
 
         tblDanhSachQuyen3.setModel(new javax.swing.table.DefaultTableModel(
@@ -160,18 +149,15 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
         roundPanel7Layout.setHorizontalGroup(
             roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel7Layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roundPanel7Layout.createSequentialGroup()
+                        .addGap(0, 631, Short.MAX_VALUE)
                         .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17))
-            .addGroup(roundPanel7Layout.createSequentialGroup()
-                .addGap(418, 418, 418)
-                .addComponent(btnRefesh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         roundPanel7Layout.setVerticalGroup(
             roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,9 +167,7 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
                     .addComponent(txtSearch3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
-                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(btnRefesh, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrDanhSachQuyen3, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -291,25 +275,23 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
-
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDecentralize();
         if(this.permissionType!=2) {
             this.hienThiErrorMess();
             return;
         }
         if(!dcdtGUI.isShowing())
-            dcdtGUI = new DecentralizationDetails_GUI(null);
+            dcdtGUI = new DecentralizationDetails_GUI(null, Decentralization_GUI.this, this.home_GUI);
         else{
             dcdtGUI.dispose();
-            dcdtGUI = new DecentralizationDetails_GUI(null);
+            dcdtGUI = new DecentralizationDetails_GUI(null, Decentralization_GUI.this, this.home_GUI);
         }
         refesh();
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDecentralize();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -331,6 +313,7 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDecentralize();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -339,10 +322,10 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
         if(row >= 0) {
             String decentralizeId = tblDanhSachQuyen3.getModel().getValueAt(row, 1).toString();
             if(!dcdtGUI.isShowing())
-                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId);
+                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId, Decentralization_GUI.this, this.home_GUI);
             else{
                 dcdtGUI.dispose();
-                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId);
+                dcdtGUI = new DecentralizationDetails_GUI(decentralizeId, Decentralization_GUI.this, this.home_GUI);
             }
             refesh();
         }
@@ -350,20 +333,19 @@ public class Decentralization_GUI extends javax.swing.JPanel implements checkPer
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một bản ghi!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnUpdateMouseClicked
 
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
 
     }//GEN-LAST:event_button1MouseClicked
-
-    private void btnRefeshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefeshMouseClicked
-        refesh();
-    }//GEN-LAST:event_btnRefeshMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAdd;
     private Custom.Button btnDelete;
     private javax.swing.ButtonGroup btnGroupChiTietQuyen;
-    private Custom.Button btnRefesh;
     private Custom.Button btnUpdate;
     private Custom.Button button1;
     private Custom.RoundPanel roundPanel1;

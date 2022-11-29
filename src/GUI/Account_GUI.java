@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.Account_BUS;
+import BUS.DecentralizationDetail_BUS;
 import BUS.Decentralization_BUS;
 import DTO.Account;
 import java.util.ArrayList;
@@ -22,11 +23,13 @@ public class Account_GUI extends javax.swing.JPanel implements checkPermission{
     
     private ArrayList<String> listDecentralize = new ArrayList<String>();
     private Decentralization_BUS dcBUS = new Decentralization_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     private int permissionType;
     Account_BUS accountBUS = new Account_BUS();
     ArrayList<Account> listAccount;
+    String dcdt = "";
     
-    public Account_GUI(int permissionType) {
+    public Account_GUI(int permissionType, String dcdt_Id) {
         listAccount = accountBUS.loadDataAccount();
         initComponents();
         loadAccountList(listAccount);
@@ -38,6 +41,7 @@ public class Account_GUI extends javax.swing.JPanel implements checkPermission{
             comboBoxItems.add(decentralize_id);
         }
         cbbDecentralizeId.setModel(new DefaultComboBoxModel(comboBoxItems));
+        this.dcdt = dcdt_Id;
     }
 
     /**
@@ -426,6 +430,7 @@ public class Account_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_cbbSearchFilterActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+            this.permissionType = dcdtBUS.readById(this.dcdt).getIsAccount();
             if(this.permissionType!=2){
                 this.hienThiErrorMess();
                 return;
@@ -452,6 +457,7 @@ public class Account_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsAccount();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -480,6 +486,7 @@ public class Account_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsAccount();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;

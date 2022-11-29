@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
+
 /**
  *
  * @author Josie
@@ -11,10 +13,13 @@ package GUI;
 public class Staff_GUI extends javax.swing.JPanel implements checkPermission{
 
     private int permissionType;
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    String dcdt = "";
     
-    public Staff_GUI(int permissionType) {
+    public Staff_GUI(int permissionType, String dcdt_Id) {
         initComponents();
         this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     /**
@@ -394,6 +399,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsSale();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -402,6 +408,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnUpdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsSale();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -409,6 +416,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnUpdate1MouseClicked
 
     private void btnDelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsSale();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;

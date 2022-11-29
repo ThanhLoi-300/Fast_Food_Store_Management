@@ -20,6 +20,7 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
 
     public AddCustomerOnSale_GUI() {
         initComponents();
+        this.setBackground(new Color(0,0,0,0));
         this.setTitle("Khách hàng mới");
         setVisible(true);
         autoGenerateId();
@@ -66,6 +67,16 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
         setUndecorated(true);
 
         roundPanel3.setBackground(new java.awt.Color(51, 51, 51));
+        roundPanel3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                roundPanel3MouseDragged(evt);
+            }
+        });
+        roundPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                roundPanel3MousePressed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -81,6 +92,9 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
             }
         });
 
+        roundPanel1.setBackground(new java.awt.Color(250, 250, 250));
+
+        jLabel6.setBackground(new java.awt.Color(250, 250, 250));
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("THÊM KHÁCH HÀNG MỚI");
@@ -99,19 +113,21 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        roundPanel2.setBackground(new java.awt.Color(250, 250, 250));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel1.setText("ID Khách Hàng");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel2.setText("Tên Khách");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel3.setText("Năm sinh");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel4.setText("Số điện thoạii");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel5.setText("Tích lũy mua");
 
         button1.setBorder(null);
@@ -157,7 +173,7 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,6 +336,15 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
         mouseX = evt.getX();
         mouseY = evt.getY();
     }//GEN-LAST:event_jPanel2MousePressed
+
+    private void roundPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel3MousePressed
+        mouseX = evt.getX();
+        mouseY = evt.getY();
+    }//GEN-LAST:event_roundPanel3MousePressed
+
+    private void roundPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel3MouseDragged
+        super.setLocation(super.getX() + evt.getX() - mouseX, super.getY() + evt.getY() - mouseY);
+    }//GEN-LAST:event_roundPanel3MouseDragged
 
     public void clearText() {
         jTextField1.setText("");

@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.Decentralization_DAO;
 import DTO.Decentralization;
+import DTO.DecentralizationDetail;
 import java.util.ArrayList;
 
 /**
@@ -41,5 +42,14 @@ public class Decentralization_BUS {
     public boolean update(Decentralization dc){
         if(decentralizeDAO.update(dc)) return true;
         else return false;
+    }
+    
+    public boolean check_Decentralization_Exist(String name, String id, String s){
+        if(decentralizeDAO.check_Decentralization_Exist(name,id,s)) return true;
+        else return false;
+    }
+    
+    public DecentralizationDetail get_Decentralize_By_Name(String name){
+        return decentralizeDAO.get_Decentralize_By_Name(name);
     }
 }

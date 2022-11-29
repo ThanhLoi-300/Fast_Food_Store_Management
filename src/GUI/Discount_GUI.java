@@ -2,6 +2,7 @@
 package GUI;
 
 import BUS.Category_BUS;
+import BUS.DecentralizationDetail_BUS;
 import BUS.Discount_BUS;
 import BUS.Product_BUS;
 import DTO.Category_DTO;
@@ -36,10 +37,12 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
     private ArrayList<String> list_Choose_Product = new ArrayList<>();
     private ArrayList<Category_DTO> list_Category = new ArrayList<Category_DTO>();
     private Category_BUS category_BUS = new Category_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    String dcdt = "";
     SimpleDateFormat fmt = new SimpleDateFormat("MM dd,yyyy");
     private int permissionType;
     
-    public Discount_GUI(int permissionType){
+    public Discount_GUI(int permissionType, String dcdt_Id){
         initComponents();
         Auto_Update_Discount();
         list_Category = category_BUS.load_Data_CategoryObBusiness();
@@ -50,6 +53,7 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
         jComboBox3.setModel(new DefaultComboBoxModel(comboBoxItems));
         refresh();
         this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     @SuppressWarnings("unchecked")
@@ -562,6 +566,7 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -575,6 +580,7 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -664,6 +670,7 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_tbl_DiscountMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;

@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
 import BUS.Product_BUS;
 import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
@@ -29,14 +30,17 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
     Product_BUS productBUS = new Product_BUS();
     ReceivedNote_BUS receiveBUS = new ReceivedNote_BUS();
     ReceivedNoteDetail_BUS receiveDetailBUS = new ReceivedNoteDetail_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     ReceivedProduct_DTO selectedProduct, selectedProductDetail;
     String loggedInStaff;
     private int permissionType;
+    String dcdt = "";
 
-    public Recieved_GUI(String staffID, int permissionType) {
+    public Recieved_GUI(String staffID, int permissionType, String dcdt_Id) {
         initComponents();
         loggedInStaff = staffID;
         this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     @SuppressWarnings("unchecked")
@@ -398,6 +402,7 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -460,6 +465,7 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
     }//GEN-LAST:event_tblProductListMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -488,6 +494,7 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -545,6 +552,7 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
     }
     
     private void btnNhapHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapHangActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;

@@ -2,6 +2,7 @@
 package GUI;
 
 import BUS.Category_BUS;
+import BUS.DecentralizationDetail_BUS;
 import DTO.Category_DTO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -14,14 +15,17 @@ public class Category_GUI extends javax.swing.JPanel implements checkPermission{
     
     private Category_BUS category_BUS = new Category_BUS();
     private ArrayList<Category_DTO> category_List;
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     private int permissionType;
+    String dcdt = "";
     
-    public Category_GUI(int permissionType) {
+    public Category_GUI(int permissionType, String dcdt_Id) {
         initComponents();
         category_List = category_BUS.load_Data_Category();
         load_Data_Category(category_List);
         auto_Create_Id();
         this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
    }
 
     @SuppressWarnings("unchecked")
@@ -427,6 +431,7 @@ public class Category_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_tblCategoryListMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCategory();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -477,6 +482,7 @@ public class Category_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCategory();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;
@@ -517,6 +523,7 @@ public class Category_GUI extends javax.swing.JPanel implements checkPermission{
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCategory();
         if(this.permissionType!=2){
             this.hienThiErrorMess();
             return;

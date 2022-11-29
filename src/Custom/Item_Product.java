@@ -29,14 +29,22 @@ public class Item_Product extends javax.swing.JPanel {
         
         ImageIcon icon = new ImageIcon(data.getImage());
         Image image = icon.getImage();
-        Image scaledImage = image.getScaledInstance(156, 104, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance(156+50, 104+50, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
         Img.setIcon(icon);
         
         if(discount_BUS.check_Product_Discount(data.getProductID()) != -1){
-            discount.setText("-"+ discount_BUS.check_Product_Discount(data.getProductID())+"%" );
+            jButton8.setText("-"+ discount_BUS.check_Product_Discount(data.getProductID())+"%" );
             this.percent = discount_BUS.check_Product_Discount(data.getProductID());
-        }else discount.setText("");
+        }else jButton8.setVisible(false);
+    }
+
+    public Button getjButton8() {
+        return jButton8;
+    }
+
+    public void setjButton8(Button jButton8) {
+        this.jButton8 = jButton8;
     }
 
     public int getPercent() {
@@ -58,7 +66,7 @@ public class Item_Product extends javax.swing.JPanel {
 
         Img = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
-        discount = new javax.swing.JLabel();
+        jButton8 = new Custom.Button();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(176, 190));
@@ -67,9 +75,18 @@ public class Item_Product extends javax.swing.JPanel {
 
         name.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
-        discount.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        discount.setForeground(new java.awt.Color(255, 0, 51));
-        discount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jButton8.setBackground(new java.awt.Color(255, 0, 51));
+        jButton8.setBorder(null);
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("-20%");
+        jButton8.setBorderPainted(false);
+        jButton8.setColor(new java.awt.Color(255, 0, 51));
+        jButton8.setColorClick(new java.awt.Color(255, 0, 51));
+        jButton8.setColorOver(new java.awt.Color(255, 0, 51));
+        jButton8.setFocusPainted(false);
+        jButton8.setFocusable(false);
+        jButton8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton8.setRadius(100);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,7 +99,7 @@ public class Item_Product extends javax.swing.JPanel {
                     .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -91,9 +108,9 @@ public class Item_Product extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -101,7 +118,7 @@ public class Item_Product extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Img;
-    private javax.swing.JLabel discount;
+    private Custom.Button jButton8;
     private javax.swing.JLabel name;
     // End of variables declaration//GEN-END:variables
 }

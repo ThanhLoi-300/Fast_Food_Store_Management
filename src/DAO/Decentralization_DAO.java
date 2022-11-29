@@ -5,6 +5,7 @@
 package DAO;
 
 import DTO.Decentralization;
+import DTO.DecentralizationDetail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,5 +93,44 @@ public class Decentralization_DAO {
             Logger.getLogger(Customer_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rowAffected > 0 ? true:false;
+    }
+    
+    public boolean check_Decentralization_Exist(String name,String id, String s){
+        String sql = "";
+        if(s.equals("create"))
+            sql = "SELECT * FROM `decentralization` WHERE decentralize_name = '"+name+"'";
+        else sql = "SELECT * FROM `decentralization` WHERE decentralize_name = '"+name+"' AND decentralize_id NOT IN ('"+id+"')";
+        try(Connection conn = cn.getConnect(); Statement stm = conn.createStatement();) {
+            ResultSet rs = stm.executeQuery(sql);
+            if(rs.next()) return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+    
+    public DecentralizationDetail get_Decentralize_By_Name(String name){
+        DecentralizationDetail dcdt = null;
+        String sql = "SELECT decentralization_detail.* FROM decentralization,decentralization_detail WHERE decentralization.decentralize_name = '"+name+"' AND decentralization_detail.decentralize_id = decentralization.decentralize_id";
+        try(Connection conn = cn.getConnect(); Statement stm = conn.createStatement();) {
+            ResultSet rs = stm.executeQuery(sql);
+            if(rs.next()) {
+                dcdt = new DecentralizationDetail();
+                dcdt.setDecentralizeID(rs.getString(1));
+                dcdt.setIsSale(rs.getInt(2));
+                dcdt.setIsRecept(rs.getInt(3));
+                dcdt.setIsProduct(rs.getInt(4));
+                dcdt.setIsCategory(rs.getInt(5));
+                dcdt.setIsBill(rs.getInt(6));
+                dcdt.setIsDiscount(rs.getInt(7));
+                dcdt.setIsCustomer(rs.getInt(8));
+                dcdt.setIsStaff(rs.getInt(9));
+                dcdt.setIsAccount(rs.getInt(10));
+                dcdt.setIsDecentralize(rs.getInt(11));
+            }      
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dcdt;
     }
 }

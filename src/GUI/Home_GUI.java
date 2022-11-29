@@ -1,6 +1,7 @@
 
 package GUI;
 
+import BUS.Decentralization_BUS;
 import BUS.Discount_BUS;
 import DTO.DecentralizationDetail;
 import DTO.Discount_DTO;
@@ -19,6 +20,8 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     private ArrayList<String> staffInfo;
     private Discount_BUS discount_BUS = new Discount_BUS();
     private DecentralizationDetail dcdt = new DecentralizationDetail();
+    private Decentralization_BUS decentralization_BUS = new Decentralization_BUS();
+    private String dcdt_Id = "";
     
     public Home_GUI(ArrayList<String> staffInfo, DecentralizationDetail dcdt) throws ParseException {
         initComponents();
@@ -26,19 +29,20 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
         setBackground(new Color(0,0,0,0));
         this.staffInfo = staffInfo;
         this.dcdt = dcdt;
+        this.dcdt_Id = dcdt.getDecentralizeID();
         jLabel2.setText(this.staffInfo.get(1));
         jLabel1.setText(this.staffInfo.get(2));
+        
+        Auto_Update_Discount();
+        DisableTabsForDecentralize();
         if(this.dcdt.getIsSale()==0){
             Active(roundPanel10);
             OpenChildForm( new Statistic_GUI());
         }
         else {
             Active(roundPanel7);
-            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale()));
+            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale(),this.dcdt_Id));
         }
-        Auto_Update_Discount();
-        DisableTabsForDecentralize();
-        //Auto_Update_Discount();
         setVisible(true);
     }
     @SuppressWarnings("unchecked")
@@ -319,7 +323,7 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
                 .addComponent(imageAvatar8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(jLabel14)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,7 +519,7 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
                 .addComponent(imageAvatar12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(jLabel19)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         roundPanel16Layout.setVerticalGroup(
             roundPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -656,7 +660,7 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
                     .addComponent(roundPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundPanel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                    .addComponent(roundPanel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                     .addComponent(roundPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(roundPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -668,28 +672,28 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(roundPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(roundPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(roundPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
@@ -699,11 +703,11 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1046, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 654, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
@@ -714,10 +718,10 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
                     .addComponent(roundPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE)
                 .addContainerGap())
         );
         roundPanel2Layout.setVerticalGroup(
@@ -754,17 +758,19 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     }// </editor-fold>//GEN-END:initComponents
 
     private void roundPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel13MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsRecept()!=0){
             Active(roundPanel13);
-            OpenChildForm( new Recieved_GUI(this.staffInfo.get(0), this.dcdt.getIsRecept()));
+            OpenChildForm( new Recieved_GUI(this.staffInfo.get(0), this.dcdt.getIsRecept(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel13MouseClicked
 
     private void roundPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel12MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsAccount()!=0){
             Active(roundPanel12);
-            OpenChildForm(new Account_GUI(this.dcdt.getIsAccount()));
+            OpenChildForm(new Account_GUI(this.dcdt.getIsAccount(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel12MouseClicked
@@ -775,6 +781,7 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     }//GEN-LAST:event_roundPanel10MouseClicked
 
     private void roundPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel8MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsBill()!=0){
             Active(roundPanel8);
             OpenChildForm( new Bill_GUI());
@@ -783,25 +790,28 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     }//GEN-LAST:event_roundPanel8MouseClicked
 
     private void roundPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel11MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsCategory()!=0){
             Active(roundPanel11);
-            OpenChildForm( new Category_GUI(this.dcdt.getIsCategory()));
+            OpenChildForm( new Category_GUI(this.dcdt.getIsCategory(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel11MouseClicked
 
     private void roundPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel9MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsProduct()!=0){
             Active(roundPanel9);
-            OpenChildForm( new Product_GUI(this.dcdt.getIsProduct()));
+            OpenChildForm( new Product_GUI(this.dcdt.getIsProduct(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel9MouseClicked
 
     private void roundPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel7MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsSale()!=0){
             Active(roundPanel7);
-            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale()));
+            OpenChildForm( new Sale_GUI(this.staffInfo.get(0), this.dcdt.getIsSale(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel7MouseClicked
@@ -829,48 +839,72 @@ public class Home_GUI extends javax.swing.JFrame implements checkPermission{
     }//GEN-LAST:event_header2MouseDragged
 
     private void roundPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel14MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsCustomer()!=0){
             Active(roundPanel14);
-            OpenChildForm(new Customer_GUI(this.dcdt.getIsCustomer()));
+            OpenChildForm(new Customer_GUI(this.dcdt.getIsCustomer(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel14MouseClicked
 
     private void roundPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel15MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsDiscount()!=0){
             Active(roundPanel15);
-            OpenChildForm(new Discount_GUI(this.dcdt.getIsDiscount()));
+            OpenChildForm(new Discount_GUI(this.dcdt.getIsDiscount(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel15MouseClicked
 
     private void roundPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel16MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsStaff()!=0){
             Active(roundPanel16);
-            OpenChildForm(new Staff_GUI(this.dcdt.getIsStaff()));
+            OpenChildForm(new Staff_GUI(this.dcdt.getIsStaff(),this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel16MouseClicked
 
     private void roundPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roundPanel17MouseClicked
+        this.dcdt = decentralization_BUS.get_Decentralize_By_Name(jLabel1.getText());
         if(this.dcdt.getIsDecentralize()!=0){
             Active(roundPanel17);
-            OpenChildForm(new Decentralization_GUI(this.dcdt.getIsDecentralize()));
+            OpenChildForm(new Decentralization_GUI(this.dcdt.getIsDecentralize(), Home_GUI.this,this.dcdt_Id));
         }
         else this.hienThiErrorMess();
     }//GEN-LAST:event_roundPanel17MouseClicked
     
-    private void DisableTabsForDecentralize(){
-        if(dcdt.getIsSale()==0) roundPanel7.setBackground(Color.red);
-        if(dcdt.getIsProduct()==0) roundPanel9.setBackground(Color.red);
-        if(dcdt.getIsCategory()==0) roundPanel11.setBackground(Color.red);
-        if(dcdt.getIsRecept()==0) roundPanel13.setBackground(Color.red);
-        if(dcdt.getIsBill()==0) roundPanel8.setBackground(Color.red);
-        if(dcdt.getIsAccount()==0) roundPanel12.setBackground(Color.red);
-        if(dcdt.getIsStaff()==0) roundPanel16.setBackground(Color.red);
-        if(dcdt.getIsCustomer()==0) roundPanel14.setBackground(Color.red);
-        if(dcdt.getIsDiscount()==0) roundPanel15.setBackground(Color.red);
-        if(dcdt.getIsDecentralize()==0) roundPanel17.setBackground(Color.red);
+    public void DisableTabsForDecentralize(){
+        String decentralize_Name =  jLabel1.getText();
+        DecentralizationDetail dd = decentralization_BUS.get_Decentralize_By_Name(decentralize_Name);
+        if(dd.getIsSale()==0) roundPanel7.setBackground(Color.red);
+        else roundPanel7.setBackground(new Color(51,51,51));
+        if(dd.getIsProduct()==0) roundPanel9.setBackground(Color.red);
+        else roundPanel9.setBackground(new Color(51,51,51));
+        if(dd.getIsCategory()==0) roundPanel11.setBackground(Color.red);
+        else roundPanel11.setBackground(new Color(51,51,51));
+        if(dd.getIsRecept()==0) roundPanel13.setBackground(Color.red);
+        else roundPanel13.setBackground(new Color(51,51,51));
+        if(dd.getIsBill()==0) roundPanel8.setBackground(Color.red);
+        else roundPanel8.setBackground(new Color(51,51,51));
+        if(dd.getIsAccount()==0) roundPanel12.setBackground(Color.red);
+        else roundPanel12.setBackground(new Color(51,51,51));
+        if(dd.getIsStaff()==0) roundPanel16.setBackground(Color.red);
+        else roundPanel16.setBackground(new Color(51,51,51));
+        if(dd.getIsCustomer()==0) roundPanel14.setBackground(Color.red);
+        else roundPanel14.setBackground(new Color(51,51,51));
+        if(dd.getIsDiscount()==0) roundPanel15.setBackground(Color.red);
+        else roundPanel15.setBackground(new Color(51,51,51));
+        if(dd.getIsDecentralize()==0) {
+            Active(roundPanel10);
+            OpenChildForm( new Statistic_GUI());
+            roundPanel17.setBackground(Color.red);
+        }
+        else roundPanel17.setBackground(new Color(51,51,51));
+    }
+    
+    public void set_Background_roundPanel17(){
+        roundPanel17.setBackground(new Color(25,25,25));
     }
     
     private void Active( JPanel btn) {     
