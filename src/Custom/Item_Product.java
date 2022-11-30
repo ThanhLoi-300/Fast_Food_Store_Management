@@ -29,7 +29,7 @@ public class Item_Product extends javax.swing.JPanel {
         
         ImageIcon icon = new ImageIcon(data.getImage());
         Image image = icon.getImage();
-        Image scaledImage = image.getScaledInstance(156+50, 104+50, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance(156, 104, Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
         Img.setIcon(icon);
         
