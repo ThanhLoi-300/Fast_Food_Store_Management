@@ -4,17 +4,38 @@
  */
 package GUI;
 
+import BUS.Staff_BUS;
+import DAO.Staff_DAO;
+import DTO.Staff;
+import com.mysql.cj.x.protobuf.MysqlxNotice;
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Josie
  */
 public class Staff_GUI extends javax.swing.JPanel {
 
+    private Staff_BUS staffBUS = new Staff_BUS();
+    private ArrayList<Staff> staffList;
+    LocalDate localDate = LocalDate.now();
+    int year = localDate.getYear();
+
     /**
      * Creates new form Staff_GUI
      */
     public Staff_GUI() {
+        staffList = staffBUS.readStaffsData();
         initComponents();
+        loadTable(staffList);
+        autoStaffId();
     }
 
     /**
@@ -51,7 +72,7 @@ public class Staff_GUI extends javax.swing.JPanel {
         tblStaffList = new javax.swing.JTable();
         cbbSearchFilter = new javax.swing.JComboBox<>();
         txtSearch = new javax.swing.JTextField();
-        button1 = new Custom.Button();
+        btnSearchStaff = new Custom.Button();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setPreferredSize(new java.awt.Dimension(1015, 650));
@@ -172,7 +193,7 @@ public class Staff_GUI extends javax.swing.JPanel {
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(roundPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE))
                     .addGroup(roundPanel1Layout.createSequentialGroup()
                         .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -238,7 +259,7 @@ public class Staff_GUI extends javax.swing.JPanel {
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(txtBaseSalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,7 +273,7 @@ public class Staff_GUI extends javax.swing.JPanel {
         roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         scrStaffList.setBackground(new java.awt.Color(255, 255, 255));
-        scrStaffList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
+        scrStaffList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(102, 102, 102))); // NOI18N
         scrStaffList.setForeground(new java.awt.Color(255, 255, 255));
 
         tblStaffList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -306,6 +327,11 @@ public class Staff_GUI extends javax.swing.JPanel {
         tblStaffList.setSelectionBackground(new java.awt.Color(235, 235, 235));
         tblStaffList.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tblStaffList.setUpdateSelectionOnSort(false);
+        tblStaffList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStaffListMouseClicked(evt);
+            }
+        });
         scrStaffList.setViewportView(tblStaffList);
 
         cbbSearchFilter.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -314,19 +340,24 @@ public class Staff_GUI extends javax.swing.JPanel {
 
         txtSearch.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 102, 255)), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         txtSearch.setSelectionColor(new java.awt.Color(204, 153, 255));
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
 
-        button1.setBackground(new java.awt.Color(240, 240, 240));
-        button1.setBorder(null);
-        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        button1.setColor(new java.awt.Color(240, 240, 240));
-        button1.setColorClick(new java.awt.Color(240, 235, 235));
-        button1.setColorOver(new java.awt.Color(255, 255, 255));
-        button1.setFocusPainted(false);
-        button1.setFocusable(false);
-        button1.setRadius(5);
-        button1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSearchStaff.setBackground(new java.awt.Color(240, 240, 240));
+        btnSearchStaff.setBorder(null);
+        btnSearchStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        btnSearchStaff.setColor(new java.awt.Color(240, 240, 240));
+        btnSearchStaff.setColorClick(new java.awt.Color(240, 235, 235));
+        btnSearchStaff.setColorOver(new java.awt.Color(255, 255, 255));
+        btnSearchStaff.setFocusPainted(false);
+        btnSearchStaff.setFocusable(false);
+        btnSearchStaff.setRadius(5);
+        btnSearchStaff.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                button1MouseClicked(evt);
+                btnSearchStaffMouseClicked(evt);
             }
         });
 
@@ -343,7 +374,7 @@ public class Staff_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSearchStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         roundPanel2Layout.setVerticalGroup(
@@ -354,7 +385,7 @@ public class Staff_GUI extends javax.swing.JPanel {
                     .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbbSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSearchStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(scrStaffList)
                 .addContainerGap())
@@ -393,33 +424,138 @@ public class Staff_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
-        
+        //Thêm nhân viên
+        try {
+            String idString = staffBUS.autoStaffID();
+            if (staffEmpty()) JOptionPane.showMessageDialog(this, "Thông tin nhân viên không được để trống", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if (year - Integer.parseInt(txtYearOfBirth.getText()) < 18 || year - Integer.parseInt(txtYearOfBirth.getText()) > 90) 
+            JOptionPane.showMessageDialog(this, "Độ tuổi không phù hợp chỉ nhận từ 18 đến 90", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
+            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(!txtBaseSalary.getText().matches("-?\\d+")) 
+            JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(txtStaffName.getText().matches("-?\\w+")) 
+            JOptionPane.showMessageDialog(this, "Tên nhân viên không bao gồm số", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else {
+                    Staff sf = new Staff(idString, txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtGender.getText(), txtAddress.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
+                
+                    if (staffBUS.addStaffString(sf)) {
+                        JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
+                        staffList = staffBUS.readStaffsData();
+                        loadTable(staffList);
+                        refreshRow();
+                    }     
+            }
+        }
+        catch(NumberFormatException e){
+            
+        }
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnUpdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseClicked
-
+        try {
+            if (staffEmpty()) JOptionPane.showMessageDialog(this, "Chọn nhân viên cần sửa", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if (year - Integer.parseInt(txtYearOfBirth.getText()) < 18 || year - Integer.parseInt(txtYearOfBirth.getText()) > 90) 
+            JOptionPane.showMessageDialog(this, "Độ tuổi không phù hợp chỉ nhận từ 18 đến 90", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
+            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(!txtBaseSalary.getText().matches("-?\\d+")) 
+            JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else if(txtStaffName.getText().matches("-?\\w+")) 
+            JOptionPane.showMessageDialog(this, "Tên nhân viên không bao gồm số", "Warning", JOptionPane.WARNING_MESSAGE);
+            
+            else {
+                    int rowCount = tblStaffList.getSelectedRow();
+                    Staff selectedStaff = staffList.get(rowCount);
+                    Staff sf = new Staff(selectedStaff.getStaffId(), txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtGender.getText(), txtAddress.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
+                
+                    if (staffBUS.updateStaffString(sf)) {
+                        JOptionPane.showMessageDialog(this, "Sửa nhân viên thành công");
+                        staffList = staffBUS.readStaffsData();
+                        loadTable(staffList);
+                        refreshRow();
+                    }     
+            }
+        }
+        catch(NumberFormatException e){
+            
+        }
     }//GEN-LAST:event_btnUpdate1MouseClicked
 
     private void btnDelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseClicked
-
+        if (txtStaffID.getText().isEmpty())
+            JOptionPane.showMessageDialog(this, "Chưa chọn nhân viên muốn xóa !!!");
+        
+        else if (JOptionPane.showConfirmDialog(null, "Xác nhận xóa", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                int rowCount = tblStaffList.getSelectedRow();
+                Staff selectedStaff = staffList.get(rowCount);
+                
+                if (staffBUS.deleteStaffString(selectedStaff.getStaffId()) ) {
+                    JOptionPane.showMessageDialog(this, "Đã xóa nhân viên");
+                    staffList = staffBUS.readStaffsData();
+                    loadTable(staffList);
+                    refreshRow();
+                }
+            }
+        
     }//GEN-LAST:event_btnDelete1MouseClicked
 
-    private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
-        
-    }//GEN-LAST:event_button1MouseClicked
+    private void btnSearchStaffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchStaffMouseClicked
+        Staff_BUS staffBUS = new Staff_BUS();
+        if (!txtSearch.getText().isEmpty()) {
+            ArrayList<Staff> resultList;
+            resultList = staffBUS.searchStaff(txtSearch.getText(), (String) cbbSearchFilter.getSelectedItem());
+            loadTable(resultList);
+            refreshRow();
+            
+        }
+        else {
+            loadTable(staffList);
+            refreshRow();
+        }
+                
+    }//GEN-LAST:event_btnSearchStaffMouseClicked
 
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
-
+        refreshRow();
     }//GEN-LAST:event_btnRefreshMouseClicked
+
+    private void tblStaffListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStaffListMouseClicked
+        int i = tblStaffList.getSelectedRow();
+        Staff selectedStaff = staffList.get(i);
+
+        txtStaffID.setText(selectedStaff.getStaffId());
+        txtStaffName.setText(selectedStaff.getStaffName());
+        txtYearOfBirth.setText(selectedStaff.getStaffBirthYear() + "");
+        txtGender.setText(selectedStaff.getGender());
+        txtAddress.setText(selectedStaff.getAddress());
+        txtPhone.setText(selectedStaff.getPhoneNum());
+        txtBaseSalary.setText(selectedStaff.getBaseSalary() + "");
+    }//GEN-LAST:event_tblStaffListMouseClicked
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Custom.Button btnAdd1;
     private Custom.Button btnDelete1;
     private Custom.Button btnRefresh;
+    private Custom.Button btnSearchStaff;
     private Custom.Button btnUpdate1;
-    private Custom.Button button1;
     private javax.swing.JComboBox<String> cbbSearchFilter;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -442,4 +578,48 @@ public class Staff_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtStaffName;
     private javax.swing.JTextField txtYearOfBirth;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     *
+     */
+    private void loadTable(ArrayList<Staff> staffList) {
+
+        DefaultTableModel model = (DefaultTableModel) tblStaffList.getModel();
+        model.setRowCount(0);
+
+        for (Staff sf : staffList) {
+            String sfId = sf.getStaffId();
+            String sfName = sf.getStaffName();
+            int sfYear = sf.getStaffBirthYear();
+            String sfGender = sf.getGender();
+            String sfAddress = sf.getAddress();
+            String sfPhone = sf.getPhoneNum();
+            int sfSalary = sf.getBaseSalary();
+
+            Object row[] = new Object[]{sfId, sfName, sfYear, sfGender, sfAddress, sfPhone, sfSalary};
+            model.addRow(row);
+        }
+    }
+    
+    private void refreshRow() {
+        txtStaffID.setText("");
+        txtStaffName.setText("");
+        txtYearOfBirth.setText("");
+        txtGender.setText("");
+        txtAddress.setText("");
+        txtPhone.setText("");
+        txtBaseSalary.setText("");
+    }
+    
+     private boolean staffEmpty() {
+        return  txtStaffName.getText().isEmpty() || txtYearOfBirth.getText().isEmpty() || txtGender.getText().isEmpty() || txtAddress.getText().isEmpty() || txtPhone.getText().isEmpty() || txtBaseSalary.getText().isEmpty();
+    }
+    
+    private void autoStaffId() {
+        String id;
+        id = staffBUS.autoStaffID();
+        txtStaffID.setText(id);
+
+    }
+
 }

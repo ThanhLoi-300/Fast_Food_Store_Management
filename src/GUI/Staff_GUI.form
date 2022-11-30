@@ -82,7 +82,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jLabel16" min="-2" pref="113" max="-2" attributes="0"/>
-                              <EmptySpace pref="10" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -169,7 +169,7 @@
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtBaseSalary" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="78" max="32767" attributes="0"/>
+                      <EmptySpace pref="88" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnDelete1" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
                           <Component id="btnAdd1" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
@@ -522,7 +522,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="txtSearch" min="-2" pref="276" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="button1" min="-2" pref="49" max="-2" attributes="0"/>
+                              <Component id="btnSearchStaff" min="-2" pref="49" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -538,7 +538,7 @@
                               <Component id="cbbSearchFilter" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                               <Component id="txtSearch" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="button1" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnSearchStaff" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="scrStaffList" max="32767" attributes="0"/>
@@ -635,6 +635,9 @@
                     </Property>
                     <Property name="updateSelectionOnSort" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblStaffListMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -676,8 +679,11 @@
                   <Color blue="ff" green="99" red="cc" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="Custom.Button" name="button1">
+            <Component class="Custom.Button" name="btnSearchStaff">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f0" green="f0" red="f0" type="rgb"/>
@@ -702,7 +708,7 @@
                 <Property name="radius" type="int" value="5"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="button1MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSearchStaffMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
