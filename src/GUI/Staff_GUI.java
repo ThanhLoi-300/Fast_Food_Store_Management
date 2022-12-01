@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
 import BUS.Staff_BUS;
 import DTO.Staff;
 
@@ -20,21 +21,26 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Josie
  */
-public class Staff_GUI extends javax.swing.JPanel {
+public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
 
     private Staff_BUS staffBUS = new Staff_BUS();
     private ArrayList<Staff> staffList;
     LocalDate localDate = LocalDate.now();
     int year = localDate.getYear();
+    String dcdt = "";
+    private int permissionType;
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
 
     /**
      * Creates new form Staff_GUI
      */
-    public Staff_GUI() {
+    public Staff_GUI(int permissionType, String dcdt_Id){
         staffList = staffBUS.readStaffsData();
         initComponents();
         loadTable(staffList);
         autoStaffId();
+        this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     /**
@@ -426,6 +432,11 @@ public class Staff_GUI extends javax.swing.JPanel {
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
         //Thêm nhân viên
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         try {
             String idString = staffBUS.autoStaffID();
             if (staffEmpty()) JOptionPane.showMessageDialog(this, "Thông tin nhân viên không được để trống", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -459,6 +470,11 @@ public class Staff_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnUpdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         try {
             if (staffEmpty()) JOptionPane.showMessageDialog(this, "Chọn nhân viên cần sửa", "Warning", JOptionPane.WARNING_MESSAGE);
             
@@ -493,6 +509,11 @@ public class Staff_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdate1MouseClicked
 
     private void btnDelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (txtStaffID.getText().isEmpty())
             JOptionPane.showMessageDialog(this, "Chưa chọn nhân viên muốn xóa !!!");
         
