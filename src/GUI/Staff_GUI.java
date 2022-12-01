@@ -512,7 +512,7 @@ public class Staff_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDelete1MouseClicked
 
     private void btnSearchStaffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchStaffMouseClicked
-        Staff_BUS staffBUS = new Staff_BUS();
+        //Staff_BUS staffBUS = new Staff_BUS();
         if (!txtSearch.getText().isEmpty()) {
             ArrayList<Staff> resultList;
             resultList = staffBUS.searchStaff(txtSearch.getText(), (String) cbbSearchFilter.getSelectedItem());

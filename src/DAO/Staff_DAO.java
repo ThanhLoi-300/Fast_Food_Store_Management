@@ -140,7 +140,7 @@ public class Staff_DAO {
                 
             }
             //Tìm kiếm từ trong cột đã chọn
-            String sql = "SELECT * FROM 'staff' WHERE "+ searchColumn +" LIKE '%"+ wordString +"%' AND IsDeleted = 0";
+            String sql = "SELECT * FROM staff WHERE "+ searchColumn +" LIKE '%"+ wordString +"%' AND IsDeleted = 0";
             try (Connection conn = cd.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
                 while(rs.next()){
                     Staff sf = new Staff(rs.getString("Staff_id"), rs.getString("Full_Name"), rs.getInt("Year_Of_Birth"), rs.getString("Gender"), rs.getString("HomTown"),  rs.getString("Phone_Num"), rs.getInt("Salary"), rs.getBoolean("IsDeleted"));
