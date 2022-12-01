@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.Category_BUS;
+import BUS.DecentralizationDetail_BUS;
 import BUS.Product_BUS;
 import DTO.Category_DTO;
 import DTO.Product_DTO;
@@ -15,18 +16,23 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class Product_GUI extends javax.swing.JPanel {
+public class Product_GUI extends javax.swing.JPanel implements checkPermission{
 
     Product_BUS productBUS = new Product_BUS();
     ArrayList<Product_DTO> listProduct;
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     String chosenImg = "/Img/chicken-leg.png";
+    private int permissionType;
+    String dcdt = "";
 
-    public Product_GUI() {
+    public Product_GUI(int permissionType, String dcdt_Id) {
         setBackground(new Color(51, 51, 51));
         listProduct = productBUS.loadDataProduct();
         initComponents();
         loadProductList(listProduct);
         loadCategoryComboboxModel();
+        this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     @SuppressWarnings("unchecked")
@@ -580,10 +586,20 @@ public class Product_GUI extends javax.swing.JPanel {
             rdOff.setSelected(true);
         }
         cbbCategoryID1.setSelectedItem(selectedProduct.getCategoryID());
-        lblProductImg.setIcon(new ImageIcon(selectedProduct.getImage()));
+        
+        ImageIcon icon = new ImageIcon(selectedProduct.getImage());
+        Image image = icon.getImage();
+        Image scaledImage = image.getScaledInstance(lblProductImg.getWidth(), lblProductImg.getHeight(), Image.SCALE_SMOOTH);
+        icon = new ImageIcon(scaledImage);
+        lblProductImg.setIcon(icon);
     }//GEN-LAST:event_tblProductList1MouseClicked
 
     private void btnProductImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductImageActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsProduct();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         JFileChooser fc = new JFileChooser();
         fc.removeChoosableFileFilter(fc.getFileFilter());
         FileFilter filter = new FileNameExtensionFilter("Images (.jpeg, .jpg, .png)","jpeg","jpg","png");
@@ -605,6 +621,11 @@ public class Product_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnProductImageActionPerformed
 
     private void btnAddSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSizeActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsProduct();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (!txtProductID1.getText().isEmpty()) {
             int i = tblProductList1.getSelectedRow();
             Product_DTO selectedProduct = listProduct.get(i);
@@ -642,6 +663,11 @@ public class Product_GUI extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         //Add button
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsProduct();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         try {
             String newID;
             newID = productBUS.autoID();
@@ -665,6 +691,11 @@ public class Product_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsProduct();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (isInputEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được để trống thông tin sản phẩm!");
         } else {
@@ -684,6 +715,11 @@ public class Product_GUI extends javax.swing.JPanel {
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         //Delete button
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsProduct();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (txtProductID1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa");
         } else {

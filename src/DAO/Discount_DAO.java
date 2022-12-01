@@ -290,5 +290,19 @@ public class Discount_DAO {
         }
         return true;
     }
+    
+    public int check_Discount_Percent( String id){
+        String sql = "SELECT dc.discount_Percent FROM discount_detail as dd, discount as dc WHERE dd.discount_Id = dc.discount_Id  AND  dd.product_Id = '" + id + "' AND dc.status = 1 AND isDeleted = 0";
+        int percent = 0;
+        
+        try (Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql);){
+            if(rs.next()) percent = rs.getInt("dc.discount_Percent");    
+        } catch (SQLException e) {
+            System.err.println("Error at  check_Discount_Percent() method from DiscountDAO class!");
+            System.err.println(e);
+        }
+        
+        return percent;
+    }
 
 }

@@ -24,7 +24,7 @@ public class Account_DAO extends connectDB {
         String sql = "SELECT * FROM account WHERE IsDeleted<>1";
         try ( Connection conn = cB.getConnect();  Statement stm = conn.createStatement();  ResultSet rs = stm.executeQuery(sql);) {
             while (rs.next()) {
-                Account account = new Account(rs.getString("Account_ID"), rs.getString("UserName"), rs.getString("Password"), rs.getString("UserType"), rs.getString("Staff_ID"), rs.getBoolean("IsDeleted"));
+                Account account = new Account(rs.getString("Account_ID"), rs.getString("UserName"), rs.getString("Password"), rs.getString("decentralize_id"), rs.getString("Staff_ID"), rs.getBoolean("IsDeleted"));
                 listAccount.add(account);
             }
         } catch (Exception e) {
@@ -35,12 +35,12 @@ public class Account_DAO extends connectDB {
     }
 
     public boolean insertAccount(Account acc) {
-        String sql = "INSERT INTO account (Account_ID, UserName, Password, UserType, Staff_ID, IsDeleted) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO account (Account_ID, UserName, Password, decentralize_id, Staff_ID, IsDeleted) VALUES (?,?,?,?,?,?)";
         try ( Connection conn = cB.getConnect();  PreparedStatement pst = conn.prepareStatement(sql);) {
             pst.setString(1, acc.getAccountId());
             pst.setString(2, acc.getUsername());
             pst.setString(3, acc.getPassword());
-            pst.setString(4, acc.getUserType());
+            pst.setString(4, acc.getDecetralizeId());
             pst.setString(5, acc.getStaffId());
             pst.setInt(6, 0);
             pst.executeUpdate();
@@ -53,12 +53,12 @@ public class Account_DAO extends connectDB {
 
     public boolean updateAccount(Account acc) {
 
-        String sql = "UPDATE `account` SET `UserName`=?, `Password`=?,`UserType`=?, `Staff_ID`=? WHERE `Account_ID`=?" ;
+        String sql = "UPDATE `account` SET `UserName`=?, `Password`=?,`decentralize_id`=?, `Staff_ID`=? WHERE `Account_ID`=?" ;
 
         try ( Connection conn = cB.getConnect();  PreparedStatement pst = conn.prepareStatement(sql);) {
             pst.setString(1, acc.getUsername());
             pst.setString(2, acc.getPassword());
-            pst.setString(3, acc.getUserType());
+            pst.setString(3, acc.getDecetralizeId());
             pst.setString(4, acc.getStaffId());
             pst.setString(5, acc.getAccountId());
             
@@ -100,7 +100,7 @@ public class Account_DAO extends connectDB {
                     searchField = "Password";
                     break;
                 case "Loại":
-                    searchField = "UserType";
+                    searchField = "decentralize_id";
                     break;
                 case "Mã nhân viên":
                     searchField = "Staff_ID";
@@ -110,7 +110,7 @@ public class Account_DAO extends connectDB {
             try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             while (rs.next()) {
                 Account acc = new Account(rs.getString("Account_ID"), rs.getString("UserName"),
-                        rs.getString("Password"), rs.getString("UserType"), rs.getString("Staff_ID"), rs.getBoolean("IsDeleted"));
+                        rs.getString("Password"), rs.getString("decentralize_id"), rs.getString("Staff_ID"), rs.getBoolean("IsDeleted"));
                 listAccount.add(acc);
 
             }

@@ -5,9 +5,8 @@
 package GUI;
 
 import BUS.Staff_BUS;
-import DAO.Staff_DAO;
 import DTO.Staff;
-import com.mysql.cj.x.protobuf.MysqlxNotice;
+
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -515,7 +514,7 @@ public class Staff_GUI extends javax.swing.JPanel {
         //Staff_BUS staffBUS = new Staff_BUS();
         if (!txtSearch.getText().isEmpty()) {
             ArrayList<Staff> resultList;
-            resultList = staffBUS.searchStaff(txtSearch.getText(), (String) cbbSearchFilter.getSelectedItem());
+            resultList = staffBUS.searchStaff(txtSearch.getText(),cbbSearchFilter.getSelectedItem()+"");
             loadTable(resultList);
             refreshRow();
             

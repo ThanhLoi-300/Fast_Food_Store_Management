@@ -81,4 +81,8 @@ public class Discount_BUS {
         if(discount_DAO.Auto_Update_Discount(id,status)) return true;
         return false;
     }
+    
+    public int check_Discount_Percent( String id){
+        return discount_DAO.check_Discount_Percent(id);
+    }
 }

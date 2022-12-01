@@ -103,6 +103,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         roundPanel3.setBackground(new java.awt.Color(51, 51, 51));
+        roundPanel3.setPreferredSize(new java.awt.Dimension(1030, 650));
 
         roundPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -289,14 +290,14 @@ public class Bill_GUI extends javax.swing.JPanel {
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                 .addContainerGap())
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -324,7 +325,7 @@ public class Bill_GUI extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(30, 30, 30)
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(13, 13, 13))
         );
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,7 +345,7 @@ public class Bill_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        add(roundPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1035, 650));
+        add(roundPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 650));
     }// </editor-fold>//GEN-END:initComponents
 
     private void banBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banBtnMouseClicked

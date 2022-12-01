@@ -60,8 +60,8 @@ public class Category_BUS {
         return category_DAO.get_Customer_Name_From_Id(id);
     }
 
-    public Product_DTO get_Product_In_Detail_Bill(String id){
-        return category_DAO.get_Product_In_Detail_Bill(id);
+    public Product_DTO get_Product_In_Detail_Bill(String id, String size){
+        return category_DAO.get_Product_In_Detail_Bill(id,size);
     }
     
     public int count_Product_Belong_Category( String id){

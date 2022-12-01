@@ -77,7 +77,7 @@
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="roundPanel4" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jPanel1" pref="679" max="32767" attributes="0"/>
+                      <Component id="jPanel1" pref="654" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -292,7 +292,7 @@
                           <Component id="roundPanel11" alignment="0" max="32767" attributes="0"/>
                           <Component id="roundPanel8" alignment="1" max="32767" attributes="0"/>
                           <Component id="roundPanel10" alignment="0" max="32767" attributes="0"/>
-                          <Component id="roundPanel13" alignment="1" pref="271" max="32767" attributes="0"/>
+                          <Component id="roundPanel13" alignment="1" pref="274" max="32767" attributes="0"/>
                           <Component id="roundPanel12" alignment="0" max="32767" attributes="0"/>
                           <Component id="roundPanel16" alignment="0" max="32767" attributes="0"/>
                           <Component id="roundPanel14" alignment="1" max="32767" attributes="0"/>
@@ -307,28 +307,28 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="roundPanel7" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel7" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel9" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel9" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel11" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel11" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel13" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="roundPanel13" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel8" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel8" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel10" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel10" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel12" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel12" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel16" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel16" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel14" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel14" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel15" min="-2" max="-2" attributes="0"/>
+                      <Component id="roundPanel15" min="-2" pref="49" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="roundPanel17" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="roundPanel17" min="-2" pref="49" max="-2" attributes="0"/>
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -364,7 +364,7 @@
                               <Component id="imageAvatar9" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel10" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -435,7 +435,7 @@
                               <Component id="imageAvatar4" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -494,7 +494,7 @@
                           <Component id="imageAvatar8" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="81" max="32767" attributes="0"/>
+                          <EmptySpace pref="84" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -506,7 +506,7 @@
                               <Component id="imageAvatar8" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -651,7 +651,7 @@
                               <Component id="imageAvatar6" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel11" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -722,7 +722,7 @@
                               <Component id="imageAvatar7" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel13" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -793,7 +793,7 @@
                               <Component id="imageAvatar5" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel15" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -852,7 +852,7 @@
                           <Component id="imageAvatar12" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="108" max="32767" attributes="0"/>
+                          <EmptySpace pref="120" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -864,7 +864,7 @@
                               <Component id="imageAvatar12" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel19" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -935,7 +935,7 @@
                               <Component id="imageAvatar10" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel17" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1006,7 +1006,7 @@
                               <Component id="imageAvatar11" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel18" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1077,7 +1077,7 @@
                               <Component id="imageAvatar13" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="jLabel20" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1133,7 +1133,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1046" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1031" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

@@ -5,6 +5,7 @@ import BUS.BillDetail_BUS;
 import BUS.Bill_BUS;
 import BUS.Category_BUS;
 import BUS.Customer_BUS;
+import BUS.DecentralizationDetail_BUS;
 import BUS.Discount_BUS;
 import BUS.Product_BUS;
 import Custom.Detail_Bill;
@@ -55,7 +56,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class Sale_GUI extends javax.swing.JPanel {
+public class Sale_GUI extends javax.swing.JPanel implements checkPermission{
     
     private ArrayList<Product_DTO> list_Product = new ArrayList<Product_DTO>();
     private ArrayList<Product_DTO> list_Detail_Bill = new ArrayList<Product_DTO>();
@@ -69,13 +70,17 @@ public class Sale_GUI extends javax.swing.JPanel {
     private Bill_BUS bill_BUS = new Bill_BUS();
     private BillDetail_BUS bd_BUS = new BillDetail_BUS();
     private Discount_BUS discount_BUS = new Discount_BUS();
-    private NewJFrame1 NewJFrame1;
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    private ProductDetails_GUI productDetails_GUI;
+    private int permissionType;
+    String dcdt = "";
     
-    public Sale_GUI(String staffID){
+    public Sale_GUI(String staffID, int permissionType, String dcdt_Id){
         initComponents();
         Auto_Update_Discount();
-        NewJFrame1 = new NewJFrame1();
+        productDetails_GUI = new ProductDetails_GUI();
         this.StaffID = staffID;
+        this.permissionType = permissionType;
         Detail_Bill_Panel.setLayout( new GridLayout(1,1,0,0));
         
         list_Product = product_BUS.readProductOnBusiness();
@@ -87,6 +92,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         for(int i = 0; i< list_Category.size();i++)
             comboBoxItems.add(list_Category.get(i).getCategory_Name());
         cbbSearchFilter.setModel(new DefaultComboBoxModel(comboBoxItems));
+        this.dcdt = dcdt_Id;
     }
 
     public RoundPanel getDetail_Bill_Panel() {
@@ -152,6 +158,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             for(int i=0; i<2; i++){
                 Item_Product pd = new Item_Product();
                 pd.setPreferredSize(new java.awt.Dimension(156,189));
+                pd.getjButton8().setVisible(false);
                 //Dòng này để test kết quả
                 //pd.setData(new Product_DTO("1","1","1","1",1,1,"1",true,true));
                 Product_Panel.add(pd);
@@ -166,6 +173,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             for(int i=0; i<2; i++){
                 Item_Product pd = new Item_Product();
                 pd.setPreferredSize(new java.awt.Dimension(156,189));
+                pd.getjButton8().setVisible(false);
                 //Dòng này để test kết quả
                 //pd.setData(new Product_DTO("1","1","1","1",1,1,"1",true,true));
                 Product_Panel.add(pd);
@@ -182,20 +190,24 @@ public class Sale_GUI extends javax.swing.JPanel {
         pd.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
+                if(permissionType!=2){
+                    hienThiErrorMess();
+                    return;
+                }
                 if( checkOrderExits(data) != null){
-                    if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
+                    if(!productDetails_GUI.isShowing())
+                        productDetails_GUI = new ProductDetails_GUI( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     else {
-                        NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
+                        productDetails_GUI.dispose();
+                        productDetails_GUI = new ProductDetails_GUI( checkOrderExits(data), checkOrderExits(data).getSize(), Sale_GUI.this, "Update Detail Product in Bill", pd.getPercent());
                     }
                 }
                 else
-                    if(!NewJFrame1.isShowing())
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
+                    if(!productDetails_GUI.isShowing())
+                        productDetails_GUI= new ProductDetails_GUI( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     else {
-                        NewJFrame1.dispose();
-                        NewJFrame1= new NewJFrame1( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
+                        productDetails_GUI.dispose();
+                        productDetails_GUI= new ProductDetails_GUI( data, data.getSize(), Sale_GUI.this, "Add new Product to Bill", pd.getPercent());
                     }
             }
 
@@ -228,7 +240,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             detail_Bill.getDetail_Panel().addMouseListener(new MouseAdapter(){
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    new NewJFrame1(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill", discount_BUS.check_Product_Discount(product.getProductID()));
+                    new ProductDetails_GUI(product, product.getSize(), Sale_GUI.this, "Update Detail Product in Bill", discount_BUS.check_Product_Discount(product.getProductID()));
                 }     
             });
             
@@ -341,7 +353,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         Detail_Bill_Panel.setLayout(Detail_Bill_PanelLayout);
         Detail_Bill_PanelLayout.setHorizontalGroup(
             Detail_Bill_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 353, Short.MAX_VALUE)
+            .addGap(0, 355, Short.MAX_VALUE)
         );
         Detail_Bill_PanelLayout.setVerticalGroup(
             Detail_Bill_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,29 +498,26 @@ public class Sale_GUI extends javax.swing.JPanel {
         roundPanel2.setLayout(roundPanel2Layout);
         roundPanel2Layout.setHorizontalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(roundPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
                     .addGroup(roundPanel2Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(roundPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roundPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -548,7 +557,7 @@ public class Sale_GUI extends javax.swing.JPanel {
 
         jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        roundPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 260, 20));
+        roundPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, 260, 20));
         jTextField1.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -576,10 +585,10 @@ public class Sale_GUI extends javax.swing.JPanel {
 
         jLabel4.setBackground(new java.awt.Color(102, 102, 102));
         jLabel4.setOpaque(true);
-        roundPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 300, 1));
+        roundPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 300, 1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
-        roundPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, 35));
+        roundPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, -1, 35));
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -607,8 +616,8 @@ public class Sale_GUI extends javax.swing.JPanel {
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         roundPanel4Layout.setVerticalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,7 +627,7 @@ public class Sale_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 582, 550));
+        roundPanel3.add(roundPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 580, 550));
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -626,10 +635,10 @@ public class Sale_GUI extends javax.swing.JPanel {
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -650,8 +659,8 @@ public class Sale_GUI extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -670,6 +679,11 @@ public class Sale_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2FocusLost
 
     private void button2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button2MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsSale();
+        if(this.permissionType!=2) {
+            this.hienThiErrorMess();
+            return;
+        }
         String phoneNum = jTextField2.getText();
         if(phoneNum.isBlank() || phoneNum.equals("Số điện thoại")) {
             // do nothing
@@ -706,6 +720,11 @@ public class Sale_GUI extends javax.swing.JPanel {
     }
     
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsSale();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Locale locale = new Locale("vi","VN");
         double totalCash = 0;
         double excessCash = 0;
@@ -792,7 +811,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         XSSFRow row = null;
         Cell cell = null;
         
-        CellRangeAddress range = new CellRangeAddress(1, 1, 0, 10);
+        CellRangeAddress range = new CellRangeAddress(1, 1, 0, 11);
         sheet.addMergedRegion(range);
         
         //cell style
@@ -814,6 +833,16 @@ public class Sale_GUI extends javax.swing.JPanel {
         font_Bold.setBold(true);
         font_Bold.setColor(IndexedColors.BLACK1.getIndex());
         style_Bold.setFont(font_Bold);
+        
+        //Strikeout
+        CellStyle style_Strikeout = workBook.createCellStyle();
+        style_Strikeout.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Strikeout = workBook.createFont();
+        font_Strikeout.setFontHeight(13);
+        font_Strikeout.setStrikeout(true);
+        font_Strikeout.setColor(IndexedColors.BLACK1.getIndex());
+        style_Strikeout.setFont(font_Strikeout);
         
         //common
         CellStyle style_Common = workBook.createCellStyle();
@@ -844,14 +873,14 @@ public class Sale_GUI extends javax.swing.JPanel {
         cell.setCellStyle(style_Common);
         
         //Ngày
-        cell = row.createCell(6, CellType.STRING);
+        cell = row.createCell(7, CellType.STRING);
         cell.setCellValue("Ngày:");
         cell.setCellStyle(style_Bold);
         
-        range = new CellRangeAddress(3, 3, 7, 10);
+        range = new CellRangeAddress(3, 3, 8, 11);
         sheet.addMergedRegion(range);
         
-        cell = row.createCell(7, CellType.STRING);
+        cell = row.createCell(8, CellType.STRING);
         cell.setCellValue(bill.getDate());
         cell.setCellStyle(style_Common);
         
@@ -872,20 +901,20 @@ public class Sale_GUI extends javax.swing.JPanel {
         
         //Khách hàng    
         if( !bill.getCustomerID().equals("C0") ){
-            cell = row.createCell(6, CellType.STRING);
+            cell = row.createCell(7, CellType.STRING);
             cell.setCellValue("Khách:");
             cell.setCellStyle(style_Bold);
         
-            range = new CellRangeAddress(4, 4, 7, 10);
+            range = new CellRangeAddress(4, 4, 8, 11);
             sheet.addMergedRegion(range);
             
             String customer_Name = category_BUS.get_Customer_Name_From_Id(bill.getCustomerID());
-            cell = row.createCell(7, CellType.STRING);
+            cell = row.createCell(8, CellType.STRING);
             cell.setCellValue(customer_Name);
             cell.setCellStyle(style_Common);
         }
         
-        range = new CellRangeAddress(6, 6, 1, 9);
+        range = new CellRangeAddress(6, 6, 1, 10);
         sheet.addMergedRegion(range);
         
         row = sheet.createRow(6);
@@ -919,6 +948,12 @@ public class Sale_GUI extends javax.swing.JPanel {
         range = new CellRangeAddress(8, 8, 8, 9);
         sheet.addMergedRegion(range);
         cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue("Giá giảm");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 10, 11);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(10, CellType.STRING);
         cell.setCellValue("Thành tiền");
         cell.setCellStyle(style_Bold);
         
@@ -927,7 +962,7 @@ public class Sale_GUI extends javax.swing.JPanel {
         if(detail_Bill != null){
             for( i = 0 ; i< detail_Bill.size(); i++){
                 BillDetail bd = detail_Bill.get(i);
-                Product_DTO product = category_BUS.get_Product_In_Detail_Bill(bd.getProductId());
+                Product_DTO product = category_BUS.get_Product_In_Detail_Bill(bd.getProductId(),bd.getSize());
                 
                 row = sheet.createRow(10+i);
                 
@@ -945,25 +980,45 @@ public class Sale_GUI extends javax.swing.JPanel {
                 cell.setCellValue(bd.getQuantity());
                 cell.setCellStyle(style_Common);
                 
-                range = new CellRangeAddress(10+i, 10+i, 6, 7);
-                sheet.addMergedRegion(range);
-                cell = row.createCell(6, CellType.NUMERIC);
-                cell.setCellValue(format.format(product.getPrice()));
-                cell.setCellStyle(style_Common);
+                int percent =  discount_BUS.check_Discount_Percent(product.getProductID());
                 
-                range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                if(percent > 0){
+                    range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(6, CellType.NUMERIC);
+                    cell.setCellValue(format.format(product.getPrice()));
+                    cell.setCellStyle(style_Strikeout);
+
+                    range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(8, CellType.NUMERIC);
+                    double price_Discount = product.getPrice() - product.getPrice() * percent / 100;
+                    cell.setCellValue(format.format(price_Discount));
+                    cell.setCellStyle(style_Common);
+                }else{
+                    range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(6, CellType.NUMERIC);
+                    cell.setCellValue(format.format(product.getPrice()));
+                    cell.setCellStyle(style_Common);
+                    
+                    range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                    sheet.addMergedRegion(range);
+                }
+
+                range = new CellRangeAddress(10+i, 10+i, 10, 11);
                 sheet.addMergedRegion(range);
-                cell = row.createCell(8, CellType.NUMERIC);
+                cell = row.createCell(10, CellType.NUMERIC);
                 cell.setCellValue(format.format(bd.getTotalValue()));
                 cell.setCellStyle(style_Common);
             }
             
-            range = new CellRangeAddress(11+i, 11+i, 1, 9);
+            range = new CellRangeAddress(11+i, 11+i, 1, 10);
             sheet.addMergedRegion(range);
         
             row = sheet.createRow(11+i);
             cell = row.createCell(1, CellType.STRING);
-            cell.setCellValue("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
             cell.setCellStyle(style_Bold);
             //footer
             //Total
@@ -1012,7 +1067,7 @@ public class Sale_GUI extends javax.swing.JPanel {
             cell.setCellStyle(style_Common);
             
             //Border
-            CellRangeAddress rangeBig = new CellRangeAddress(0, 16+i, 0, 10);
+            CellRangeAddress rangeBig = new CellRangeAddress(0, 16+i, 0, 11);
             RegionUtil.setBorderRight(BorderStyle.THIN, rangeBig, sheet);
             RegionUtil.setBorderLeft(BorderStyle.DOUBLE, rangeBig, sheet);
             RegionUtil.setBorderTop(BorderStyle.DOUBLE, rangeBig, sheet);

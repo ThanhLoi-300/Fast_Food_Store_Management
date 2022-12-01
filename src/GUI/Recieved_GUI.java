@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.DecentralizationDetail_BUS;
 import BUS.Product_BUS;
 import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
@@ -21,7 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class Recieved_GUI extends javax.swing.JPanel {
+public class Recieved_GUI extends javax.swing.JPanel implements checkPermission {
 
     ArrayList<ReceivedProduct_DTO> listReceivedProduct = new ArrayList();
     ArrayList<ReceivedProduct_DTO> listReceivedProductDetail = new ArrayList();
@@ -29,12 +30,17 @@ public class Recieved_GUI extends javax.swing.JPanel {
     Product_BUS productBUS = new Product_BUS();
     ReceivedNote_BUS receiveBUS = new ReceivedNote_BUS();
     ReceivedNoteDetail_BUS receiveDetailBUS = new ReceivedNoteDetail_BUS();
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
     ReceivedProduct_DTO selectedProduct, selectedProductDetail;
     String loggedInStaff;
+    private int permissionType;
+    String dcdt = "";
 
-    public Recieved_GUI(String staffID) {
+    public Recieved_GUI(String staffID, int permissionType, String dcdt_Id) {
         initComponents();
         loggedInStaff = staffID;
+        this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     @SuppressWarnings("unchecked")
@@ -130,11 +136,6 @@ public class Recieved_GUI extends javax.swing.JPanel {
         btnAdd1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAdd1MouseClicked(evt);
-            }
-        });
-        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd1ActionPerformed(evt);
             }
         });
 
@@ -401,6 +402,11 @@ public class Recieved_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         JFileChooser fc = new JFileChooser();
         fc.removeChoosableFileFilter(fc.getFileFilter());
         FileFilter filter = new FileNameExtensionFilter("Excel files (.xlsx)", "xlsx");
@@ -459,6 +465,11 @@ public class Recieved_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_tblProductListMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (selectedProductDetail != null) {
             listReceivedProductDetail.remove(selectedProductDetail);
             loadReceivedProductsDetail(listReceivedProductDetail);
@@ -483,6 +494,11 @@ public class Recieved_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         if (!listReceivedProductDetail.contains(selectedProduct)) {
             listReceivedProductDetail.add(selectedProduct);
             loadReceivedProductsDetail(listReceivedProductDetail);
@@ -536,6 +552,11 @@ public class Recieved_GUI extends javax.swing.JPanel {
     }
     
     private void btnNhapHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapHangActionPerformed
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsRecept();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         ArrayList<ReceivedNoteDetail> rndList = new ArrayList();
         ArrayList<Integer> quantityList = new ArrayList();
         ReceivedNote rn = new ReceivedNote(receiveBUS.autoID(), LocalDateTime.now(), Double.parseDouble(lblTotalValue.getText()), Double.parseDouble(lblTaxValue.getText()), Double.parseDouble(lblFinalValue.getText()), lblSupplier.getText(), loggedInStaff);
@@ -571,10 +592,6 @@ public class Recieved_GUI extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnNhapHangActionPerformed
-
-    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void loadReceivedProductsDetail(ArrayList<ReceivedProduct_DTO> list) {
         DefaultTableModel model = (DefaultTableModel) tblReceiveDetail.getModel();

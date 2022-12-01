@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.Customer_BUS;
+import BUS.DecentralizationDetail_BUS;
 import DAO.Customer_DAO;
 import DTO.Customer;
 import java.awt.Color;
@@ -17,12 +18,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADMIN
  */
-public class Customer_GUI extends javax.swing.JPanel {
+public class Customer_GUI extends javax.swing.JPanel implements checkPermission{
     private ArrayList<Customer> userList = new ArrayList<Customer>();
-    /**
-     * Creates new form Customer_GUI
-     */
-    public Customer_GUI() {
+    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    private int permissionType;
+    String dcdt = "";
+    
+    public Customer_GUI(int permissionType, String dcdt_Id) {
         initComponents();
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(176);
@@ -31,6 +33,8 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
         renderTable();
         autoGenerateId();
+        this.permissionType = permissionType;
+        this.dcdt = dcdt_Id;
     }
 
     /**
@@ -183,23 +187,23 @@ public class Customer_GUI extends javax.swing.JPanel {
         jTextField5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextField5.setText("0");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("ID Khách Hàng");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("Tên Khách Hàng");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Năm Sinh");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Tích lũy mua");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("Số điện thoại");
 
@@ -226,19 +230,18 @@ public class Customer_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, roundPanel4Layout.createSequentialGroup()
-                                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(roundPanel4Layout.createSequentialGroup()
+                                .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(28, 28, 28))))
         );
         roundPanel4Layout.setVerticalGroup(
@@ -327,7 +330,7 @@ public class Customer_GUI extends javax.swing.JPanel {
                             .addComponent(roundPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(roundPanel3Layout.createSequentialGroup()
                                 .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                                 .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)
                                 .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -345,14 +348,14 @@ public class Customer_GUI extends javax.swing.JPanel {
                     .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -398,7 +401,6 @@ public class Customer_GUI extends javax.swing.JPanel {
         button5.setColor(new java.awt.Color(240, 240, 240));
         button5.setColorClick(new java.awt.Color(255, 255, 255));
         button5.setColorOver(new java.awt.Color(255, 255, 255));
-        button5.setEnabled(false);
         button5.setFocusable(false);
         button5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         button5.setRadius(10);
@@ -442,10 +444,10 @@ public class Customer_GUI extends javax.swing.JPanel {
                     .addComponent(roundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(roundPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 90, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,9 +467,7 @@ public class Customer_GUI extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+            .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -520,6 +520,11 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1FocusLost
 
     private void button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button3MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCustomer();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Customer_BUS cusBUS = new Customer_BUS();
         if(jTextField3.getText().equals("") || jTextField6.getText().equals("")
            || jTextField4.getText().equals("") || jTextField5.getText().equals("")) {
@@ -549,6 +554,11 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button3MouseClicked
 
     private void button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button4MouseClicked
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCustomer();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
         Customer_BUS cusBUS = new Customer_BUS();
         if(jTextField3.getText().equals("") || jTextField4.getText().equals("") 
                 || jTextField5.getText().equals("") || jTextField6.getText().equals("")) {
@@ -579,7 +589,6 @@ public class Customer_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_button4MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        button5.setEnabled(true);
         int row = jTable1.getSelectedRow();
         if(row >= 0) {
             jTextField2.setText(jTable1.getModel().getValueAt(row, 0).toString());
@@ -603,30 +612,33 @@ public class Customer_GUI extends javax.swing.JPanel {
         clearText();
         ListSelectionModel model = jTable1.getSelectionModel();
         model.removeSelectionInterval(jTable1.getRowCount(),0);
-        button5.setEnabled(false);
     }//GEN-LAST:event_button6MouseClicked
 
     private void button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button5MouseClicked
-        if(button5.isEnabled()) {
+        this.permissionType = dcdtBUS.readById(this.dcdt).getIsCustomer();
+        if(this.permissionType!=2){
+            this.hienThiErrorMess();
+            return;
+        }
+        if(jTable1.getSelectedRow()>0) {
             int reply = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             int row = jTable1.getSelectedRow();
             if(reply == JOptionPane.YES_OPTION) {
                 Customer_BUS cusBUS = new Customer_BUS();
                 row = jTable1.getSelectedRow();
-                if(row >= 0) {
-                    String customerId = jTable1.getModel().getValueAt(row, 0).toString();
-                    JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
+                String customerId = jTable1.getModel().getValueAt(row, 0).toString();
+                JOptionPane.showMessageDialog(this, cusBUS.deleteCustomer(customerId), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 renderTable();
                 jComboBox1.setSelectedIndex(0);
                 clearText();
-                button5.setEnabled(false);
             }
             else {
                 ListSelectionModel model = jTable1.getSelectionModel();
                 model.removeSelectionInterval(row,0);
             }
         }
+        else
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn bản ghi cần xóa!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_button5MouseClicked
 
     private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
@@ -653,7 +665,6 @@ public class Customer_GUI extends javax.swing.JPanel {
                         model.setSelectionInterval(i,i);
                 }
                 jComboBox1.setSelectedIndex(0);
-                button5.setEnabled(true);
             }
         }
     }//GEN-LAST:event_button1MouseClicked
