@@ -25,10 +25,6 @@ public class Staff_BUS {
         return staffDAO.readStaffs();
     }
     
-    public ArrayList<String> readStaffIData() {
-        return staffDAO.readStaffID();
-    }
-    
     public Boolean checkPrimaryKey(Staff sf) {
         for(Staff iStaff: staffList) {
             if (iStaff.getStaffId().equals(sf.getStaffId())) {
@@ -61,18 +57,6 @@ public class Staff_BUS {
     public ArrayList<Staff> searchStaff(String wordString, String column) {
         return staffDAO.searchStaff(wordString, column);
     }
-    
-    public ArrayList<Staff> readStaffById(String idString) {
-        return staffDAO.readStaffById(idString);
-    }
-    
-    public ArrayList<Staff> readStaffByName(String nameString) {
-        return staffDAO.readStaffByName(nameString);
-    }
-    
-    public ArrayList<Staff> readStaffByGender(String genderString) {
-        return staffDAO.readStaffByGender(genderString);
-    }
 
     public String autoStaffID() {
         return staffDAO.autoStaffId();
@@ -82,6 +66,11 @@ public class Staff_BUS {
         String name = staffDAO.getNameByID(id);
         if (name == null) return "";
         return name;
+    }
+    
+    public Boolean phoneStaffExisted(String id, String phone) {
+        if (staffDAO.phoneExisted(id, phone)) return true;
+        return false;
     }
     
     

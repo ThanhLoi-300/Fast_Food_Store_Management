@@ -16,21 +16,14 @@ public class Staff {
     private String gender;
     private String phoneNum;
     private int baseSalary;
-    private boolean isDelete;
+    private boolean isDeleted;
     
     
     public Staff(){
     }
 
-    public boolean isIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public Staff(String staffId, String staffName, int staffBirthYear, String address, String gender, String phoneNum, int baseSalary, boolean isDelete) {
+   
+    public Staff(String staffId, String staffName, int staffBirthYear, String address, String gender, String phoneNum, int baseSalary, boolean isDeleted) {
         this.staffId = staffId;
         this.staffName = staffName;
         this.staffBirthYear = staffBirthYear;
@@ -38,7 +31,7 @@ public class Staff {
         this.gender = gender;
         this.phoneNum = phoneNum;
         this.baseSalary = baseSalary;
-        this.isDelete = isDelete;
+        this.isDeleted = isDeleted;
     }
 
     public String getStaffId() {
@@ -96,10 +89,17 @@ public class Staff {
     public void setBaseSalary(int baseSalary) {
         this.baseSalary = baseSalary;
     }
-
-    public void getString(String staff_id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public boolean isDeleted() {
+        return isDeleted;
     }
+
+    public void isDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+
+    
 
     
    

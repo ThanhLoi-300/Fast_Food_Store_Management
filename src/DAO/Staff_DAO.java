@@ -48,7 +48,7 @@ public class Staff_DAO {
         return staffList;
     }
     
-    public ArrayList<String> readStaffID(){
+     /*public ArrayList<String> readStaffID(){
         ArrayList<String> staffIdList = new ArrayList<String>();
         String sql = "SELECT `Staff_id` FROM `staff` WHERE `Staff_id` <> 'AA00'";
         try (Connection conn = cd.getConnect(); Statement stm = conn.createStatement(); ResultSet rs =stm.executeQuery(sql);) {
@@ -60,7 +60,7 @@ public class Staff_DAO {
             Logger.getLogger(Staff_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return staffIdList;
-    }
+    } */
     
     public Boolean createStaff(Staff sf){
         int rowStaff = 0;
@@ -140,7 +140,7 @@ public class Staff_DAO {
                 
             }
             //Tìm kiếm từ trong cột đã chọn
-            String sql = "SELECT * FROM `staff` WHERE "+ searchColumn +" LIKE '%"+ wordString +"%' AND IsDeleted = 0";
+            String sql = "SELECT * FROM staff WHERE "+ searchColumn +" LIKE '%"+ wordString +"%'";
             try (Connection conn = cd.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
                 while(rs.next()){
                     Staff sf = new Staff(rs.getString("Staff_id"), rs.getString("Full_Name"), rs.getInt("Year_Of_Birth"), rs.getString("Gender"), rs.getString("HomTown"),  rs.getString("Phone_Num"), rs.getInt("Salary"), rs.getBoolean("IsDeleted"));
@@ -159,7 +159,7 @@ public class Staff_DAO {
         return staffList;
     }
     
-    public  ArrayList<Staff> readStaffById(String idString) {
+     /*public  ArrayList<Staff> readStaffById(String idString) {
         ArrayList<Staff> staffList = new ArrayList<Staff>();
         
         String sql = "SELECT * FROM staff WHERE Staff_id LIKE '%"+ idString +"%' AND IsDeleted <> '1'";
@@ -204,6 +204,25 @@ public class Staff_DAO {
         }
         return staffList;
         
+    } */
+    
+    public boolean phoneExisted(String id, String phone) {
+        boolean isExisted = false;
+            String sql = "SELECT * FROM staff WHERE Phone_Num = '" + phone + "' AND Staff_id NOT IN ('" + id + "') AND IsDeleted <> 1";
+            
+            try (Connection conn = cd.getConnect(); Statement stm= conn.createStatement();  ResultSet rs = stm.executeQuery(sql); ) {
+                while (rs.next()) {
+                    if (phone.equalsIgnoreCase(rs.getString("Phone_Num"))) {
+                    isExisted = true;
+                    break;
+                    }
+                }
+            }
+            catch (SQLException e) {
+            System.out.println("Đã xảy ra lỗi tại phoneExisted ở Staff_DAO class");
+            System.out.println(e);
+        }
+        return isExisted;
     }
     
 

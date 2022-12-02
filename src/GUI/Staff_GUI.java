@@ -4,11 +4,11 @@
  */
 package GUI;
 
-import BUS.DecentralizationDetail_BUS;
+
 import BUS.Staff_BUS;
 import DTO.Staff;
 
-import java.awt.Color;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,9 +27,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
     private ArrayList<Staff> staffList;
     LocalDate localDate = LocalDate.now();
     int year = localDate.getYear();
-    String dcdt = "";
-    private int permissionType;
-    private DecentralizationDetail_BUS dcdtBUS = new DecentralizationDetail_BUS();
+    
 
     /**
      * Creates new form Staff_GUI
@@ -39,8 +37,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
         initComponents();
         loadTable(staffList);
         autoStaffId();
-        this.permissionType = permissionType;
-        this.dcdt = dcdt_Id;
+        
     }
 
     /**
@@ -320,7 +317,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -432,11 +429,6 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
 
     private void btnAdd1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseClicked
         //Thêm nhân viên
-        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
-        if(this.permissionType!=2){
-            this.hienThiErrorMess();
-            return;
-        }
         try {
             String idString = staffBUS.autoStaffID();
             if (staffEmpty()) JOptionPane.showMessageDialog(this, "Thông tin nhân viên không được để trống", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -447,11 +439,15 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
             JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
             
+            
+            else if(staffBUS.phoneStaffExisted(idString, txtPhone.getText()))
+            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại", "Warning", JOptionPane.WARNING_MESSAGE);
+
             else if(!txtBaseSalary.getText().matches("-?\\d+")) 
             JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else if(txtStaffName.getText().matches("-?\\w+")) 
-            JOptionPane.showMessageDialog(this, "Tên nhân viên không bao gồm số", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tên nhân viên phải là chữ", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else {
                     Staff sf = new Staff(idString, txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtGender.getText(), txtAddress.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
@@ -470,11 +466,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
     }//GEN-LAST:event_btnAdd1MouseClicked
 
     private void btnUpdate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseClicked
-        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
-        if(this.permissionType!=2){
-            this.hienThiErrorMess();
-            return;
-        }
+
         try {
             if (staffEmpty()) JOptionPane.showMessageDialog(this, "Chọn nhân viên cần sửa", "Warning", JOptionPane.WARNING_MESSAGE);
             
@@ -484,11 +476,14 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
             JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
             
+            else if(staffBUS.phoneStaffExisted(txtStaffID.getText(), txtPhone.getText()))
+            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại", "Warning", JOptionPane.WARNING_MESSAGE);
+            
             else if(!txtBaseSalary.getText().matches("-?\\d+")) 
             JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else if(txtStaffName.getText().matches("-?\\w+")) 
-            JOptionPane.showMessageDialog(this, "Tên nhân viên không bao gồm số", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tên nhân viên phải là chữ", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else {
                     int rowCount = tblStaffList.getSelectedRow();
@@ -509,11 +504,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
     }//GEN-LAST:event_btnUpdate1MouseClicked
 
     private void btnDelete1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseClicked
-        this.permissionType = dcdtBUS.readById(this.dcdt).getIsDiscount();
-        if(this.permissionType!=2){
-            this.hienThiErrorMess();
-            return;
-        }
+
         if (txtStaffID.getText().isEmpty())
             JOptionPane.showMessageDialog(this, "Chưa chọn nhân viên muốn xóa !!!");
         
