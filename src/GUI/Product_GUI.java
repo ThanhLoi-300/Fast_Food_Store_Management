@@ -573,7 +573,15 @@ public class Product_GUI extends javax.swing.JPanel implements checkPermission{
 
     private void tblProductList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductList1MouseClicked
         int i = tblProductList1.getSelectedRow();
+        String selectedID = (String) tblProductList1.getValueAt(i, 0);
+        String selectedSize = (String) tblProductList1.getValueAt(i, 1);
         Product_DTO selectedProduct = listProduct.get(i);
+        
+        for (Product_DTO pd : listProduct) {
+            if (pd.getProductID().equalsIgnoreCase(selectedID) && pd.getSize().equalsIgnoreCase(selectedSize)) {
+                selectedProduct = pd;
+            }
+        }
 
         txtProductID1.setText(selectedProduct.getProductID());
         txtProductName1.setText(selectedProduct.getProductName());
@@ -725,7 +733,17 @@ public class Product_GUI extends javax.swing.JPanel implements checkPermission{
         } else {
             if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 int i = tblProductList1.getSelectedRow();
+                String selectedID = (String) tblProductList1.getValueAt(i, 0);
+                String selectedSize = (String) tblProductList1.getValueAt(i, 1);
                 Product_DTO selectedProduct = listProduct.get(i);
+                
+                for (Product_DTO pd : listProduct) {
+                    if (pd.getProductID().equalsIgnoreCase(selectedID) && pd.getSize().equalsIgnoreCase(selectedSize)) {
+                        selectedProduct = pd;
+                    }
+                }
+                
+                
                 if (productBUS.deleteProduct(selectedProduct.getProductID(), selectedProduct.getSize())) {
                     JOptionPane.showMessageDialog(this, "Xóa sản phẩm thành công");
                     listProduct = productBUS.loadDataProduct();
