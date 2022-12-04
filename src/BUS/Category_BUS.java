@@ -5,6 +5,7 @@ import DTO.Bill;
 import DTO.BillDetail;
 import DTO.Category_DTO;
 import DTO.Product_DTO;
+import DTO.ReceivedNote;
 import java.util.ArrayList;
 
 public class Category_BUS {
@@ -76,4 +77,15 @@ public class Category_BUS {
         return category_DAO.update_Status_Category_And_Product(id,status);
     }
 
+    public ArrayList<Bill> search_Bill(String start, String end){
+        return category_DAO.search_Bill(start, end);
+    }
+    
+    public ArrayList<ReceivedNote> search_ReceivedNote(String start, String end){
+        return category_DAO.search_ReceivedNote(start, end);
+    }
+    
+    public ReceivedNote get_RN_From_Id(String id){
+        return category_DAO.get_RN_From_Id(id);
+    }
 }

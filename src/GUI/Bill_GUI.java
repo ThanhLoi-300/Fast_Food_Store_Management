@@ -6,21 +6,54 @@ package GUI;
 
 import BUS.BillDetail_BUS;
 import BUS.Bill_BUS;
+import BUS.Category_BUS;
 import BUS.Customer_BUS;
+import BUS.Discount_BUS;
 import BUS.Product_BUS;
 import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
 import Custom.Detail_BillWithoutX;
 import DTO.Bill;
 import DTO.BillDetail;
+import DTO.Discount_DTO;
+import DTO.Product_DTO;
 import DTO.ReceivedNote;
 import DTO.ReceivedNoteDetail;
 import java.awt.GridLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -38,8 +71,10 @@ public class Bill_GUI extends javax.swing.JPanel {
     private BillDetail_BUS bdBUS;
     private Customer_BUS cBUS;
     private Product_BUS pBUS;
+    private Category_BUS category_BUS = new Category_BUS();
     private ArrayList<ReceivedNote> rnL = new ArrayList<>();
     private ArrayList<Bill> bL= new ArrayList<>();
+    private Discount_BUS discount_BUS = new Discount_BUS();
     
     public Bill_GUI() {
         initComponents();
@@ -51,7 +86,10 @@ public class Bill_GUI extends javax.swing.JPanel {
         bdBUS = new BillDetail_BUS();
         cBUS = new Customer_BUS();
         bL=bBUS.LoadData();
-        loadrnTable();
+        banBtn.setEnabled(false);
+        nhapBtn.setEnabled(true);
+        //loadrnTable();
+        search_Bill();
         
     }
 
@@ -95,7 +133,12 @@ public class Bill_GUI extends javax.swing.JPanel {
         roundPanel1 = new Custom.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         blTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jCalendarComboBox1 = new de.wannawork.jcalendar.JCalendarComboBox();
+        jCalendarComboBox2 = new de.wannawork.jcalendar.JCalendarComboBox();
         listTitle = new javax.swing.JLabel();
+        banBtn1 = new Custom.Button();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setToolTipText("");
@@ -105,6 +148,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         roundPanel3.setBackground(new java.awt.Color(51, 51, 51));
         roundPanel3.setPreferredSize(new java.awt.Dimension(1030, 650));
 
+        roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
         roundPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -185,6 +229,8 @@ public class Bill_GUI extends javax.swing.JPanel {
         jScrollPane3.setBorder(null);
         jScrollPane3.setPreferredSize(new java.awt.Dimension(355, 400));
 
+        Detail_Bill_Panel.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout Detail_Bill_PanelLayout = new javax.swing.GroupLayout(Detail_Bill_Panel);
         Detail_Bill_Panel.setLayout(Detail_Bill_PanelLayout);
         Detail_Bill_PanelLayout.setHorizontalGroup(
@@ -225,7 +271,7 @@ public class Bill_GUI extends javax.swing.JPanel {
             }
         });
 
-        roundPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         blTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -284,20 +330,58 @@ public class Bill_GUI extends javax.swing.JPanel {
             blTable.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel1.setText("Từ : ");
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel2.setText("Đến : ");
+
+        jCalendarComboBox1.setDate(new java.util.Date(1670137087000L));
+        jCalendarComboBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCalendarComboBox1StateChanged(evt);
+            }
+        });
+
+        jCalendarComboBox2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCalendarComboBox2StateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
         roundPanel1Layout.setHorizontalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(roundPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCalendarComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCalendarComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCalendarComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCalendarComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -306,6 +390,22 @@ public class Bill_GUI extends javax.swing.JPanel {
         listTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         listTitle.setText("Danh sách phiếu nhập hàng");
         listTitle.setToolTipText("");
+
+        banBtn1.setBorder(null);
+        banBtn1.setForeground(new java.awt.Color(51, 51, 51));
+        banBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/folder.png"))); // NOI18N
+        banBtn1.setText("Xuất Exxcel");
+        banBtn1.setColor(new java.awt.Color(255, 255, 255));
+        banBtn1.setColorClick(new java.awt.Color(240, 240, 240));
+        banBtn1.setColorOver(new java.awt.Color(240, 240, 240));
+        banBtn1.setFocusable(false);
+        banBtn1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        banBtn1.setRadius(10);
+        banBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                banBtn1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
         roundPanel3.setLayout(roundPanel3Layout);
@@ -322,7 +422,8 @@ public class Bill_GUI extends javax.swing.JPanel {
                                 .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
                                 .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(banBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(30, 30, 30)
                 .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13))
@@ -336,13 +437,15 @@ public class Bill_GUI extends javax.swing.JPanel {
                 .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(banBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nhapBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(banBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         add(roundPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 650));
@@ -358,7 +461,8 @@ public class Bill_GUI extends javax.swing.JPanel {
             value2Label.setText("Tiền nhận:");
             value3Label.setText("Tiền thừa:");
             refresh();
-            loadbTable();
+            //loadbTable();
+            search_Bill();
         }
     }//GEN-LAST:event_banBtnMouseClicked
 
@@ -372,7 +476,8 @@ public class Bill_GUI extends javax.swing.JPanel {
             value2Label.setText("Thuế:");
             value3Label.setText("Thành tiền:");
             refresh();
-            loadrnTable();
+            //loadrnTable();
+            search_Bill();
         }
     }//GEN-LAST:event_nhapBtnMouseClicked
 
@@ -408,6 +513,38 @@ public class Bill_GUI extends javax.swing.JPanel {
             
         }
     }//GEN-LAST:event_blTableMouseClicked
+
+    private void jCalendarComboBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCalendarComboBox1StateChanged
+        search_Bill();
+    }//GEN-LAST:event_jCalendarComboBox1StateChanged
+
+    private void jCalendarComboBox2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCalendarComboBox2StateChanged
+        search_Bill();
+    }//GEN-LAST:event_jCalendarComboBox2StateChanged
+
+    private void banBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banBtn1MouseClicked
+        int i = blTable.getSelectedRow();
+        if(i < 0) JOptionPane.showMessageDialog(null, "Hãy chọn hóa đơn muốn xuất!!!");
+        else{
+            if(!nhapBtn.isEnabled()){
+                ReceivedNote rn = rnL.get(i);
+                try {
+                    Export_Excel_RN(rn.getReceivedNoteID());
+                } catch (IOException ex) {
+                    Logger.getLogger(Bill_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }  
+            else{
+                Bill b = bL.get(i);
+                try {
+                    Export_Excel_Bill(b.getBill_ID());
+                } catch (IOException ex) {
+                    Logger.getLogger(Bill_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_banBtn1MouseClicked
 
         public void refresh(){
         Detail_Bill_Panel.removeAll();
@@ -451,7 +588,7 @@ public class Bill_GUI extends javax.swing.JPanel {
         Detail_Bill_Panel.setLayout(new GridLayout(rnd.size()+3,1,0,0));
         for(ReceivedNoteDetail rnd1 : rnd){
             Detail_BillWithoutX Detail_item = new Detail_BillWithoutX();
-            Detail_item.setData(pBUS.getNameById(rnd1.getProductId()), rnd1.getSize(), rnd1.getQuantity(), rnd1.getUnitPrice());
+            Detail_item.setData(pBUS.getNameById(rnd1.getProductId()), rnd1.getSize(), rnd1.getQuantity(), rnd1.getUnitPrice(), 0);
             Detail_Bill_Panel.add(Detail_item);
             Detail_Bill_Panel.repaint();
             Detail_Bill_Panel.validate();
@@ -462,12 +599,617 @@ public class Bill_GUI extends javax.swing.JPanel {
         Detail_Bill_Panel.setLayout(new GridLayout(bd.size()+3,1,0,0));
         for(BillDetail bd1 : bd){
             Detail_BillWithoutX Detail_item = new Detail_BillWithoutX();
-            Detail_item.setData(pBUS.getNameById(bd1.getProductId()),bd1.getSize(),bd1.getQuantity(),pBUS.getUnitPriceByID_Size(bd1.getProductId(), bd1.getSize()));
+            int percent = discount_BUS.check_Discount_Percent(bd1.getProductId());
+            Detail_item.setData(pBUS.getNameById(bd1.getProductId()),bd1.getSize(),bd1.getQuantity(),pBUS.getUnitPriceByID_Size(bd1.getProductId(), bd1.getSize()),percent);
             Detail_Bill_Panel.add(Detail_item);
             Detail_Bill_Panel.repaint();
             Detail_Bill_Panel.validate();
         }
         
+    }
+    
+    public void search_Bill(){
+        SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String start = sdf.format(jCalendarComboBox1.getDate());
+        String end  = sdf.format(jCalendarComboBox2.getDate());
+
+        
+        model = (DefaultTableModel)blTable.getModel();
+        model.setRowCount(0);
+        
+        if(!banBtn.isEnabled()){
+            bL = category_BUS.search_Bill(start, end);
+            for (Bill bL1 : bL) {
+                String id=bL1.getBill_ID();
+                String date= bL1.getDate();
+                String staffName = bL1.getStaffID();
+                Object[] row = new Object[]{id,date,staffName};
+                model.addRow(row);
+            }
+        }else{
+            rnL = category_BUS.search_ReceivedNote(start, end);
+            for (ReceivedNote rnL1 : rnL) {
+                String id=rnL1.getReceivedNoteID();
+                String date= rnL1.getDate();
+                String staffName = rnL1.getStaffId();
+                Object[] row = new Object[]{id,date,staffName};
+                model.addRow(row);
+            }
+        }
+    }
+    
+    public void Export_Excel_Bill(String bill_Id) throws FileNotFoundException, IOException{
+        Bill bill = category_BUS.get_Bill_From_Id(bill_Id);
+        
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        
+        XSSFWorkbook workBook = new XSSFWorkbook();
+        XSSFSheet sheet = workBook.createSheet("Hóa đơn");
+        
+        XSSFRow row = null;
+        Cell cell = null;
+        
+        CellRangeAddress range = new CellRangeAddress(1, 1, 0, 11);
+        sheet.addMergedRegion(range);
+        
+        //cell style
+        CellStyle styleId = workBook.createCellStyle();
+        styleId.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font1 = workBook.createFont();
+        font1.setFontHeight(16);
+        font1.setBold(true);
+        font1.setColor(IndexedColors.BLACK1.getIndex());
+        styleId.setFont(font1);
+        
+        //Bold
+        CellStyle style_Bold = workBook.createCellStyle();
+        style_Bold.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Bold = workBook.createFont();
+        font_Bold.setFontHeight(13);
+        font_Bold.setBold(true);
+        font_Bold.setColor(IndexedColors.BLACK1.getIndex());
+        style_Bold.setFont(font_Bold);
+        
+        //Strikeout
+        CellStyle style_Strikeout = workBook.createCellStyle();
+        style_Strikeout.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Strikeout = workBook.createFont();
+        font_Strikeout.setFontHeight(13);
+        font_Strikeout.setStrikeout(true);
+        font_Strikeout.setColor(IndexedColors.BLACK1.getIndex());
+        style_Strikeout.setFont(font_Strikeout);
+        
+        //common
+        CellStyle style_Common = workBook.createCellStyle();
+        style_Common.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Common = workBook.createFont();
+        font_Common.setFontHeight(12);
+        style_Common.setFont(font_Common);
+        
+        //Title
+        row = sheet.createRow(1);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("HÓA ĐƠN");
+        cell.setCellStyle(styleId);
+        
+        //Bill_Id
+        row = sheet.createRow(3);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Mã:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(bill_Id);
+        cell.setCellStyle(style_Common);
+        
+        //Ngày
+        cell = row.createCell(7, CellType.STRING);
+        cell.setCellValue("Ngày:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 8, 11);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue(bill.getDate());
+        cell.setCellStyle(style_Common);
+        
+        //Staff
+        row = sheet.createRow(4);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Staff:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(4, 4, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        String staff_Name = category_BUS.get_Staff_Name_From_Id(bill.getStaffID());
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(staff_Name);
+        cell.setCellStyle(style_Common);
+        
+        //Khách hàng    
+        if( !bill.getCustomerID().equals("C0") ){
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue("Khách:");
+            cell.setCellStyle(style_Bold);
+        
+            range = new CellRangeAddress(4, 4, 8, 11);
+            sheet.addMergedRegion(range);
+            
+            String customer_Name = category_BUS.get_Customer_Name_From_Id(bill.getCustomerID());
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(customer_Name);
+            cell.setCellStyle(style_Common);
+        }
+        
+        range = new CellRangeAddress(6, 6, 1, 10);
+        sheet.addMergedRegion(range);
+        
+        row = sheet.createRow(6);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
+        cell.setCellStyle(style_Bold);
+            
+        //middle
+        row = sheet.createRow(8);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("STT");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 1, 4);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Sản phẩm");
+        cell.setCellStyle(style_Bold);
+        
+        
+        cell = row.createCell(5, CellType.STRING);
+        cell.setCellValue("SL");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 6, 7);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(6, CellType.STRING);
+        cell.setCellValue("Giá");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 8, 9);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue("Giá giảm");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 10, 11);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(10, CellType.STRING);
+        cell.setCellValue("Thành tiền");
+        cell.setCellStyle(style_Bold);
+        
+        ArrayList<BillDetail> detail_Bill = bdBUS.LoadDetail(bill_Id);
+        int i = 0;
+        if(detail_Bill != null){
+            for( i = 0 ; i< detail_Bill.size(); i++){
+                BillDetail bd = detail_Bill.get(i);
+                Product_DTO product = category_BUS.get_Product_In_Detail_Bill(bd.getProductId(),bd.getSize());
+                
+                row = sheet.createRow(10+i);
+                
+                cell = row.createCell(0, CellType.NUMERIC);
+                cell.setCellValue(i+1);
+                cell.setCellStyle(style_Common);
+                   
+                range = new CellRangeAddress(10+i, 10+i, 1, 4);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue(product.getProductName()+ " ("+ product.getSize()+")");
+                cell.setCellStyle(style_Common);
+                
+                cell = row.createCell(5, CellType.NUMERIC);
+                cell.setCellValue(bd.getQuantity());
+                cell.setCellStyle(style_Common);
+                
+                int percent =  discount_BUS.check_Discount_Percent(product.getProductID());
+                
+                if(percent > 0){
+                    range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(6, CellType.NUMERIC);
+                    cell.setCellValue(format.format(product.getPrice()));
+                    cell.setCellStyle(style_Strikeout);
+
+                    range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(8, CellType.NUMERIC);
+                    double price_Discount = product.getPrice() - product.getPrice() * percent / 100;
+                    cell.setCellValue(format.format(price_Discount));
+                    cell.setCellStyle(style_Common);
+                }else{
+                    range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                    sheet.addMergedRegion(range);
+                    cell = row.createCell(6, CellType.NUMERIC);
+                    cell.setCellValue(format.format(product.getPrice()));
+                    cell.setCellStyle(style_Common);
+                    
+                    range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                    sheet.addMergedRegion(range);
+                }
+
+                range = new CellRangeAddress(10+i, 10+i, 10, 11);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(10, CellType.NUMERIC);
+                cell.setCellValue(format.format(bd.getTotalValue()));
+                cell.setCellStyle(style_Common);
+            }
+            
+            range = new CellRangeAddress(11+i, 11+i, 1, 10);
+            sheet.addMergedRegion(range);
+        
+            row = sheet.createRow(11+i);
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
+            cell.setCellStyle(style_Bold);
+            //footer
+            //Total
+            row = sheet.createRow(13+i);
+            range = new CellRangeAddress(13+i, 13+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tổng:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(13+i, 13+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getTotalValue()));
+            cell.setCellStyle(style_Common);
+            
+            //Recieved
+            row = sheet.createRow(14+i);
+            range = new CellRangeAddress(14+i, 14+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tiền nhận:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(14+i, 14+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getReceivedMoney()));
+            cell.setCellStyle(style_Common);
+            
+            //Excess
+            row = sheet.createRow(15+i);
+            range = new CellRangeAddress(15+i, 15+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tiền thối:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(15+i, 15+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getExcessMoney()));
+            cell.setCellStyle(style_Common);
+            
+            //Border
+            CellRangeAddress rangeBig = new CellRangeAddress(0, 16+i, 0, 11);
+            RegionUtil.setBorderRight(BorderStyle.THIN, rangeBig, sheet);
+            RegionUtil.setBorderLeft(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderTop(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderBottom(BorderStyle.THIN, rangeBig, sheet);
+            
+            
+            JFileChooser fs = new JFileChooser(new File("c:\\"));
+            fs.setDialogTitle("Save");
+
+            fs.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    if( file.isDirectory()) return true;
+                    return file.getName().endsWith(".xlsx");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Excel (.xlsx)";
+                }
+            });
+            int returnVal = fs.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION){
+                File file = fs.getSelectedFile();
+                FileOutputStream fos = new FileOutputStream(file+".xlsx");
+                workBook.write(fos);
+                fos.close();
+            }
+        }
+    }
+    
+    public void Export_Excel_RN(String bill_Id) throws FileNotFoundException, IOException{
+        ReceivedNote bill = category_BUS.get_RN_From_Id(bill_Id);
+        
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
+        
+        XSSFWorkbook workBook = new XSSFWorkbook();
+        XSSFSheet sheet = workBook.createSheet("PHIẾU NHẬP");
+        
+        XSSFRow row = null;
+        Cell cell = null;
+        
+        CellRangeAddress range = new CellRangeAddress(1, 1, 0, 11);
+        sheet.addMergedRegion(range);
+        
+        //cell style
+        CellStyle styleId = workBook.createCellStyle();
+        styleId.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font1 = workBook.createFont();
+        font1.setFontHeight(16);
+        font1.setBold(true);
+        font1.setColor(IndexedColors.BLACK1.getIndex());
+        styleId.setFont(font1);
+        
+        //Bold
+        CellStyle style_Bold = workBook.createCellStyle();
+        style_Bold.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Bold = workBook.createFont();
+        font_Bold.setFontHeight(13);
+        font_Bold.setBold(true);
+        font_Bold.setColor(IndexedColors.BLACK1.getIndex());
+        style_Bold.setFont(font_Bold);
+        
+        //Strikeout
+        CellStyle style_Strikeout = workBook.createCellStyle();
+        style_Strikeout.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Strikeout = workBook.createFont();
+        font_Strikeout.setFontHeight(13);
+        font_Strikeout.setStrikeout(true);
+        font_Strikeout.setColor(IndexedColors.BLACK1.getIndex());
+        style_Strikeout.setFont(font_Strikeout);
+        
+        //common
+        CellStyle style_Common = workBook.createCellStyle();
+        style_Common.setAlignment(HorizontalAlignment.CENTER);
+            
+        XSSFFont font_Common = workBook.createFont();
+        font_Common.setFontHeight(12);
+        style_Common.setFont(font_Common);
+        
+        //Title
+        row = sheet.createRow(1);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("PHIẾU NHẬP");
+        cell.setCellStyle(styleId);
+        
+        //Bill_Id
+        row = sheet.createRow(3);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Mã:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(bill_Id);
+        cell.setCellStyle(style_Common);
+        
+        //Ngày
+        cell = row.createCell(7, CellType.STRING);
+        cell.setCellValue("Ngày:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(3, 3, 8, 11);
+        sheet.addMergedRegion(range);
+        
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue(bill.getDate());
+        cell.setCellStyle(style_Common);
+        
+        //Staff
+        row = sheet.createRow(4);
+        
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("Staff:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(4, 4, 1, 4);
+        sheet.addMergedRegion(range);
+        
+        String staff_Name = category_BUS.get_Staff_Name_From_Id(bill.getStaffId());
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue(staff_Name);
+        cell.setCellStyle(style_Common);
+        
+        //Khách hàng    
+        cell = row.createCell(7, CellType.STRING);
+        cell.setCellValue("NCC:");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(4, 4, 8, 11);
+        sheet.addMergedRegion(range);
+            
+        String customer_Name = bill.getSupplier();
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue(customer_Name);
+        cell.setCellStyle(style_Common);
+        
+        range = new CellRangeAddress(6, 6, 1, 10);
+        sheet.addMergedRegion(range);
+        
+        row = sheet.createRow(6);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
+        cell.setCellStyle(style_Bold);
+            
+        //middle
+        row = sheet.createRow(8);
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("STT");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 1, 4);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Sản phẩm");
+        cell.setCellStyle(style_Bold);
+        
+        
+        cell = row.createCell(5, CellType.STRING);
+        cell.setCellValue("SL");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 6, 7);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(6, CellType.STRING);
+        cell.setCellValue("Giá");
+        cell.setCellStyle(style_Bold);
+        
+        range = new CellRangeAddress(8, 8, 8, 9);
+        sheet.addMergedRegion(range);
+        cell = row.createCell(8, CellType.STRING);
+        cell.setCellValue("Thành tiền");
+        cell.setCellStyle(style_Bold);
+        
+        ArrayList<ReceivedNoteDetail> detail_Bill = rndBUS.load_Data(bill_Id);
+        int i = 0;
+        if(detail_Bill != null){
+            for( i = 0 ; i< detail_Bill.size(); i++){
+                ReceivedNoteDetail bd = detail_Bill.get(i);
+                Product_DTO product = category_BUS.get_Product_In_Detail_Bill(bd.getProductId(),bd.getSize());
+                
+                row = sheet.createRow(10+i);
+                
+                cell = row.createCell(0, CellType.NUMERIC);
+                cell.setCellValue(i+1);
+                cell.setCellStyle(style_Common);
+                   
+                range = new CellRangeAddress(10+i, 10+i, 1, 4);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue(product.getProductName()+ " ("+ product.getSize()+")");
+                cell.setCellStyle(style_Common);
+                
+                cell = row.createCell(5, CellType.NUMERIC);
+                cell.setCellValue(bd.getQuantity());
+                cell.setCellStyle(style_Common);
+                
+                range = new CellRangeAddress(10+i, 10+i, 6, 7);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(6, CellType.NUMERIC);
+                cell.setCellValue(format.format(bd.getUnitPrice()));
+                cell.setCellStyle(style_Common);
+
+                range = new CellRangeAddress(10+i, 10+i, 8, 9);
+                sheet.addMergedRegion(range);
+                cell = row.createCell(8, CellType.NUMERIC);
+                cell.setCellValue(format.format(bd.getPrice()));
+                cell.setCellStyle(style_Common);
+            }
+            
+            range = new CellRangeAddress(11+i, 11+i, 1, 10);
+            sheet.addMergedRegion(range);
+        
+            row = sheet.createRow(11+i);
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("------------------------------------------------------------------------------------------------------------------------------------------------");
+            cell.setCellStyle(style_Bold);
+            //footer
+            //Total
+            row = sheet.createRow(13+i);
+            range = new CellRangeAddress(13+i, 13+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Tổng:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(13+i, 13+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getTotalValue()));
+            cell.setCellStyle(style_Common);
+            
+            //Recieved
+            row = sheet.createRow(14+i);
+            range = new CellRangeAddress(14+i, 14+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Thuế:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(14+i, 14+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getTaxValue()));
+            cell.setCellStyle(style_Common);
+            
+            //Excess
+            row = sheet.createRow(15+i);
+            range = new CellRangeAddress(15+i, 15+i, 6, 7);
+            sheet.addMergedRegion(range);
+            
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Thành tiền:");
+            cell.setCellStyle(style_Bold);
+            
+            range = new CellRangeAddress(15+i, 15+i, 8, 10);
+            sheet.addMergedRegion(range);
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue(format.format(bill.getFinalValue()));
+            cell.setCellStyle(style_Common);
+            
+            //Border
+            CellRangeAddress rangeBig = new CellRangeAddress(0, 16+i, 0, 11);
+            RegionUtil.setBorderRight(BorderStyle.THIN, rangeBig, sheet);
+            RegionUtil.setBorderLeft(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderTop(BorderStyle.DOUBLE, rangeBig, sheet);
+            RegionUtil.setBorderBottom(BorderStyle.THIN, rangeBig, sheet);
+            
+            
+            JFileChooser fs = new JFileChooser(new File("c:\\"));
+            fs.setDialogTitle("Save");
+
+            fs.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    if( file.isDirectory()) return true;
+                    return file.getName().endsWith(".xlsx");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Excel (.xlsx)";
+                }
+            });
+            int returnVal = fs.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION){
+                File file = fs.getSelectedFile();
+                FileOutputStream fos = new FileOutputStream(file+".xlsx");
+                workBook.write(fos);
+                fos.close();
+            }
+        } 
     }
     
 
@@ -476,14 +1218,19 @@ public class Bill_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel P_CLabel;
     private javax.swing.JLabel P_COutput;
     private Custom.Button banBtn;
+    private Custom.Button banBtn1;
     private javax.swing.JLabel billTitle;
     private javax.swing.JTable blTable;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel idOutput;
+    private de.wannawork.jcalendar.JCalendarComboBox jCalendarComboBox1;
+    private de.wannawork.jcalendar.JCalendarComboBox jCalendarComboBox2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

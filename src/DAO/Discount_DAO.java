@@ -304,5 +304,5 @@ public class Discount_DAO {
         
         return percent;
     }
-
+    
 }

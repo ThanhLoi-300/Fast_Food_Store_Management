@@ -33,6 +33,7 @@ public class BillDetail_DAO {
             bd.setSize(rs.getString("Size"));
             bd.setQuantity(rs.getInt("Quantity"));
             bd.setTotalValue(rs.getInt("TotalValue"));
+            bd.setPercent(rs.getInt("percent"));
             bdL.add(bd);
             }
         }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
@@ -41,13 +42,14 @@ public class BillDetail_DAO {
     
     public Boolean insert(BillDetail bd) {
         int rowAffected  = 0;
-        String sql = "INSERT INTO `bill_detail`(`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO `bill_detail`(`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`, `percent`) VALUES (?,?,?,?,?,?)";
         try (Connection conn = cB.getConnect(); PreparedStatement pstm = conn.prepareStatement(sql);){
             pstm.setString(1, bd.getBillId());
             pstm.setString(2, bd.getProductId());
             pstm.setString(3, bd.getSize());
             pstm.setInt(4, bd.getQuantity());
             pstm.setDouble(5, bd.getTotalValue());
+            pstm.setInt(6, bd.getPercent());
             rowAffected = pstm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BillDetail_DAO.class.getName()).log(Level.SEVERE, null, ex);

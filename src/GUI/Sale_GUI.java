@@ -765,6 +765,8 @@ public class Sale_GUI extends javax.swing.JPanel implements checkPermission{
                     bd.setSize(list_Detail_Bill.get(i).getSize());
                     bd.setQuantity(list_Quantity_Choice.get(i));
                     bd.setTotalValue(list_Detail_Bill.get(i).getPrice()*list_Quantity_Choice.get(i));
+                    int percent = discount_BUS.check_Discount_Percent(list_Detail_Bill.get(i).getProductID());
+                    bd.setPercent(percent);
                     int newQuantity = list_Detail_Bill.get(i).getQuantity() - list_Quantity_Choice.get(i);
                     bd_BUS.insert(bd);
                     product_BUS.updateProductQuantity(list_Detail_Bill.get(i), newQuantity);

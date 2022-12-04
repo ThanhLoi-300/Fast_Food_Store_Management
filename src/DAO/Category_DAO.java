@@ -4,12 +4,15 @@ import DTO.Bill;
 import DTO.BillDetail;
 import DTO.Category_DTO;
 import DTO.Product_DTO;
+import DTO.ReceivedNote;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Category_DAO{
@@ -242,5 +245,71 @@ public class Category_DAO{
         return true;
     }
     
-    
+    public ArrayList<Bill> search_Bill(String start, String end){
+             String sql = "";
+             if(start.equals(end))
+                sql = "SELECT * FROM bill WHERE DATE(Date) = '"+start+"'";
+             else sql = "SELECT * FROM bill WHERE DATE(Date) >= '"+start+"' AND DATE(Date) <= '"+end+"'";
+             ArrayList<Bill> bL = new ArrayList<>();
+             try(Connection conn = cB.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);){
+                 while(rs.next()){
+                     Bill b = new Bill();
+                        b.setBill_ID(rs.getString("Bill_ID"));
+                        b.setDate(rs.getString("Date"));
+                        b.setTotalValue(rs.getInt("TotalValue"));
+                        b.setReceivedMoney(rs.getDouble("ReceivedMoney"));
+                        b.setExcessMoney(rs.getDouble("ExcessMoney"));
+                        b.setStaffID(rs.getString("Staff_id"));
+                        b.setCustomerID(rs.getString("Customer_id"));
+                        bL.add(b);
+                 }
+             } catch (SQLException ex) {
+                Logger.getLogger(Category_DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             return bL; 
+         }
+         
+         public ArrayList<ReceivedNote> search_ReceivedNote(String start, String end){
+             String sql = "";
+             if(start.equals(end))
+                sql = "SELECT * FROM received_note WHERE DATE(Date) = '"+start+"'";
+             else sql = "SELECT * FROM received_note WHERE DATE(Date) >= '"+start+"' AND DATE(Date) <= '"+end+"'";
+             ArrayList<ReceivedNote> rnList = new ArrayList<>();
+             try(Connection conn = cB.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);){
+                 while(rs.next()){
+                     ReceivedNote rn = new ReceivedNote();
+                    rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
+                    rn.setDate(rs.getString("Date"));
+                    rn.setTotalValue(rs.getDouble("Total_Value"));
+                    rn.setTaxValue(rs.getDouble("Tax_Value"));
+                    rn.setFinalValue(rs.getDouble("Final_Value"));
+                    rn.setSupplier(rs.getString("Supplier"));
+                    rn.setStaffId(rs.getString("Staff_ID"));
+                    rnList.add(rn);
+                 }
+             } catch (SQLException ex) {
+                Logger.getLogger(Category_DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             return rnList; 
+         }
+         
+         public ReceivedNote get_RN_From_Id(String id){
+             String sql = "SELECT * FROM received_note WHERE Received_Note_ID = '"+id+"'";
+             ReceivedNote rn = null;
+             try(Connection conn = cB.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);){
+                 while(rs.next()){
+                    rn = new ReceivedNote();
+                    rn.setReceivedNoteID(rs.getString("Received_Note_ID"));
+                    rn.setDate(rs.getString("Date"));
+                    rn.setTotalValue(rs.getDouble("Total_Value"));
+                    rn.setTaxValue(rs.getDouble("Tax_Value"));
+                    rn.setFinalValue(rs.getDouble("Final_Value"));
+                    rn.setSupplier(rs.getString("Supplier"));
+                    rn.setStaffId(rs.getString("Staff_ID"));
+                 }
+             } catch (SQLException ex) {
+                Logger.getLogger(Category_DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             return rn; 
+         }
 }

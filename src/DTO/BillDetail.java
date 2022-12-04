@@ -14,16 +14,26 @@ public class BillDetail {
     private String Size;
     private int Quantity;
     private double totalValue; 
+    private int percent;
 
     public BillDetail() {
     }
 
-    public BillDetail(String billId,String productId,String Size, int Quantity, double totalValue) {
+    public BillDetail(String billId,String productId,String Size, int Quantity, double totalValue, int perrcent) {
         this.billId=billId;
         this.productId=productId;
         this.Size = Size;
         this.Quantity = Quantity;
         this.totalValue = totalValue;
+        this.percent = percent;
+    }
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
     }
 
     public String getSize() {
