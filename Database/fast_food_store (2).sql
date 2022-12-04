@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2022 at 06:52 PM
+-- Generation Time: Dec 04, 2022 at 11:53 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -69,7 +69,7 @@ CREATE TABLE `bill` (
 --
 
 INSERT INTO `bill` (`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMoney`, `Staff_id`, `Customer_id`) VALUES
-('B1', '2022-11-29 22:13:42', 379000, 10000000, -9621000, 'AA01', 'C0');
+('B1', '2022-12-04 12:28:23', 200500, 1111111, -910611, 'AA01', 'C0');
 
 -- --------------------------------------------------------
 
@@ -82,17 +82,17 @@ CREATE TABLE `bill_detail` (
   `Product_id` char(8) NOT NULL,
   `Size` char(8) NOT NULL,
   `Quantity` int(11) NOT NULL,
-  `TotalValue` double NOT NULL
+  `TotalValue` double NOT NULL,
+  `percent` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bill_detail`
 --
 
-INSERT INTO `bill_detail` (`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`) VALUES
-('B1', 'P02', '1 con', 1, 110500),
-('B1', 'P02', '1/2 con', 3, 178500),
-('B1', 'P04', 'Nhỏ', 1, 90000);
+INSERT INTO `bill_detail` (`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`, `percent`) VALUES
+('B1', 'P02', '1 con', 1, 110500, 15),
+('B1', 'P04', 'Nhỏ', 1, 90000, 0);
 
 -- --------------------------------------------------------
 
@@ -219,8 +219,8 @@ CREATE TABLE `discount` (
 --
 
 INSERT INTO `discount` (`discount_Id`, `discount_Percent`, `start_Time`, `end_Time`, `status`, `isDeleted`) VALUES
-('KM0', 15, '01-11-2022', '03-12-2022', 1, 0),
-('KM1', 2, '01-11-2022', '01-12-2022', 1, 0),
+('KM0', 15, '01-11-2022', '04-12-2022', 1, 0),
+('KM1', 2, '01-11-2022', '01-12-2022', 0, 0),
 ('KM2', 4, '11-11-2022', '11-11-2022', 0, 0);
 
 -- --------------------------------------------------------
@@ -265,14 +265,15 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`Product_ID`, `Size`, `Product_Name`, `UnitPrice`, `Quantity`, `Image`, `Category_ID`, `IsDeleted`, `BusinessStatus`) VALUES
-('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 1, 'src/Img/HBG.jpg', '03', 0, 1),
+('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 0, 'src/Img/HBG.jpg', '03', 0, 1),
 ('P01', '4 oz', 'Hamburger gà sốt BBQ', 40000, 176, 'src/Img/HBG.jpg', '03', 0, 1),
 ('P01', '5oz', 'Hamburger gà sốt BBQ', 60000, 1, 'src\\Img\\HBG.jpg', '01', 0, 1),
-('P02', '1 con', 'Gà nướng muối ớt', 130000, 20, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
+('P02', '1 con', 'Gà nướng muối ớt', 130000, 18, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
 ('P02', '1/2 con', 'Gà nướng muối ớt', 70000, 44, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
 ('P03', 'Lớn', 'Cơm xèo gà mắm tỏi', 50000, 19, 'src\\Img\\comXeo_garlicChicken.jpeg', '02', 0, 1),
 ('P03', 'Vừa', 'Cơm xèo gà mắm tỏi', 40000, 27, 'src\\Img\\comXeo_garlicChicken.jpeg', '02', 0, 1),
-('P04', 'Nhỏ', 'Bít tết đặc biệt', 90000, 90, 'src\\Img\\beef_beefsteak.jpg', '04', 0, 1);
+('P04', 'Nhỏ', 'Bít tết đặc biệt', 90000, 87, 'src\\Img\\beef_beefsteak.jpg', '04', 0, 1),
+('P05', 'Nhỏ', 'Bít tết đặc biệt4', 90000, 90, '/Img/chicken-leg.png', '04', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -345,7 +346,9 @@ INSERT INTO `staff` (`Staff_id`, `Full_Name`, `Year_Of_Birth`, `Gender`, `HomeTo
 ('AA01', 'Nguyễn Ngọc Trường Chinh', 2001, 'Nam', 'TP.HCM', '0862863753', 30000000, 0),
 ('AA02', 'Nhâm Gia Phát', 2002, 'Nam', 'TP. Hồ Chí Minh', '0762991979', 40000000, 0),
 ('AA03', 'Trần Nguyễn V. Thái', 2002, 'Nam', 'VietNam', '033951xxxx', 7500000, 0),
-('AA04', 'Tổng Giám Đốc Thái', 1985, 'Male', 'Somewhere', '19008198', 1000000, 0);
+('AA04', 'Tổng Giám Đốc Thái', 1985, 'Male', 'Somewhere', '19008198', 1000000, 0),
+('AA05', 'Nguyễn Ngọc Trường Chinh', 2001, 'TP.HCM', 'Nam', '0862863753', 30000000, 1),
+('AA06', 'Nguyễn Ngọc Trường Chinh', 2001, 'Nam', 'TP.HCM', '0862863753', 30000000, 1);
 
 --
 -- Indexes for dumped tables
