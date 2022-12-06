@@ -536,6 +536,8 @@ public class Customer_GUI extends javax.swing.JPanel implements checkPermission{
         else if(!jTextField6.getText().matches("^84|0[3|5|7|8|9]\\d{8}$")) {
             JOptionPane.showMessageDialog(this, "Định dạng số điện thoại không đúng!(VN)", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+        else if(cusBUS.checkPhoneNumExits(jTextField6.getText()))
+            JOptionPane.showMessageDialog(this, "Đã tồn tại sdt này, chỉnh sửa thông tin cũ?", "Warning", JOptionPane.WARNING_MESSAGE);
         else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -570,6 +572,8 @@ public class Customer_GUI extends javax.swing.JPanel implements checkPermission{
         else if(!jTextField6.getText().matches("^84|0[3|5|7|8|9]\\d{8}$")) {
             JOptionPane.showMessageDialog(this, "Định dạng số điện thoại không đúng!(VN)", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+        else if(cusBUS.checkPhoneNumExitsOnUpdate(jTextField2.getText(), jTextField6.getText()))
+            JOptionPane.showMessageDialog(this, "Đã tồn tại một sdt này ở khách hàng khác!", "Warning", JOptionPane.WARNING_MESSAGE);
         else if( !(jTextField5.getText().matches("-?\\d+")) || Integer.parseInt(jTextField5.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lần tích lũy phải >= 0!", "Warning", JOptionPane.WARNING_MESSAGE);
         }

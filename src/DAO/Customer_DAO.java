@@ -203,5 +203,15 @@ public class Customer_DAO{
         return customerList;
     }
     
-
+    public int checkPhoneNumExits(String phoneNum){
+        String sql = "SELECT COUNT(Customer_id) FROM `customer` WHERE `phoneNum` = ?";
+        try (Connection conn = cn.getConnect(); PreparedStatement pstm = conn.prepareStatement(sql);)  {
+            pstm.setString(1, phoneNum);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()) return rs.getInt(1);
+        } catch (SQLException ex) {
+                Logger.getLogger(Customer_DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

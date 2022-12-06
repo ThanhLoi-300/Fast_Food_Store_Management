@@ -102,4 +102,18 @@ public class Customer_BUS {
         customerList = cusDAO.filter(filter);
         return customerList;
     }
+    
+    public boolean checkPhoneNumExits(String phoneNum){
+        if(cusDAO.checkPhoneNumExits(phoneNum) > 0) return true;
+        else return false;
+    }
+    
+    public boolean checkPhoneNumExitsOnUpdate(String id,String phoneNum){
+        if(cusDAO.checkPhoneNumExits(phoneNum) > 0){
+            Customer ct = cusDAO.findByPhoneNum(phoneNum);
+            if(ct.getPhoneNum().equals(phoneNum) && ct.getCustomerId().equals(id)) return false;
+            else return true;
+        }
+        else return false;
+    }
 }
