@@ -12,9 +12,12 @@ import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
 import DTO.statisticalObject;
 import java.awt.Insets;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +41,10 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private GUI.RevenueChart myChart1;
     private GUI.PieChart customerChart,soldProductChart,receivedProductChart;
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+    //Định dạng tiền tệ
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        
     public Statistic_GUI() {
         cBUS = new Customer_BUS();
         bBUS = new Bill_BUS();
@@ -54,6 +61,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
         insets.right= -1;
         insets.left = -1;
         UIManager.put("TabbedPane.contentBorderInsets", insets);
+        format.setRoundingMode(RoundingMode.HALF_UP);
         
     }
     private void loadData(){
@@ -61,9 +69,9 @@ public class Statistic_GUI extends javax.swing.JPanel {
         date = fmt.format(calendar.getDate());
         double eV =bBUS.getEarnedValueByDate(date);
         double pV =rnBUS.getPaidValueByDate(date);
-        earnedValue.setText(String.valueOf(eV)+"đ");
-        payValue.setText(String.valueOf(pV)+"đ");
-        totalValue.setText(String.valueOf(eV-pV)+"đ");
+        earnedValue.setText(format.format(eV));
+        payValue.setText(format.format(pV));
+        totalValue.setText(format.format(eV-pV));
         customerCount.setText(String.valueOf(bBUS.totalCustomerByDay(date)));
         CustomerCount1.setText(customerCount.getText());
         rnCount.setText(String.valueOf(rnBUS.countRNByDay(date)));
