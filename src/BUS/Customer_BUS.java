@@ -84,7 +84,7 @@ public class Customer_BUS {
     public String GetNameById(String id){
         String name=cusDAO.GetNameByID(id);
         if(name==null){
-            return "";
+            return "Khách vãng lai";
         }
         return name;
     }

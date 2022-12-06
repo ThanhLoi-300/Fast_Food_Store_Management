@@ -8,6 +8,7 @@ import DAO.ReceivedNote_DAO;
 
 import DTO.ReceivedNote;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -19,8 +20,8 @@ public class ReceivedNote_BUS {
     public ArrayList<ReceivedNote> load_Data(){
         return rn_DAO.loadData();
     }
-    public double getPayValueByDate(String date){
-         return rn_DAO.getPayValueByDate(date);
+    public double getPaidValueByDate(String date){
+         return rn_DAO.getPaidValueByDate(date);
      }
     public int countRNByDay(String date){
          return rn_DAO.countRNByDay(date);
@@ -33,5 +34,11 @@ public class ReceivedNote_BUS {
     
     public boolean insert(ReceivedNote rn) {
         return rn_DAO.insert(rn);
+    }
+    public double[] SumPaidValuePerMonth(String year){
+        double[] arr = new double[12];
+        Arrays.fill(arr, 0);
+        arr=rn_DAO.SumPaidValuePerMonth(arr, year);
+        return arr;
     }
 }

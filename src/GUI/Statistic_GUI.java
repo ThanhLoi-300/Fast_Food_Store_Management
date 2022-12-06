@@ -11,9 +11,12 @@ import BUS.Product_BUS;
 import BUS.ReceivedNoteDetail_BUS;
 import BUS.ReceivedNote_BUS;
 import DTO.statisticalObject;
+import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,15 +25,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Statistic_GUI extends javax.swing.JPanel {
 
-    private Customer_BUS cBUS;
-    private Product_BUS pBUS;
-    private ReceivedNoteDetail_BUS rndBUS;
-    private ReceivedNote_BUS rnBUS;
-    private Bill_BUS bBUS;
-    private BillDetail_BUS bdBUS;
+    private final Customer_BUS cBUS;
+    private final Product_BUS pBUS;
+    private final ReceivedNoteDetail_BUS rndBUS;
+    private final ReceivedNote_BUS rnBUS;
+    private final Bill_BUS bBUS;
+    private final BillDetail_BUS bdBUS;
     private DefaultTableModel model;
     private String date;
     private ArrayList<statisticalObject> soL;
+    private double[] Profit;
+    private GUI.RevenueChart myChart1;
+    private GUI.PieChart customerChart,soldProductChart,receivedProductChart;
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
     public Statistic_GUI() {
         cBUS = new Customer_BUS();
@@ -41,16 +47,24 @@ public class Statistic_GUI extends javax.swing.JPanel {
         bdBUS = new BillDetail_BUS();
         initComponents();
         loadData();
+        setChart();
+        Insets insets = UIManager.getInsets("TabbedPane.contentBorderInsets");
+        insets.top = -1;
+        insets.bottom= -1;
+        insets.right= -1;
+        insets.left = -1;
+        UIManager.put("TabbedPane.contentBorderInsets", insets);
         
     }
-    public void loadData(){
+    private void loadData(){
+        calendar.setVisible(true);
         date = fmt.format(calendar.getDate());
         double eV =bBUS.getEarnedValueByDate(date);
-        double pV =rnBUS.getPayValueByDate(date);
+        double pV =rnBUS.getPaidValueByDate(date);
         earnedValue.setText(String.valueOf(eV)+"đ");
         payValue.setText(String.valueOf(pV)+"đ");
         totalValue.setText(String.valueOf(eV-pV)+"đ");
-        customerCount.setText(String.valueOf(bBUS.countCustomerByDay(date)));
+        customerCount.setText(String.valueOf(bBUS.totalCustomerByDay(date)));
         CustomerCount1.setText(customerCount.getText());
         rnCount.setText(String.valueOf(rnBUS.countRNByDay(date)));
         rnpCount.setText(String.valueOf(rndBUS.totalReceivedProductByDay(date)));
@@ -59,7 +73,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
         loadTable(date);
     }
     public void loadTable(String date){
-        soL=bBUS.countPurchaseTimeByDay(date);
+        soL=bBUS.countCustomerByDay(date);
         renderCustomerTable(soL);
         soL=rndBUS.countReceivedProductByDay(date);
         renderProductTable(soL,nhTable);
@@ -84,7 +98,46 @@ public class Statistic_GUI extends javax.swing.JPanel {
         }
     }
     
-
+    private void setChart() {
+        yearText.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        monthText.setText(String.valueOf(Calendar.getInstance().get(Calendar.MONTH)+1));
+        LineChart(String.valueOf(calendar.getCalendar().get(Calendar.YEAR)));
+        pieChart(String.valueOf(calendar.getCalendar().get(Calendar.MONTH)+1));
+    }   
+    public void LineChart(String year){
+        double[] Earned = bBUS.SumEarnedValuePerMonth(year);
+        double[] Paid = rnBUS.SumPaidValuePerMonth(year);
+        Profit = new double[12];
+        for(int i=0;i<12;i++)
+            Profit[i]=Earned[i]-Paid[i];
+        myChart1 = new GUI.RevenueChart(Profit);
+        myChart1.setTitle("Doanh thu năm "+year);
+        roundPanel13.add(myChart1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 931, 370));
+    }
+    
+    
+    
+    
+    
+   public void pieChart(String month) {
+       ArrayList<statisticalObject> cL = bBUS.countCustomerByMonth(month);
+       ArrayList<statisticalObject> spL = bdBUS.CountSoldProductByMonth(month);
+       ArrayList<statisticalObject> rpL = rndBUS.CountReceivedProductByMonth(month);
+       if(cL.isEmpty()) WarningC.setVisible(true);else WarningC.setVisible(false);
+       if(spL.isEmpty()) WarningS.setVisible(true);else WarningS.setVisible(false);
+       if(rpL.isEmpty()) WarningR.setVisible(true);else WarningR.setVisible(false);
+       customerChart = new GUI.PieChart(cL,"customer");
+       roundPanel14.add(customerChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 210, 220));
+       soldProductChart = new GUI.PieChart(spL,"");
+       roundPanel14.add(soldProductChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 210, 220));
+       receivedProductChart = new GUI.PieChart(rpL,"");
+       roundPanel14.add(receivedProductChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 210, 220));
+       customerChart.setTitle("Khách hàng");
+       soldProductChart.setTitle("Sản phẩm bán");
+       receivedProductChart.setTitle("Sản phẩm nhập");
+   }
+   
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -141,6 +194,17 @@ public class Statistic_GUI extends javax.swing.JPanel {
         imageAvatar14 = new Custom.ImageAvatar();
         jScrollPane2 = new javax.swing.JScrollPane();
         bhTable = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
+        roundPanel13 = new Custom.RoundPanel();
+        roundPanel14 = new Custom.RoundPanel();
+        WarningR = new javax.swing.JLabel();
+        WarningC = new javax.swing.JLabel();
+        WarningS = new javax.swing.JLabel();
+        roundPanel15 = new Custom.RoundPanel();
+        monthText = new javax.swing.JTextField();
+        button11 = new Custom.Button();
+        yearText = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setPreferredSize(new java.awt.Dimension(1035, 641));
@@ -149,6 +213,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
         calendar.setBackground(new java.awt.Color(255, 255, 255));
         calendar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         calendar.setFocusCycleRoot(true);
+        calendar.setFocusable(false);
         calendar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         calendar.setInheritsPopupMenu(true);
         calendar.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -156,9 +221,15 @@ public class Statistic_GUI extends javax.swing.JPanel {
                 calendarStateChanged(evt);
             }
         });
-        add(calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, 190, -1));
+        add(calendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 20, 190, -1));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 204, 153));
+        jTabbedPane1.setFocusable(false);
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -731,6 +802,116 @@ public class Statistic_GUI extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Chi tiết", jPanel6);
 
+        jPanel10.setBackground(new java.awt.Color(51, 51, 51));
+
+        roundPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        roundPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        WarningR.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        WarningR.setText("Không có thống kê tháng này");
+        roundPanel14.add(WarningR, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, 190, 90));
+
+        WarningC.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        WarningC.setText("Không có thống kê tháng này");
+        roundPanel14.add(WarningC, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 190, 90));
+
+        WarningS.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        WarningS.setText("Không có thống kê tháng này");
+        roundPanel14.add(WarningS, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 190, 90));
+
+        roundPanel15.setBackground(new java.awt.Color(255, 255, 255));
+
+        monthText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        monthText.setForeground(new java.awt.Color(153, 153, 153));
+        monthText.setText("Nhập tháng");
+
+        button11.setBackground(new java.awt.Color(240, 240, 240));
+        button11.setBorder(null);
+        button11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        button11.setText("Tìm");
+        button11.setColor(new java.awt.Color(240, 240, 240));
+        button11.setColorClick(new java.awt.Color(255, 255, 255));
+        button11.setColorOver(new java.awt.Color(255, 255, 255));
+        button11.setFocusable(false);
+        button11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        button11.setRadius(10);
+        button11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button11ActionPerformed(evt);
+            }
+        });
+
+        yearText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        yearText.setForeground(new java.awt.Color(153, 153, 153));
+        yearText.setText("Nhập năm");
+        yearText.setToolTipText("");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Số liệu thống kê");
+
+        javax.swing.GroupLayout roundPanel15Layout = new javax.swing.GroupLayout(roundPanel15);
+        roundPanel15.setLayout(roundPanel15Layout);
+        roundPanel15Layout.setHorizontalGroup(
+            roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel15Layout.createSequentialGroup()
+                        .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel15Layout.createSequentialGroup()
+                        .addGroup(roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(yearText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(monthText, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(55, 55, 55))))
+        );
+        roundPanel15Layout.setVerticalGroup(
+            roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(yearText, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(monthText, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(roundPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 958, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(roundPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(roundPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(roundPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Biểu đồ", jPanel10);
+
         add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 650));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -738,12 +919,40 @@ public class Statistic_GUI extends javax.swing.JPanel {
         loadData();
     }//GEN-LAST:event_calendarStateChanged
 
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        if(jPanel10.isVisible())
+            calendar.setVisible(false);
+        else calendar.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void button11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button11ActionPerformed
+        try{
+            if(Integer.parseInt(yearText.getText())<0 || Integer.parseInt(monthText.getText())<=0 || Integer.parseInt(monthText.getText())>12)
+                JOptionPane.showMessageDialog(this, "Vui lòng không nhập chuẩn định dạng", "Warning", JOptionPane.WARNING_MESSAGE);
+            else{
+                roundPanel13.removeAll();
+                LineChart(yearText.getText());
+                roundPanel14.remove(customerChart);
+                roundPanel14.remove(soldProductChart);
+                roundPanel14.remove(receivedProductChart);
+                pieChart(monthText.getText());
+            }
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_button11ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CustomerCount1;
+    private javax.swing.JLabel WarningC;
+    private javax.swing.JLabel WarningR;
+    private javax.swing.JLabel WarningS;
     private javax.swing.JLabel bCount;
     private javax.swing.JTable bhTable;
     private javax.swing.JLabel bpCount;
+    private Custom.Button button11;
     private de.wannawork.jcalendar.JCalendarComboBox calendar;
     private javax.swing.JLabel customerCount;
     private javax.swing.JLabel earnedValue;
@@ -763,11 +972,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -781,16 +992,21 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable khTable;
+    private javax.swing.JTextField monthText;
     private javax.swing.JTable nhTable;
     private javax.swing.JLabel payValue;
     private javax.swing.JLabel rnCount;
     private javax.swing.JLabel rnpCount;
     private Custom.RoundPanel roundPanel1;
+    private Custom.RoundPanel roundPanel13;
+    private Custom.RoundPanel roundPanel14;
+    private Custom.RoundPanel roundPanel15;
     private Custom.RoundPanel roundPanel2;
     private Custom.RoundPanel roundPanel3;
     private Custom.RoundPanel roundPanel4;
     private Custom.RoundPanel roundPanel5;
     private Custom.RoundPanel roundPanel6;
     private javax.swing.JLabel totalValue;
+    private javax.swing.JTextField yearText;
     // End of variables declaration//GEN-END:variables
 }

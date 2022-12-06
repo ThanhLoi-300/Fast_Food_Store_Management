@@ -8,6 +8,7 @@ import DAO.Bill_DAO;
 import DTO.Bill;
 import DTO.statisticalObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -31,13 +32,22 @@ public class Bill_BUS {
         public double getEarnedValueByDate(String date){
         return b_DAO.getEarnedValueByDate(date);
     }
-    public int countCustomerByDay(String date){
-        return b_DAO.countCustomerByDay(date);
+    public int totalCustomerByDay(String date){
+        return b_DAO.totalCustomerByDay(date);
     }
     public int countBillByDay(String date){
         return b_DAO.countBillByDay(date);
     }
-    public ArrayList<statisticalObject> countPurchaseTimeByDay(String date){
-        return b_DAO.countPurchaseTimeByDay(date);
+    public ArrayList<statisticalObject> countCustomerByDay(String date){
+        return b_DAO.countCustomerByDay(date);
+    }
+    public double[] SumEarnedValuePerMonth(String year){
+        double[] arr = new double[12];
+        Arrays.fill(arr, 0);
+        arr=b_DAO.SumEarnedValuePerMonth(arr, year);
+        return arr;
+    }
+    public ArrayList<statisticalObject> countCustomerByMonth(String month){
+        return b_DAO.countCustomerByMonth(month);
     }
 }

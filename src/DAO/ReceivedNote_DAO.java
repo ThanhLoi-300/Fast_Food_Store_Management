@@ -66,7 +66,7 @@ public class ReceivedNote_DAO {
         return rnList;
     }
 
-    public double getPayValueByDate(String date) {
+    public double getPaidValueByDate(String date) {
         double value = 0;
         String sql = "SELECT SUM(Final_Value) AS value FROM received_note "
                     + "WHERE DATE(Date) = '" + date + "' ";
@@ -118,5 +118,15 @@ public class ReceivedNote_DAO {
             System.out.println(ex);
         }
         return id + counter;
+    }
+    public double[] SumPaidValuePerMonth(double[] arr,String year){
+    String sql = "SELECT MONTH(Date) as month, SUM(Final_Value) as value FROM `received_note` WHERE YEAR(Date)='"+year+"'";
+    try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+        while(rs.next()){
+            if(rs.getString("month")!=null)
+            arr[rs.getInt("month")-1]=rs.getDouble("value");
+        }
+    }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+    return arr;
     }
 }

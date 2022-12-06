@@ -33,4 +33,8 @@ public class ReceivedNoteDetail_BUS {
     public boolean insert(ReceivedNoteDetail rnd) {
         return rn_DAO.insert(rnd);
     }
+     public ArrayList<statisticalObject> CountReceivedProductByMonth(String month){
+         return rn_DAO.CountReceivedProductByMonth(month);
+     }
+    
 }

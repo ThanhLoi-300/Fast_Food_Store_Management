@@ -84,4 +84,21 @@ public class BillDetail_DAO {
         }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
         return n;
     }
+    public ArrayList<statisticalObject> CountSoldProductByMonth(String month){
+        ArrayList<statisticalObject> soL = new ArrayList<>();
+        String sql="SELECT Product_id,Size, SUM(Quantity) AS amount FROM bill_detail,bill \n" +
+                    "WHERE bill.Bill_ID = bill_detail.Bill_id\n" +
+                    "AND MONTH(bill.Date) = '"+month+"' \n" +
+                    "GROUP BY Product_id,Size";
+        try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Product_id"));
+                    so.setSize(rs.getString("Size"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+        return soL;
+    }
 }

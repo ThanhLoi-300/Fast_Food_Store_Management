@@ -107,7 +107,7 @@ public class Bill_DAO extends connectDB{
         }catch(SQLException e){}
         return value;
     }       
-        public ArrayList<statisticalObject> countPurchaseTimeByDay(String date)
+        public ArrayList<statisticalObject> countCustomerByDay(String date)
         {
             ArrayList<statisticalObject> soL= new ArrayList<>();
             String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
@@ -121,10 +121,10 @@ public class Bill_DAO extends connectDB{
                     so.setValue(rs.getInt("amount"));
                     soL.add(so);
                 }
-            }catch(SQLException e){}
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
             return soL;
         }   
-        public int countCustomerByDay(String date){
+        public int totalCustomerByDay(String date){
             int value=0;
             String sql="SELECT COUNT(Customer_id) AS amount FROM bill where DATE(Date)='"+date+"'";
             try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
@@ -140,5 +140,31 @@ public class Bill_DAO extends connectDB{
             }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
             return value;
         }
+    public double[] SumEarnedValuePerMonth(double[] arr,String year){
+        String sql = "SELECT MONTH(Date) as month, SUM(TotalValue) as value FROM `bill` WHERE YEAR(Date)='"+year+"'";
+        try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+            while(rs.next()){
+                if(rs.getString("month")!=null)
+                arr[rs.getInt("month")-1]=rs.getDouble("value");
+            }
+        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+        return arr;
+    }
+    public ArrayList<statisticalObject> countCustomerByMonth(String month){    
+            ArrayList<statisticalObject> soL= new ArrayList<>();
+            String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
+                          +  "WHERE customer.Customer_id=bill.Customer_id\n" +
+                             "AND MONTH(Date)='"+month+"' " +
+                             "GROUP BY Customer_id";
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+                while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Customer_id"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return soL;
+        }   
     
 }

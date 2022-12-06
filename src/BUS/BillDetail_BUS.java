@@ -29,5 +29,7 @@ public class BillDetail_BUS {
     public int totalSoldProductByDay(String Date){
         return bd_DAO.totalSoldProductByDay(Date);
     }
-
+    public ArrayList<statisticalObject> CountSoldProductByMonth(String month){
+        return bd_DAO.CountSoldProductByMonth(month);
+    }
 }
