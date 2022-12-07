@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2022 at 12:10 PM
+-- Generation Time: Dec 07, 2022 at 12:32 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -268,9 +268,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`Product_ID`, `Size`, `Product_Name`, `UnitPrice`, `Quantity`, `Image`, `Category_ID`, `IsDeleted`, `BusinessStatus`) VALUES
-('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 20, '/Img/chicken-leg.png', '03', 0, 1),
+('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 20, 'src/Img/HBG.jpg', '03', 0, 1),
 ('P01', '4 oz', 'Hamburger gà sốt BBQ', 40000, 175, 'src/Img/HBG.jpg', '03', 0, 1),
-('P01', '5oz', 'Hamburger gà sốt BBQ', 60000, 1, '/Img/chicken-leg.png', '03', 0, 1),
+('P01', '5oz', 'Hamburger gà sốt BBQ', 60000, 1, 'src/Img/HBG.jpg', '03', 0, 1),
 ('P02', '1 con', 'Gà nướng muối ớt', 130000, 24, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
 ('P02', '1/2 con', 'Gà nướng muối ớt', 70000, 64, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
 ('P03', 'Lớn', 'Cơm xèo gà mắm tỏi', 50000, 19, 'src\\Img\\comXeo_garlicChicken.jpeg', '02', 0, 1),
