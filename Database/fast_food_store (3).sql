@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2022 at 11:53 AM
+-- Generation Time: Dec 07, 2022 at 12:10 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -69,7 +69,8 @@ CREATE TABLE `bill` (
 --
 
 INSERT INTO `bill` (`Bill_ID`, `Date`, `TotalValue`, `ReceivedMoney`, `ExcessMoney`, `Staff_id`, `Customer_id`) VALUES
-('B1', '2022-12-04 12:28:23', 200500, 1111111, -910611, 'AA01', 'C0');
+('B1', '2022-12-04 12:28:23', 200500, 1111111, -910611, 'AA01', 'C0'),
+('B2', '2022-12-07 18:02:42', 560000, 1000000, -440000, 'AA01', 'C0');
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,9 @@ CREATE TABLE `bill_detail` (
 
 INSERT INTO `bill_detail` (`Bill_id`, `Product_id`, `Size`, `Quantity`, `TotalValue`, `percent`) VALUES
 ('B1', 'P02', '1 con', 1, 110500, 15),
-('B1', 'P04', 'Nhỏ', 1, 90000, 0);
+('B1', 'P04', 'Nhỏ', 1, 90000, 0),
+('B2', 'P01', '4 oz', 1, 40000, 0),
+('B2', 'P02', '1 con', 4, 520000, 0);
 
 -- --------------------------------------------------------
 
@@ -219,7 +222,7 @@ CREATE TABLE `discount` (
 --
 
 INSERT INTO `discount` (`discount_Id`, `discount_Percent`, `start_Time`, `end_Time`, `status`, `isDeleted`) VALUES
-('KM0', 15, '01-11-2022', '04-12-2022', 1, 0),
+('KM0', 15, '01-11-2022', '04-12-2022', 0, 0),
 ('KM1', 2, '01-11-2022', '01-12-2022', 0, 0),
 ('KM2', 4, '11-11-2022', '11-11-2022', 0, 0);
 
@@ -265,11 +268,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`Product_ID`, `Size`, `Product_Name`, `UnitPrice`, `Quantity`, `Image`, `Category_ID`, `IsDeleted`, `BusinessStatus`) VALUES
-('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 0, 'src/Img/HBG.jpg', '03', 0, 1),
-('P01', '4 oz', 'Hamburger gà sốt BBQ', 40000, 176, 'src/Img/HBG.jpg', '03', 0, 1),
-('P01', '5oz', 'Hamburger gà sốt BBQ', 60000, 1, 'src\\Img\\HBG.jpg', '01', 0, 1),
-('P02', '1 con', 'Gà nướng muối ớt', 130000, 18, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
-('P02', '1/2 con', 'Gà nướng muối ớt', 70000, 44, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
+('P01', '3.5 oz', 'Hamburger gà sốt BBQ', 30000, 20, '/Img/chicken-leg.png', '03', 0, 1),
+('P01', '4 oz', 'Hamburger gà sốt BBQ', 40000, 175, 'src/Img/HBG.jpg', '03', 0, 1),
+('P01', '5oz', 'Hamburger gà sốt BBQ', 60000, 1, '/Img/chicken-leg.png', '03', 0, 1),
+('P02', '1 con', 'Gà nướng muối ớt', 130000, 24, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
+('P02', '1/2 con', 'Gà nướng muối ớt', 70000, 64, 'src\\Img\\chicken_chilliSalt.jpg', '05', 0, 1),
 ('P03', 'Lớn', 'Cơm xèo gà mắm tỏi', 50000, 19, 'src\\Img\\comXeo_garlicChicken.jpeg', '02', 0, 1),
 ('P03', 'Vừa', 'Cơm xèo gà mắm tỏi', 40000, 27, 'src\\Img\\comXeo_garlicChicken.jpeg', '02', 0, 1),
 ('P04', 'Nhỏ', 'Bít tết đặc biệt', 90000, 87, 'src\\Img\\beef_beefsteak.jpg', '04', 0, 1),
@@ -296,7 +299,11 @@ CREATE TABLE `received_note` (
 --
 
 INSERT INTO `received_note` (`Received_Note_ID`, `Date`, `Total_Value`, `Tax_Value`, `Final_Value`, `Supplier`, `Staff_ID`) VALUES
-('RN1', '2022-11-01 15:48:46', 150000, 15000, 165000, 'Công ty Productiness', 'AA01');
+('RN1', '2022-11-01 15:48:46', 150000, 15000, 165000, 'Công ty Productiness', 'AA01'),
+('RN2', '2022-12-07 17:48:17', 4400000, 352000, 4752000, 'SP01', 'AA01'),
+('RN3', '2022-12-07 17:59:01', 1800000, 144000, 1944000, 'SP01', 'AA01'),
+('RN4', '2022-12-07 18:00:54', 900000, 72000, 972000, 'SP01', 'AA01'),
+('RN5', '2022-12-07 18:06:34', 600000, 48000, 648000, 'SP01', 'AA01');
 
 -- --------------------------------------------------------
 
@@ -319,7 +326,10 @@ CREATE TABLE `received_note_detail` (
 
 INSERT INTO `received_note_detail` (`Received_Note_ID`, `Product_ID`, `Size`, `UnitPrice`, `Quantity`, `Price`) VALUES
 ('RN1', 'P02', '1 con', 120000, 1, 120000),
-('RN1', 'P03', 'Lớn', 30000, 1, 30000);
+('RN1', 'P03', 'Lớn', 30000, 1, 30000),
+('RN2', 'P02', '1 con', 90000, 10, 900000),
+('RN2', 'P02', '1/2 con', 40000, 20, 800000),
+('RN5', 'P01', '3.5 oz', 30000, 20, 600000);
 
 -- --------------------------------------------------------
 
