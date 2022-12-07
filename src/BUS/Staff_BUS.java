@@ -44,14 +44,12 @@ public class Staff_BUS {
     }
     
     public Boolean updateStaffString(Staff sf) {
-        if (staffDAO.updateStaff(sf)) return true;
-        return false;
+        return staffDAO.updateStaff(sf);
     }
     
     public Boolean deleteStaffString(String id) {
         
-        if (staffDAO.deleteStaff(id)) return true;
-        return false;
+        return staffDAO.deleteStaff(id);
     }
     
     public ArrayList<Staff> searchStaff(String wordString, String column) {
@@ -69,8 +67,7 @@ public class Staff_BUS {
     }
     
     public Boolean phoneStaffExisted(String id, String phone) {
-        if (staffDAO.phoneExisted(id, phone)) return true;
-        return false;
+        return staffDAO.phoneExisted(id, phone);
     }
     
     

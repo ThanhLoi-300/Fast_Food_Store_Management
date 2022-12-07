@@ -31,13 +31,15 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
 
     /**
      * Creates new form Staff_GUI
+     * @param permissionType
+     * @param dcdt_Id
      */
     public Staff_GUI(int permissionType, String dcdt_Id){
         staffList = staffBUS.readStaffsData();
         initComponents();
         loadTable(staffList);
         autoStaffId();
-        
+     
     }
 
     /**
@@ -437,7 +439,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             JOptionPane.showMessageDialog(this, "Độ tuổi không phù hợp chỉ nhận từ 18 đến 90", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
-            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng VN", "Warning", JOptionPane.WARNING_MESSAGE);
             
             
             else if(staffBUS.phoneStaffExisted(idString, txtPhone.getText()))
@@ -446,11 +448,11 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             else if(!txtBaseSalary.getText().matches("-?\\d+")) 
             JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
             
-            else if(txtStaffName.getText().matches("-?\\w+")) 
+            else if(!txtStaffName.getText().matches("-?\\D+")) 
             JOptionPane.showMessageDialog(this, "Tên nhân viên phải là chữ", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else {
-                    Staff sf = new Staff(idString, txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtGender.getText(), txtAddress.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
+                    Staff sf = new Staff(idString, txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtAddress.getText(), txtGender.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
                 
                     if (staffBUS.addStaffString(sf)) {
                         JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
@@ -474,7 +476,7 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             JOptionPane.showMessageDialog(this, "Độ tuổi không phù hợp chỉ nhận từ 18 đến 90", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else if(!txtPhone.getText().matches("(84|0[3|5|7|8|9])+([0-9]{8})")) 
-            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng VN", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else if(staffBUS.phoneStaffExisted(txtStaffID.getText(), txtPhone.getText()))
             JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -482,13 +484,13 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             else if(!txtBaseSalary.getText().matches("-?\\d+")) 
             JOptionPane.showMessageDialog(this, "Tiền lương phải là số", "Warning", JOptionPane.WARNING_MESSAGE);
             
-            else if(txtStaffName.getText().matches("-?\\w+")) 
+            else if(!txtStaffName.getText().matches("-?\\D+")) 
             JOptionPane.showMessageDialog(this, "Tên nhân viên phải là chữ", "Warning", JOptionPane.WARNING_MESSAGE);
             
             else {
                     int rowCount = tblStaffList.getSelectedRow();
                     Staff selectedStaff = staffList.get(rowCount);
-                    Staff sf = new Staff(selectedStaff.getStaffId(), txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()), txtGender.getText(), txtAddress.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
+                    Staff sf = new Staff(selectedStaff.getStaffId(), txtStaffName.getText(), Integer.parseInt(txtYearOfBirth.getText()),  txtAddress.getText(), txtGender.getText(), txtPhone.getText(), Integer.parseInt(txtBaseSalary.getText()), false);
                 
                     if (staffBUS.updateStaffString(sf)) {
                         JOptionPane.showMessageDialog(this, "Sửa nhân viên thành công");
@@ -540,6 +542,9 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
 
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
         refreshRow();
+        loadTable(staffList);
+        
+        
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     private void tblStaffListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStaffListMouseClicked
@@ -549,8 +554,8 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
         txtStaffID.setText(selectedStaff.getStaffId());
         txtStaffName.setText(selectedStaff.getStaffName());
         txtYearOfBirth.setText(selectedStaff.getStaffBirthYear() + "");
-        txtGender.setText(selectedStaff.getGender());
         txtAddress.setText(selectedStaff.getAddress());
+        txtGender.setText(selectedStaff.getGender());
         txtPhone.setText(selectedStaff.getPhoneNum());
         txtBaseSalary.setText(selectedStaff.getBaseSalary() + "");
     }//GEN-LAST:event_tblStaffListMouseClicked
@@ -602,12 +607,12 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
             String sfId = sf.getStaffId();
             String sfName = sf.getStaffName();
             int sfYear = sf.getStaffBirthYear();
-            String sfGender = sf.getGender();
             String sfAddress = sf.getAddress();
+            String sfGender = sf.getGender();
             String sfPhone = sf.getPhoneNum();
             int sfSalary = sf.getBaseSalary();
 
-            Object row[] = new Object[]{sfId, sfName, sfYear, sfGender, sfAddress, sfPhone, sfSalary};
+            Object row[] = new Object[]{sfId, sfName, sfYear, sfAddress, sfGender, sfPhone, sfSalary};
             model.addRow(row);
         }
     }
@@ -616,10 +621,11 @@ public class Staff_GUI extends javax.swing.JPanel implements checkPermission {
         txtStaffID.setText("");
         txtStaffName.setText("");
         txtYearOfBirth.setText("");
-        txtGender.setText("");
         txtAddress.setText("");
+        txtGender.setText("");
         txtPhone.setText("");
         txtBaseSalary.setText("");
+        
     }
     
      private boolean staffEmpty() {
