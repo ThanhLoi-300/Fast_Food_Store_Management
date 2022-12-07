@@ -45,7 +45,7 @@ public class PieChart extends javax.swing.JPanel {
                 result.setValue(cBUS.GetNameById(soL1.getId()), soL1.getValue());
             else
                 for (statisticalObject soL1 : soL) 
-                result.setValue(pBUS.getNameById(soL1.getId())+"["+soL1.getSize()+"]", soL1.getValue());
+                result.setValue(pBUS.getNameById(soL1.getId())+"["+soL1.getDescription()+"]", soL1.getValue());
         }
         return result;
     }

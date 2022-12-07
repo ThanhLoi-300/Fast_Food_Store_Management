@@ -29,7 +29,7 @@ public class Bill_BUS {
     public Boolean Insert(Bill b){
         return b_DAO.insert(b);
     }
-        public double getEarnedValueByDate(String date){
+    public double getEarnedValueByDate(String date){
         return b_DAO.getEarnedValueByDate(date);
     }
     public int totalCustomerByDay(String date){
@@ -40,6 +40,9 @@ public class Bill_BUS {
     }
     public ArrayList<statisticalObject> countCustomerByDay(String date){
         return b_DAO.countCustomerByDay(date);
+    }
+    public ArrayList<statisticalObject> countCustomerByDay(String sdate,String edate){
+        return b_DAO.countCustomerByDay(sdate,edate);
     }
     public double[] SumEarnedValuePerMonth(String year){
         double[] arr = new double[12];

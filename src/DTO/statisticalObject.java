@@ -4,6 +4,8 @@
  */
 package DTO;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Bum
@@ -11,7 +13,7 @@ package DTO;
 public class statisticalObject {
 
     private String id;
-    private String size;
+    private String description;
     private int value;
 
     public statisticalObject() {
@@ -38,12 +40,12 @@ public class statisticalObject {
         this.value = value;
     }
 
-    public String getSize() {
-        return size;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
 }

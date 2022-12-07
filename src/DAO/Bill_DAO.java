@@ -104,15 +104,32 @@ public class Bill_DAO extends connectDB{
                     +   "WHERE DATE(Date) = '"+date+"' ";
         try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
             if(rs.next()) value = rs.getDouble("value");
-        }catch(SQLException e){}
+        }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
         return value;
-    }       
+    }
         public ArrayList<statisticalObject> countCustomerByDay(String date)
         {
             ArrayList<statisticalObject> soL= new ArrayList<>();
             String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
                           +  "WHERE customer.Customer_id=bill.Customer_id\n" +
                              "AND DATE(Date)='"+date+"' " +
+                             "GROUP BY Customer_id";
+            try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
+                while(rs.next()){
+                    statisticalObject so = new statisticalObject();
+                    so.setId(rs.getString("Customer_id"));
+                    so.setValue(rs.getInt("amount"));
+                    soL.add(so);
+                }
+            }catch(SQLException e){Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);}
+            return soL;
+        }
+            public ArrayList<statisticalObject> countCustomerByDay(String sdate,String edate)
+        {
+            ArrayList<statisticalObject> soL= new ArrayList<>();
+            String sql = "SELECT bill.Customer_id,COUNT(bill.Customer_id) AS amount FROM bill,customer "
+                          +  "WHERE customer.Customer_id=bill.Customer_id\n" +
+                             "AND DATE(Date) BETWEEN '"+sdate+"' AND '"+edate+"' " +
                              "GROUP BY Customer_id";
             try(Connection conn = cB.getConnect();Statement stm= conn.createStatement();ResultSet rs = stm.executeQuery(sql); ){
                 while(rs.next()){

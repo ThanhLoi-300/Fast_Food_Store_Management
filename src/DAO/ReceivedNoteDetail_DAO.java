@@ -54,7 +54,7 @@ public class ReceivedNoteDetail_DAO {
             while (rs.next()) {
                 statisticalObject so = new statisticalObject();
                 so.setId(rs.getString("Product_id"));
-                so.setSize(rs.getString("Size"));
+                so.setDescription(rs.getString("Size"));
                 so.setValue(rs.getInt("amount"));
                 soL.add(so);
             }
@@ -63,7 +63,25 @@ public class ReceivedNoteDetail_DAO {
         }
         return soL;
     }
-
+        public ArrayList<statisticalObject> countReceivedProductByDay(String sdate,String edate) {
+        String sql = "SELECT product_id,Size, SUM(Quantity) AS amount FROM received_note_detail,received_note \n"
+                + "WHERE received_note.Received_Note_ID=received_note_detail.Received_Note_ID "
+                + "AND DATE(Date) BETWEEN '" + sdate + "' AND '"+edate+"' \n"
+                + "GROUP BY Product_id,Size";
+        ArrayList<statisticalObject> soL = new ArrayList<>();
+        try (Connection conn = cB.getConnect(); Statement stm = conn.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
+            while (rs.next()) {
+                statisticalObject so = new statisticalObject();
+                so.setId(rs.getString("Product_id"));
+                so.setDescription(rs.getString("Size"));
+                so.setValue(rs.getInt("amount"));
+                soL.add(so);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return soL;
+    }
     public int totalReceivedProductByDay(String Date) {
         int n = 0;
         String sql = "SELECT SUM(Quantity) AS amount FROM received_note_detail,received_note\n"
@@ -107,7 +125,7 @@ public class ReceivedNoteDetail_DAO {
             while(rs.next()){
                     statisticalObject so = new statisticalObject();
                     so.setId(rs.getString("Product_id"));
-                    so.setSize(rs.getString("Size"));
+                    so.setDescription(rs.getString("Size"));
                     so.setValue(rs.getInt("amount"));
                     soL.add(so);
                 }

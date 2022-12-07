@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -82,15 +83,24 @@ public class Statistic_GUI extends javax.swing.JPanel {
     }
     public void loadTable(String date){
         soL=bBUS.countCustomerByDay(date);
-        renderCustomerTable(soL);
+        renderCustomerTable(soL,khTable);
         soL=rndBUS.countReceivedProductByDay(date);
         renderProductTable(soL,nhTable);
         soL=bdBUS.countSoldProductByDay(date);
         renderProductTable(soL,bhTable);
     }
-    public void renderCustomerTable(ArrayList<statisticalObject> soL)
+    public void loadTable(String sdate,String edate){
+        renderlnTable();
+        soL=bBUS.countCustomerByDay(sdate, edate);
+        renderCustomerTable(soL,khsTable);
+        soL=rndBUS.countReceivedProductByDay(sdate,edate);
+        renderProductTable(soL,nhsTable);
+        soL=bdBUS.countSoldProductByDay(sdate,edate);
+        renderProductTable(soL,bhsTable);
+    }
+    public void renderCustomerTable(ArrayList<statisticalObject> soL,javax.swing.JTable table)
     {
-        model = (DefaultTableModel)khTable.getModel();
+        model = (DefaultTableModel)table.getModel();
         model.setRowCount(0);
         for(statisticalObject so :soL){
             Object[] row = new Object[]{cBUS.GetNameById(so.getId()),so.getValue()};
@@ -101,9 +111,24 @@ public class Statistic_GUI extends javax.swing.JPanel {
         model = (DefaultTableModel)table.getModel();
         model.setRowCount(0);
         for(statisticalObject so :soL){
-            Object[] row = new Object[]{pBUS.getNameById(so.getId()),so.getSize(),so.getValue()};
+            Object[] row = new Object[]{pBUS.getNameById(so.getId()),so.getDescription(),so.getValue()};
             model.addRow(row);
         }
+    }
+    public void renderlnTable(){
+        Calendar sdate = sCalendar.getCalendar(), edate = eCalendar.getCalendar();
+        model = (DefaultTableModel)lnTable.getModel();
+        model.setRowCount(0);
+        double a,b,c;
+         while(sdate.compareTo(edate)<=0){
+             date = fmt.format(sdate.getTime());
+             a = bBUS.getEarnedValueByDate(date);
+             b = rnBUS.getPaidValueByDate(date);
+             c = a-b;
+             Object[] row = new Object[]{date,format.format(a),format.format(b),format.format(c)};
+             model.addRow(row);
+            sdate.add(Calendar.DATE, 1);
+         }
     }
     
     private void setChart() {
@@ -202,6 +227,26 @@ public class Statistic_GUI extends javax.swing.JPanel {
         imageAvatar14 = new Custom.ImageAvatar();
         jScrollPane2 = new javax.swing.JScrollPane();
         bhTable = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        roundPanel8 = new Custom.RoundPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        khsTable = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        roundPanel9 = new Custom.RoundPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        bhsTable = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        roundPanel10 = new Custom.RoundPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        nhsTable = new javax.swing.JTable();
+        jLabel14 = new javax.swing.JLabel();
+        sCalendar = new de.wannawork.jcalendar.JCalendarComboBox();
+        eCalendar = new de.wannawork.jcalendar.JCalendarComboBox();
+        button12 = new Custom.Button();
+        roundPanel11 = new Custom.RoundPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        lnTable = new javax.swing.JTable();
+        jLabel27 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         roundPanel13 = new Custom.RoundPanel();
         roundPanel14 = new Custom.RoundPanel();
@@ -543,7 +588,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addComponent(imageAvatar12, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                .addComponent(CustomerCount1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,7 +633,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -674,12 +719,12 @@ public class Statistic_GUI extends javax.swing.JPanel {
         roundPanel5.setLayout(roundPanel5Layout);
         roundPanel5Layout.setHorizontalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         roundPanel5Layout.setVerticalGroup(
@@ -723,7 +768,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addComponent(imageAvatar14, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bpCount, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                .addComponent(bpCount, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -768,7 +813,7 @@ public class Statistic_GUI extends javax.swing.JPanel {
             .addGroup(roundPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -789,13 +834,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(roundPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addGap(30, 30, 30)
+                .addComponent(roundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(roundPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(roundPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -809,6 +854,311 @@ public class Statistic_GUI extends javax.swing.JPanel {
         );
 
         jTabbedPane1.addTab("Chi tiết", jPanel6);
+
+        jPanel11.setBackground(new java.awt.Color(0, 51, 51));
+
+        roundPanel8.setBackground(new java.awt.Color(255, 255, 255));
+
+        khsTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        khsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Tên khách hàng", "Số lần mua"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        khsTable.setGridColor(new java.awt.Color(51, 51, 51));
+        jScrollPane5.setViewportView(khsTable);
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Khách hàng");
+
+        javax.swing.GroupLayout roundPanel8Layout = new javax.swing.GroupLayout(roundPanel8);
+        roundPanel8.setLayout(roundPanel8Layout);
+        roundPanel8Layout.setHorizontalGroup(
+            roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        roundPanel8Layout.setVerticalGroup(
+            roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        roundPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel9.setPreferredSize(new java.awt.Dimension(480, 264));
+
+        bhsTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        bhsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tên sản phẩm", "size", "Số lượng"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        bhsTable.setGridColor(new java.awt.Color(51, 51, 51));
+        jScrollPane6.setViewportView(bhsTable);
+        if (bhsTable.getColumnModel().getColumnCount() > 0) {
+            bhsTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+            bhsTable.getColumnModel().getColumn(2).setPreferredWidth(15);
+        }
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Sản phẩm bán");
+
+        javax.swing.GroupLayout roundPanel9Layout = new javax.swing.GroupLayout(roundPanel9);
+        roundPanel9.setLayout(roundPanel9Layout);
+        roundPanel9Layout.setHorizontalGroup(
+            roundPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        roundPanel9Layout.setVerticalGroup(
+            roundPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        roundPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+        nhsTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        nhsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Tên sản phẩm", "size", "Số lượng"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        nhsTable.setGridColor(new java.awt.Color(51, 51, 51));
+        jScrollPane7.setViewportView(nhsTable);
+        if (nhsTable.getColumnModel().getColumnCount() > 0) {
+            nhsTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+            nhsTable.getColumnModel().getColumn(2).setPreferredWidth(15);
+        }
+
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Sản phẩm nhập");
+
+        javax.swing.GroupLayout roundPanel10Layout = new javax.swing.GroupLayout(roundPanel10);
+        roundPanel10.setLayout(roundPanel10Layout);
+        roundPanel10Layout.setHorizontalGroup(
+            roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        roundPanel10Layout.setVerticalGroup(
+            roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        button12.setBackground(new java.awt.Color(240, 240, 240));
+        button12.setBorder(null);
+        button12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search.png"))); // NOI18N
+        button12.setText("Tìm");
+        button12.setColor(new java.awt.Color(240, 240, 240));
+        button12.setColorClick(new java.awt.Color(255, 255, 255));
+        button12.setColorOver(new java.awt.Color(255, 255, 255));
+        button12.setFocusable(false);
+        button12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        button12.setRadius(10);
+        button12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button12ActionPerformed(evt);
+            }
+        });
+
+        roundPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel11.setPreferredSize(new java.awt.Dimension(480, 264));
+
+        lnTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lnTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Ngày", "Thu", "Chi", "Lợi nhuận"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        lnTable.setGridColor(new java.awt.Color(51, 51, 51));
+        jScrollPane8.setViewportView(lnTable);
+        if (lnTable.getColumnModel().getColumnCount() > 0) {
+            lnTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+            lnTable.getColumnModel().getColumn(2).setPreferredWidth(15);
+        }
+
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("Doanh thu");
+
+        javax.swing.GroupLayout roundPanel11Layout = new javax.swing.GroupLayout(roundPanel11);
+        roundPanel11.setLayout(roundPanel11Layout);
+        roundPanel11Layout.setHorizontalGroup(
+            roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        roundPanel11Layout.setVerticalGroup(
+            roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(roundPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(roundPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(sCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(roundPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(roundPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(eCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(sCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(roundPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(roundPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
+        );
+
+        jTabbedPane1.addTab("Theo ngày", jPanel11);
 
         jPanel10.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -928,15 +1278,15 @@ public class Statistic_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_calendarStateChanged
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        if(jPanel10.isVisible())
-            calendar.setVisible(false);
+        if(jPanel10.isVisible() || jPanel7.isVisible())
+        calendar.setVisible(false);
         else calendar.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void button11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button11ActionPerformed
         try{
             if(Integer.parseInt(yearText.getText())<0 || Integer.parseInt(monthText.getText())<=0 || Integer.parseInt(monthText.getText())>12)
-                JOptionPane.showMessageDialog(this, "Vui lòng không nhập chuẩn định dạng", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập chuẩn định dạng", "Warning", JOptionPane.WARNING_MESSAGE);
             else{
                 roundPanel13.removeAll();
                 LineChart(yearText.getText());
@@ -948,8 +1298,18 @@ public class Statistic_GUI extends javax.swing.JPanel {
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_button11ActionPerformed
+
+    private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
+        if(sCalendar.getDate().compareTo(eCalendar.getDate())>0)
+            JOptionPane.showMessageDialog(this, "bạn vừa nhập ngày bắt đầu > ngày kết thúc", "Warning", JOptionPane.WARNING_MESSAGE);
+        else{
+            String sdate = fmt.format(sCalendar.getDate());
+            String edate = fmt.format(eCalendar.getDate());
+            loadTable(sdate,edate);
+        }      
+    }//GEN-LAST:event_button12ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -959,10 +1319,13 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel WarningS;
     private javax.swing.JLabel bCount;
     private javax.swing.JTable bhTable;
+    private javax.swing.JTable bhsTable;
     private javax.swing.JLabel bpCount;
     private Custom.Button button11;
+    private Custom.Button button12;
     private de.wannawork.jcalendar.JCalendarComboBox calendar;
     private javax.swing.JLabel customerCount;
+    private de.wannawork.jcalendar.JCalendarComboBox eCalendar;
     private javax.swing.JLabel earnedValue;
     private Custom.ImageAvatar imageAvatar10;
     private Custom.ImageAvatar imageAvatar11;
@@ -974,19 +1337,24 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -998,14 +1366,23 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable khTable;
+    private javax.swing.JTable khsTable;
+    private javax.swing.JTable lnTable;
     private javax.swing.JTextField monthText;
     private javax.swing.JTable nhTable;
+    private javax.swing.JTable nhsTable;
     private javax.swing.JLabel payValue;
     private javax.swing.JLabel rnCount;
     private javax.swing.JLabel rnpCount;
     private Custom.RoundPanel roundPanel1;
+    private Custom.RoundPanel roundPanel10;
+    private Custom.RoundPanel roundPanel11;
     private Custom.RoundPanel roundPanel13;
     private Custom.RoundPanel roundPanel14;
     private Custom.RoundPanel roundPanel15;
@@ -1014,6 +1391,9 @@ public class Statistic_GUI extends javax.swing.JPanel {
     private Custom.RoundPanel roundPanel4;
     private Custom.RoundPanel roundPanel5;
     private Custom.RoundPanel roundPanel6;
+    private Custom.RoundPanel roundPanel8;
+    private Custom.RoundPanel roundPanel9;
+    private de.wannawork.jcalendar.JCalendarComboBox sCalendar;
     private javax.swing.JLabel totalValue;
     private javax.swing.JTextField yearText;
     // End of variables declaration//GEN-END:variables

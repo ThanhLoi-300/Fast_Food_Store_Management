@@ -24,6 +24,9 @@ public class ReceivedNoteDetail_BUS {
     public ArrayList<statisticalObject> countReceivedProductByDay(String date) {
         return rn_DAO.countReceivedProductByDay(date);
     }
+    public ArrayList<statisticalObject> countReceivedProductByDay(String sdate,String edate) {
+        return rn_DAO.countReceivedProductByDay(sdate,edate);
+    }
 
     public int totalReceivedProductByDay(String Date) {
         return rn_DAO.totalReceivedProductByDay(Date);

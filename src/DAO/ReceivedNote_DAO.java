@@ -74,11 +74,10 @@ public class ReceivedNote_DAO {
             if (rs.next()) {
                 value = rs.getDouble("value");
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) {Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, e);
         }
         return value;
     }
-
     public int countRNByDay(String date) {
         int value = 0;
         String sql = "SELECT COUNT(Received_Note_ID) AS amount FROM received_note where DATE(Date)='" + date + "'";
