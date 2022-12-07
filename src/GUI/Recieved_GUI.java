@@ -651,6 +651,7 @@ public class Recieved_GUI extends javax.swing.JPanel implements checkPermission 
         txtSearch.setText("");
         btnAdd1.setEnabled(false);
         btnDelete.setEnabled(false);
+        btnNhapHang.setEnabled(false);
         lblTotalValue.setText("0");
         lblTaxValue.setText("0");
         lblFinalValue.setText("0");
