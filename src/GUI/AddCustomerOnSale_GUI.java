@@ -122,7 +122,7 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
         jLabel2.setText("Tên Khách");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel3.setText("Năm sinh");
+        jLabel3.setText("Tuổi");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel4.setText("Số điện thoạii");
@@ -151,6 +151,7 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jTextField4.setEditable(false);
         jTextField4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextField4.setText("0");
 
@@ -298,8 +299,8 @@ public class AddCustomerOnSale_GUI extends javax.swing.JFrame {
           || jTextField3.getText().equals("") || jTextField4.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống dữ liệu!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        else if( !(jTextField2.getText().matches("-?\\d+")) || 2022 - Integer.parseInt(jTextField2.getText()) < 18 || 2022 - Integer.parseInt(jTextField2.getText()) > 90) {
-            JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 18 đến 90!", "Warning", JOptionPane.WARNING_MESSAGE);
+        else if( !(jTextField2.getText().matches("-?\\d+")) || Integer.parseInt(jTextField2.getText()) < 10 ) {
+            JOptionPane.showMessageDialog(this, "Độ tuổi chấp nhận từ 10 trở lên!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else if(!jTextField3.getText().matches("^84|0[3|5|7|8|9]\\d{8}$")) {
             JOptionPane.showMessageDialog(this, "Định dạng số điện thoại không đúng!(VN)", "Warning", JOptionPane.WARNING_MESSAGE);
