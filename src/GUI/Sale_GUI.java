@@ -798,6 +798,7 @@ public class Sale_GUI extends javax.swing.JPanel implements checkPermission{
         jLabel9.setText("0");
         jTextField3.setText("");
         jTextField1.setText("");
+        jLabel1.setText("Tên khách hàng:");
     }
     
     public void Export_Excel(String bill_Id) throws FileNotFoundException, IOException{

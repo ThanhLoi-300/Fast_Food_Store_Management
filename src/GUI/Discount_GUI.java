@@ -605,6 +605,8 @@ public class Discount_GUI extends javax.swing.JPanel implements checkPermission{
             
             if(discount_BUS.check_Name(Integer.parseInt(txt_Percent.getText()))){
                 JOptionPane.showMessageDialog(null, "Giá trị đã tồn tại");
+            }else if(percent < 1 || percent > 90){
+                JOptionPane.showMessageDialog(null, "Giá trị phải từ 1 -> 90 ");
             }else if(flag){
                 if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thêm loại sản phẩm này?", "Warnning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                     String Id = txt_Discount_Id.getText();
