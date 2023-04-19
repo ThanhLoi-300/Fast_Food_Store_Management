@@ -3,10 +3,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,16 +27,12 @@ public class connectDB {
     
     public Connection getConnect() {
         try {    
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/fast_food_store", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/fast_food_store", "thanh", "123456");
             return conn;
         } catch (SQLException ex) {
             Logger.getLogger(connectDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    public static void main(String[] args) {
-        connectDB DA = new connectDB();
-    }
+
 }

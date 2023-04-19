@@ -6,7 +6,8 @@
 -- Generation Time: Dec 07, 2022 at 12:32 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
-
+create database fast_food_store;
+use fast_food_store;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
