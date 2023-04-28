@@ -599,6 +599,7 @@ public class Product_GUI extends javax.swing.JPanel implements checkPermission{
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(lblProductImg.getWidth(), lblProductImg.getHeight(), Image.SCALE_SMOOTH);
         icon = new ImageIcon(scaledImage);
+        //chosenImg = selectedProduct.getImage();
         lblProductImg.setIcon(icon);
     }//GEN-LAST:event_tblProductList1MouseClicked
 
