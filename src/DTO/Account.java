@@ -76,4 +76,16 @@ public class Account {
     public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId='" + accountId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", decentralizeId='" + decentralizeId + '\'' +
+                ", staffId='" + staffId + '\'' +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }
